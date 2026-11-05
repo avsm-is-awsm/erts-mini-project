@@ -1,0 +1,65 @@
+@startuml D18_sw_classes
+!include _style.iuml
+title D18 PS software classes (sw/app, sw/osal) with design patterns
+package "OSAL (Adapter)" {
+  class "osal::Clock, Timer, Mutex, Queue<T,N>, Thread" as OSAL
+  class "osal_baremetal.cpp" as OBM
+  class "osal_host.cpp" as OH
+}
+OBM ..|> OSAL
+OH ..|> OSAL
+interface IRegBus
+interface IDmaChannel
+interface ICache
+interface IFileSystem
+class T2tProxy <<Hardware Proxy>> {
+  write_config()
+  pulse_soft_reset()
+  busy()
+  counters()
+}
+class XilRegBus
+class XilDmaChannel <<Hardware Proxy>>
+class FatFsFileSystem
+class XilCache
+XilRegBus ..|> IRegBus
+XilDmaChannel ..|> IDmaChannel
+FatFsFileSystem ..|> IFileSystem
+XilCache ..|> ICache
+T2tProxy --> IRegBus
+class ConfigManager
+ConfigManager --> T2tProxy
+interface IEngine <<Strategy>> {
+  name()
+  run(dataset, config, result)
+}
+class HwEngine
+class SwEngine
+class "core/engine.hpp (same C++ as the HLS IP)" as CORE
+HwEngine ..|> IEngine
+SwEngine ..|> IEngine
+HwEngine --> ConfigManager
+HwEngine --> IDmaChannel
+HwEngine --> ICache
+HwEngine --> OSAL : Queue of DMA chunks
+SwEngine --> CORE
+class DatasetLoader
+DatasetLoader --> IFileSystem
+class SessionController <<State>> {
+  Idle, Loaded, Configured
+  Running, Draining, Done, Error
+}
+SessionController --> DatasetLoader
+SessionController --> IEngine
+interface ISessionObserver <<Observer>>
+class ResultWriter
+class Cli
+ResultWriter ..|> ISessionObserver
+Cli ..|> ISessionObserver
+SessionController --> "0..4" ISessionObserver
+interface ICommand <<Command>>
+class "CmdLoad, CmdRun, CmdCfg, CmdKill, CmdStats, ..." as CMDS
+CMDS ..|> ICommand
+Cli --> "*" ICommand
+ResultWriter --> IFileSystem
+@enduml

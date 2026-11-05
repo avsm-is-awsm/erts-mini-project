@@ -1,0 +1,14 @@
+# ~50k messages: > 4096 simultaneously live orders and crafted hash-set collisions
+name: edge_table_full
+seed: 33
+day: "2026-01-15"
+deliveries: [70, 74]
+window_min: 60
+heartbeat_s: 10
+params:
+  mm_refresh_s: 30.0
+  mm_rush_a: 1.0
+  noise_rate: 0.05
+faults:
+  table_flood: {per_product: 1100, products: 4, collide_sets: 24, collide_per_set: 7}
+config: {ctrl: 5}

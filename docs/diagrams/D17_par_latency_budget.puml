@@ -1,0 +1,24 @@
+@startuml D17_par_latency_budget
+!include _style.iuml
+title D17 Parametric constraint: tick-to-trade latency budget (cycles @ 100 MHz)
+class "LatencyBudget" as LB <<constraintBlock>> {
+  constraint: T_t2t = T_parse + T_lookup + T_ladder + T_bbo + T_strat + T_risk + T_emit
+  constraint: T_t2t <= 64 cycles (NFR-LAT-1); stretch <= 32
+  --
+  T_parse ~ 5 (4 beats + input register slice)
+  T_lookup ~ 4 (order-table set read, match, write)
+  T_ladder ~ 5 (level / bitmap / summary RMW)
+  T_bbo ~ 6 (summary -> word -> level qty reads)
+  T_strat + T_risk ~ 4
+  T_emit ~ 4 (4 output beats, last beat stamped)
+}
+class "t2t_core" as CORE <<block>> {
+  T_t2t measured = 28 cycles (RTL sim, all orders)
+  II = 4 cycles
+}
+CORE ..> LB : <<satisfy>> 28 <= 32 <= 64
+note bottom of LB
+  stage split read from the HLS csynth schedule
+  (t2t_core.verbose.sched.rpt); the total is measured end to end
+end note
+@enduml

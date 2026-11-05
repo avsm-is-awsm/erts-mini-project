@@ -1,0 +1,13 @@
+# ~1M messages, extreme activity in the last minutes before gate closure; lockout + rate limit on
+name: stress_gc_rush
+seed: 22
+day: "2026-01-15"
+deliveries: [40, 60]
+window_min: 60
+heartbeat_s: 30
+params:
+  noise_rate: 0.25
+  rush_a: 60.0
+  rush_tau_s: 240.0
+  mm_refresh_s: 3.0
+config: {ctrl: 5, lockout_ms: 300000, min_gap_ns: 1000000}

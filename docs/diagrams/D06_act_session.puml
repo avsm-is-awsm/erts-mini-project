@@ -1,0 +1,32 @@
+@startuml D06_act_session
+!include _style.iuml
+title D06 Activity: replay session (UC2 + UC6)
+|Operator|
+start
+:load <dir>;
+|DatasetLoader|
+:read feed.bin + config.txt from SD into DDR;
+|Operator|
+:cfg set ... (optional);
+:run hw | sw | both;
+fork
+  |HwEngine|
+  :soft reset IP, wait STATUS.busy = 0;
+  :write AXI-Lite config;
+  :arm S2MM (orders) [+ S2MM dbg packets];
+  :flush cache; MM2S 4 MB chunks back to back;
+  :wait 'Z' (TLAST) on orders;
+  :invalidate cache; read counters;
+fork again
+  |SwEngine|
+  :reset_all(state);
+  repeat
+    :t_in = XTime; process(msg); t_out = XTime;
+  repeat while (more messages?)
+end fork
+|ResultWriter|
+:orders_*.bin, dbg_*.bin, counters_*.json, run_info_*.json -> SD;
+|Analyst|
+:compare.py (golden), analyze.py (latency), evaluate.py (P&L);
+stop
+@enduml

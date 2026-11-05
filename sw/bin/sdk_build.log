@@ -1,0 +1,362 @@
+Starting xsdk.bat. This could take few seconds... done
+INFO: [Hsi 55-1698] elapsed time for repository loading 2 seconds
+BSP project 'bsp0' created successfully.
+WARNING: [Hsi 61-9] Current Software design may not be compatible with "empty_application" app. Tool is ignoring the MSS file specified in the app directory
+Application project 't2t_app' created successfully.
+Building '/bsp0'
+Invoking Make Builder...bsp0
+13:54:52 **** Build of project bsp0 ****
+make -k all 
+"Running Make include in ps7_cortexa9_0/libsrc/axidma_v9_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/axidma_v9_3/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/coresightps_dcc_v1_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/coresightps_dcc_v1_4/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/cpu_cortexa9_v2_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/cpu_cortexa9_v2_4/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/ddrps_v1_0/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/ddrps_v1_0/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/devcfg_v3_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/devcfg_v3_4/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/dmaps_v2_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/dmaps_v2_3/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/emacps_v3_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/emacps_v3_4/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/gpiops_v3_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/gpiops_v3_3/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/qspips_v3_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/qspips_v3_3/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/scugic_v3_7/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/scugic_v3_7/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/scutimer_v2_1/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/scutimer_v2_1/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/scuwdt_v2_1/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/scuwdt_v2_1/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/sdps_v3_2/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/sdps_v3_2/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/standalone_v6_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/standalone_v6_3/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/t2t_core_v1_0/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/t2t_core_v1_0/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/ttcps_v3_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/ttcps_v3_3/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/uartps_v3_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/uartps_v3_4/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/usbps_v2_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/usbps_v2_4/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/xadcps_v2_2/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/xadcps_v2_2/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make include in ps7_cortexa9_0/libsrc/xilffs_v3_6/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/xilffs_v3_6/src -s include  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Running Make libs in ps7_cortexa9_0/libsrc/axidma_v9_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/axidma_v9_3/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling axidma"
+arm-none-eabi-ar: creating ../../../lib/libxil.a
+"Running Make libs in ps7_cortexa9_0/libsrc/coresightps_dcc_v1_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/coresightps_dcc_v1_4/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling coresightps_dcc"
+"Running Make libs in ps7_cortexa9_0/libsrc/cpu_cortexa9_v2_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/cpu_cortexa9_v2_4/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling cpu_cortexa9"
+"Running Make libs in ps7_cortexa9_0/libsrc/ddrps_v1_0/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/ddrps_v1_0/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling ddrps"
+"Running Make libs in ps7_cortexa9_0/libsrc/devcfg_v3_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/devcfg_v3_4/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling devcfg"
+"Running Make libs in ps7_cortexa9_0/libsrc/dmaps_v2_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/dmaps_v2_3/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling dmaps"
+"Running Make libs in ps7_cortexa9_0/libsrc/emacps_v3_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/emacps_v3_4/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling emacps"
+"Running Make libs in ps7_cortexa9_0/libsrc/gpiops_v3_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/gpiops_v3_3/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling gpiops"
+"Running Make libs in ps7_cortexa9_0/libsrc/qspips_v3_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/qspips_v3_3/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling qspips"
+"Running Make libs in ps7_cortexa9_0/libsrc/scugic_v3_7/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/scugic_v3_7/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling scugic"
+xscugic_g.c:53:2: warning: missing initializer for field 'HandlerTable' of 'XScuGic_Config {aka struct <anonymous>}' [-Wmissing-field-initializers]
+  }
+  ^
+In file included from xscugic_g.c:41:0:
+xscugic.h:218:27: note: 'HandlerTable' declared here
+  XScuGic_VectorTableEntry HandlerTable[XSCUGIC_MAX_NUM_INTR_INPUTS];/**<
+                           ^~~~~~~~~~~~
+"Running Make libs in ps7_cortexa9_0/libsrc/scutimer_v2_1/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/scutimer_v2_1/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling scutimer"
+"Running Make libs in ps7_cortexa9_0/libsrc/scuwdt_v2_1/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/scuwdt_v2_1/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling scuwdt"
+"Running Make libs in ps7_cortexa9_0/libsrc/sdps_v3_2/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/sdps_v3_2/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling sdps"
+"Running Make libs in ps7_cortexa9_0/libsrc/standalone_v6_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/standalone_v6_3/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling standalone"
+"Running Make libs in ps7_cortexa9_0/libsrc/t2t_core_v1_0/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/t2t_core_v1_0/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling t2t_core"
+"Running Make libs in ps7_cortexa9_0/libsrc/ttcps_v3_3/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/ttcps_v3_3/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling ttcps"
+"Running Make libs in ps7_cortexa9_0/libsrc/uartps_v3_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/uartps_v3_4/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling uartps"
+"Running Make libs in ps7_cortexa9_0/libsrc/usbps_v2_4/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/usbps_v2_4/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling usbps"
+"Running Make libs in ps7_cortexa9_0/libsrc/xadcps_v2_2/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/xadcps_v2_2/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling xadcps"
+"Running Make libs in ps7_cortexa9_0/libsrc/xilffs_v3_6/src"
+C:/Xilinx/SDK/2017.2/gnuwin/bin/make -C ps7_cortexa9_0/libsrc/xilffs_v3_6/src -s libs  "SHELL=CMD" "COMPILER=arm-none-eabi-gcc" "ARCHIVER=arm-none-eabi-ar" "COMPILER_FLAGS=  -O2 -c" "EXTRA_COMPILER_FLAGS=-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -nostartfiles -Wall -Wextra"
+"Compiling XilFFs Library"
+diskio.c:135:11: warning: 'ExtCsd' defined but not used [-Wunused-variable]
+ static u8 ExtCsd[512] __attribute__ ((aligned(32)));
+           ^~~~~~
+ff.c: In function 'find_volume':
+ff.c:2610:4: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+    && (LD_DWORD(fs->win+FSI_LeadSig) == 0x41615252U)
+    ^~
+'Finished building libraries'
+
+13:55:15 Build Finished (took 22s.992ms)
+
+Building '/hw0'
+Building '/t2t_app'
+13:55:15 **** Build of configuration Release for project t2t_app ****
+make pre-build main-build 
+a9-linaro-pre-build-step
+ 
+Building file: ../src/board.cpp
+Invoking: ARM v7 g++ compiler
+arm-none-eabi-g++ -Wall -O2 -c -fmessage-length=0 -MT"src/board.o" -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -std=gnu++11 -Wall -I../../bsp0/ps7_cortexa9_0/include -MMD -MP -MF"src/board.d" -MT"src/board.o" -o "src/board.o" "../src/board.cpp"
+Finished building: ../src/board.cpp
+ 
+Building file: ../src/main.cpp
+Invoking: ARM v7 g++ compiler
+arm-none-eabi-g++ -Wall -O2 -c -fmessage-length=0 -MT"src/main.o" -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -std=gnu++11 -Wall -I../../bsp0/ps7_cortexa9_0/include -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.cpp"
+In file included from ../src/../../hls/src/core/engine.hpp:17:0,
+                 from ../src/engines.hpp:11,
+                 from ../src/session.hpp:15,
+                 from ../src/cli.hpp:12,
+                 from ../src/main.cpp:10:
+../src/../../hls/src/core/order_table.hpp:12:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/order_table.hpp:17:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/order_table.hpp:30:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/order_table.hpp:33:0: warning: ignoring #pragma HLS UNROLL [-Wunknown-pragmas]
+ #pragma HLS UNROLL
+ 
+../src/../../hls/src/core/order_table.hpp:43:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/order_table.hpp:47:0: warning: ignoring #pragma HLS UNROLL [-Wunknown-pragmas]
+ #pragma HLS UNROLL
+ 
+../src/../../hls/src/core/order_table.hpp:55:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/order_table.hpp:59:0: warning: ignoring #pragma HLS UNROLL [-Wunknown-pragmas]
+ #pragma HLS UNROLL
+ 
+In file included from ../src/../../hls/src/core/price_ladder.hpp:10:0,
+                 from ../src/../../hls/src/core/engine.hpp:18,
+                 from ../src/engines.hpp:11,
+                 from ../src/session.hpp:15,
+                 from ../src/cli.hpp:12,
+                 from ../src/main.cpp:10:
+../src/../../hls/src/core/bitops.hpp:14:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/bitops.hpp:21:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/bitops.hpp:28:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/bitops.hpp:32:0: warning: ignoring #pragma HLS UNROLL [-Wunknown-pragmas]
+ #pragma HLS UNROLL
+ 
+../src/../../hls/src/core/bitops.hpp:39:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/bitops.hpp:43:0: warning: ignoring #pragma HLS UNROLL [-Wunknown-pragmas]
+ #pragma HLS UNROLL
+ 
+../src/../../hls/src/core/bitops.hpp:50:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/bitops.hpp:59:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/bitops.hpp:68:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/bitops.hpp:77:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+In file included from ../src/../../hls/src/core/engine.hpp:18:0,
+                 from ../src/engines.hpp:11,
+                 from ../src/session.hpp:15,
+                 from ../src/cli.hpp:12,
+                 from ../src/main.cpp:10:
+../src/../../hls/src/core/price_ladder.hpp:16:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/price_ladder.hpp:38:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/price_ladder.hpp:48:0: warning: ignoring #pragma HLS UNROLL [-Wunknown-pragmas]
+ #pragma HLS UNROLL
+ 
+../src/../../hls/src/core/price_ladder.hpp:65:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/price_ladder.hpp:74:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/price_ladder.hpp:91:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/price_ladder.hpp:97:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/price_ladder.hpp:101:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/price_ladder.hpp:110:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+In file included from ../src/../../hls/src/core/risk.hpp:12:0,
+                 from ../src/../../hls/src/core/engine.hpp:19,
+                 from ../src/engines.hpp:11,
+                 from ../src/session.hpp:15,
+                 from ../src/cli.hpp:12,
+                 from ../src/main.cpp:10:
+../src/../../hls/src/core/strategy.hpp:36:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/strategy.hpp:45:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+In file included from ../src/../../hls/src/core/engine.hpp:19:0,
+                 from ../src/engines.hpp:11,
+                 from ../src/session.hpp:15,
+                 from ../src/cli.hpp:12,
+                 from ../src/main.cpp:10:
+../src/../../hls/src/core/risk.hpp:25:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+In file included from ../src/engines.hpp:11:0,
+                 from ../src/session.hpp:15,
+                 from ../src/cli.hpp:12,
+                 from ../src/main.cpp:10:
+../src/../../hls/src/core/engine.hpp:26:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/engine.hpp:32:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/engine.hpp:51:0: warning: ignoring #pragma HLS INLINE [-Wunknown-pragmas]
+ #pragma HLS INLINE
+ 
+../src/../../hls/src/core/engine.hpp:65:0: warning: ignoring #pragma HLS UNROLL [-Wunknown-pragmas]
+ #pragma HLS UNROLL
+ 
+../src/../../hls/src/core/engine.hpp:108:0: warning: ignoring #pragma HLS UNROLL [-Wunknown-pragmas]
+ #pragma HLS UNROLL
+ 
+../src/../../hls/src/core/engine.hpp:178:0: warning: ignoring #pragma HLS UNROLL [-Wunknown-pragmas]
+ #pragma HLS UNROLL
+ 
+In file included from ../src/../../hls/src/core/engine.hpp:17:0,
+                 from ../src/engines.hpp:11,
+                 from ../src/session.hpp:15,
+                 from ../src/cli.hpp:12,
+                 from ../src/main.cpp:10:
+../src/../../hls/src/core/order_table.hpp: In function 'void t2t::table_read_set(const t2t::State&, uint32_t, t2t::SetView&)':
+../src/../../hls/src/core/order_table.hpp:31:1: warning: label 'TABLE_READ' defined but not used [-Wunused-label]
+ TABLE_READ:
+ ^~~~~~~~~~
+../src/../../hls/src/core/order_table.hpp: In function 'int t2t::table_find(const t2t::SetView&, uint64_t, uint32_t)':
+../src/../../hls/src/core/order_table.hpp:45:1: warning: label 'TABLE_FIND' defined but not used [-Wunused-label]
+ TABLE_FIND:
+ ^~~~~~~~~~
+../src/../../hls/src/core/order_table.hpp: In function 'int t2t::table_free_way(const t2t::SetView&)':
+../src/../../hls/src/core/order_table.hpp:57:1: warning: label 'TABLE_FREE' defined but not used [-Wunused-label]
+ TABLE_FREE:
+ ^~~~~~~~~~
+In file included from ../src/../../hls/src/core/price_ladder.hpp:10:0,
+                 from ../src/../../hls/src/core/engine.hpp:18,
+                 from ../src/engines.hpp:11,
+                 from ../src/session.hpp:15,
+                 from ../src/cli.hpp:12,
+                 from ../src/main.cpp:10:
+../src/../../hls/src/core/bitops.hpp: In function 'uint32_t t2t::nib_flags(uint32_t)':
+../src/../../hls/src/core/bitops.hpp:30:1: warning: label 'NZ' defined but not used [-Wunused-label]
+ NZ:
+ ^~
+../src/../../hls/src/core/bitops.hpp: In function 'uint32_t t2t::nib_at(uint32_t, uint32_t)':
+../src/../../hls/src/core/bitops.hpp:41:1: warning: label 'NSEL' defined but not used [-Wunused-label]
+ NSEL:
+ ^~~~
+In file included from ../src/../../hls/src/core/engine.hpp:18:0,
+                 from ../src/engines.hpp:11,
+                 from ../src/session.hpp:15,
+                 from ../src/cli.hpp:12,
+                 from ../src/main.cpp:10:
+../src/../../hls/src/core/price_ladder.hpp: In function 'uint32_t t2t::grid_residue(int32_t)':
+../src/../../hls/src/core/price_ladder.hpp:46:1: warning: label 'NIB' defined but not used [-Wunused-label]
+ NIB:
+ ^~~
+In file included from ../src/engines.hpp:11:0,
+                 from ../src/session.hpp:15,
+                 from ../src/cli.hpp:12,
+                 from ../src/main.cpp:10:
+../src/../../hls/src/core/engine.hpp: In function 'void t2t::step(bool, uint32_t, const uint64_t*, uint32_t, const t2t::Config&, t2t::State&, t2t::Out&)':
+../src/../../hls/src/core/engine.hpp:106:1: warning: label 'TABLE_MATCH' defined but not used [-Wunused-label]
+ TABLE_MATCH:
+ ^~~~~~~~~~~
+../src/../../hls/src/core/engine.hpp:176:1: warning: label 'TABLE_STORE' defined but not used [-Wunused-label]
+ TABLE_STORE:
+ ^~~~~~~~~~~
+In file included from ../src/session.hpp:15:0,
+                 from ../src/cli.hpp:12,
+                 from ../src/main.cpp:10:
+../src/engines.hpp: In member function 'virtual bool app::HwEngine::run(const app::Dataset&, const t2t::Config&, app::RunResult&)':
+../src/engines.hpp:106:41: warning: 'off' may be used uninitialized in this function [-Wmaybe-uninitialized]
+                 if (!mm2s_.start(IN_BUF + off, len)) return fail(r, "MM2S start failed");
+                                  ~~~~~~~^~~~~
+Finished building: ../src/main.cpp
+ 
+Building file: ../src/osal_baremetal.cpp
+Invoking: ARM v7 g++ compiler
+arm-none-eabi-g++ -Wall -O2 -c -fmessage-length=0 -MT"src/osal_baremetal.o" -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -std=gnu++11 -Wall -I../../bsp0/ps7_cortexa9_0/include -MMD -MP -MF"src/osal_baremetal.d" -MT"src/osal_baremetal.o" -o "src/osal_baremetal.o" "../src/osal_baremetal.cpp"
+Finished building: ../src/osal_baremetal.cpp
+ 
+Building target: t2t_app.elf
+Invoking: ARM v7 g++ linker
+arm-none-eabi-g++ -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -Wl,-build-id=none -specs=Xilinx.spec -Wl,-T -Wl,../src/lscript.ld -L../../bsp0/ps7_cortexa9_0/lib -o "t2t_app.elf"  ./src/board.o ./src/main.o ./src/osal_baremetal.o   -Wl,--start-group,-lxil,-lgcc,-lc,-lstdc++,--end-group -Wl,--start-group,-lxilffs,-lxil,-lgcc,-lc,--end-group
+Finished building target: t2t_app.elf
+ 
+Invoking: ARM v7 Print Size
+arm-none-eabi-size t2t_app.elf  |tee "t2t_app.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+ 207232	   2828	 164224	 374284	  5b60c	t2t_app.elf
+Finished building: t2t_app.elf.size
+ 
+
+13:55:19 Build Finished (took 3s.614ms)
+
+Invoking scanner config builder on project 
+SDK_BUILD_DONE

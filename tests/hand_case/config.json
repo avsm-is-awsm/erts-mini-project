@@ -1,0 +1,10 @@
+{
+  "ctrl": 5,
+  "clip_qty": 50,
+  "max_order_qty": 100,
+  "max_pos": 200,
+  "collar": 2000,
+  "min_gap_ns": 0,
+  "max_orders": 1000000,
+  "lockout_ms": 0
+}

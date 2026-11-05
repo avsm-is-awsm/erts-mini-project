@@ -1,0 +1,471 @@
+================================================================
+  Vivado(TM) HLS - High-Level Synthesis from C, C++ and SystemC
+  Version 2017.2
+  Build 1909853 on Thu Jun 15 18:55:24 MDT 2017
+  Copyright (C) 1986-2017 Xilinx, Inc. All Rights Reserved.
+================================================================
+INFO: [HLS 200-10] Running 'C:/Xilinx/Vivado_HLS/2017.2/bin/unwrapped/win64.o/vivado_hls.exe'
+INFO: [HLS 200-10] For user 'smajv' on host 'ajay_asus_g16' (Windows NT_amd64 version 6.2) on Thu Nov 05 13:53:47 +0100 2026
+INFO: [HLS 200-10] In directory 'C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build'
+INFO: [HLS 200-10] Opening and resetting project 'C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj'.
+INFO: [HLS 200-10] Adding design file 'C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp' to the project
+INFO: [HLS 200-10] Adding test bench file 'C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/tb/tb_t2t.cpp' to the project
+INFO: [HLS 200-10] Opening and resetting solution 'C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1'.
+INFO: [HLS 200-10] Cleaning up the solution database.
+INFO: [HLS 200-10] Setting target device to 'xc7z010clg400-1'
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [SIM 211-4] CSIM will launch GCC as the compiler.
+   Compiling ../../../../../tb/tb_t2t.cpp in debug mode
+   Compiling ../../../../../src/t2t_top.cpp in debug mode
+   Generating csim.exe
+In file included from C:/Xilinx/Vivado_HLS/2017.2/include/floating_point_v7_0_bitacc_cmodel.h:143:0,
+                 from C:/Xilinx/Vivado_HLS/2017.2/include/hls_fpo.h:172,
+                 from C:/Xilinx/Vivado_HLS/2017.2/include/hls_half.h:57,
+                 from C:/Xilinx/Vivado_HLS/2017.2/include/ap_int.h:74,
+                 from C:/Xilinx/Vivado_HLS/2017.2/include/ap_axi_sdata.h:86,
+                 from ../../../../../tb/../src/t2t_top.hpp:5,
+                 from ../../../../../tb/tb_t2t.cpp:17:
+C:/Xilinx/Vivado_HLS/2017.2/include/gmp.h:62:0: warning: "__GMP_LIBGMP_DLL" redefined [enabled by default]
+C:/Xilinx/Vivado_HLS/2017.2/include/floating_point_v7_0_bitacc_cmodel.h:135:0: note: this is the location of the previous definition
+In file included from C:/Xilinx/Vivado_HLS/2017.2/include/floating_point_v7_0_bitacc_cmodel.h:143:0,
+                 from C:/Xilinx/Vivado_HLS/2017.2/include/hls_fpo.h:172,
+                 from C:/Xilinx/Vivado_HLS/2017.2/include/hls_half.h:57,
+                 from C:/Xilinx/Vivado_HLS/2017.2/include/ap_int.h:74,
+                 from C:/Xilinx/Vivado_HLS/2017.2/include/ap_axi_sdata.h:86,
+                 from ../../../../../src/t2t_top.hpp:5,
+                 from ../../../../../src/t2t_top.cpp:6:
+C:/Xilinx/Vivado_HLS/2017.2/include/gmp.h:62:0: warning: "__GMP_LIBGMP_DLL" redefined [enabled by default]
+C:/Xilinx/Vivado_HLS/2017.2/include/floating_point_v7_0_bitacc_cmodel.h:135:0: note: this is the location of the previous definition
+tb_t2t: 12004 msgs, 25 ord records (1 TLAST), 11603 dbg records (1 TLAST)
+tb_t2t: PASS (0 mismatching items)
+INFO: [SIM 211-1] CSim done with 0 errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-10] Analyzing design file 'C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp' ... 
+INFO: [HLS 200-10] Validating synthesis directives ...
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 96.730 ; gain = 46.766
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:01 ; elapsed = 00:00:12 . Memory (MB): peak = 96.730 ; gain = 46.766
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [XFORM 203-603] Inlining function 't2t::is_known_type' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:72).
+INFO: [XFORM 203-603] Inlining function 't2t::oid_fold' into 't2t::oid_set' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/order_table.hpp:18).
+INFO: [XFORM 203-603] Inlining function 't2t::oid_set' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:99).
+INFO: [XFORM 203-603] Inlining function 't2t::table_read_set' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:101).
+INFO: [XFORM 203-603] Inlining function 't2t::grid_residue' into 't2t::ladder_offset' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:75).
+INFO: [XFORM 203-603] Inlining function 't2t::grid_residue' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:170).
+INFO: [XFORM 203-603] Inlining function 't2t::grid_residue' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:160).
+INFO: [XFORM 203-603] Inlining function 't2t::ladder_offset' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:121).
+INFO: [XFORM 203-603] Inlining function 't2t::off_to_idx' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:154).
+INFO: [XFORM 203-603] Inlining function 't2t::bank_of' into 't2t::ladder_bbo' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:112).
+INFO: [XFORM 203-603] Inlining function 't2t::bank_of' into 't2t::ladder_bbo' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:111).
+INFO: [XFORM 203-603] Inlining function 't2t::bank_of' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:191).
+INFO: [XFORM 203-603] Inlining function 't2t::lq_addr' into 't2t::ladder_bbo' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:120).
+INFO: [XFORM 203-603] Inlining function 't2t::lq_addr' into 't2t::ladder_bbo' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:119).
+INFO: [XFORM 203-603] Inlining function 't2t::lq_addr' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:192).
+INFO: [XFORM 203-603] Inlining function 't2t::bm_addr' into 't2t::ladder_bbo' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:118).
+INFO: [XFORM 203-603] Inlining function 't2t::bm_addr' into 't2t::ladder_bbo' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:117).
+INFO: [XFORM 203-603] Inlining function 't2t::bm_addr' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:196).
+INFO: [XFORM 203-603] Inlining function 't2t::nib_flags' into 't2t::msb32_hw' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:51).
+INFO: [XFORM 203-603] Inlining function 't2t::nib_flags' into 't2t::lsb32_hw' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:60).
+INFO: [XFORM 203-603] Inlining function 't2t::msb4' into 't2t::msb32_hw' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:55).
+INFO: [XFORM 203-603] Inlining function 't2t::msb4' into 't2t::msb32_hw' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:54).
+INFO: [XFORM 203-603] Inlining function 't2t::nib_at' into 't2t::msb32_hw' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:55).
+INFO: [XFORM 203-603] Inlining function 't2t::nib_at' into 't2t::lsb32_hw' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:64).
+INFO: [XFORM 203-603] Inlining function 't2t::msb32_hw' into 't2t::msb32' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:70).
+INFO: [XFORM 203-603] Inlining function 't2t::msb32' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:209).
+INFO: [XFORM 203-603] Inlining function 't2t::msb32' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:208).
+INFO: [XFORM 203-603] Inlining function 't2t::msb32' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:207).
+INFO: [XFORM 203-603] Inlining function 't2t::msb32' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:206).
+INFO: [XFORM 203-603] Inlining function 't2t::lsb4' into 't2t::lsb32_hw' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:64).
+INFO: [XFORM 203-603] Inlining function 't2t::lsb4' into 't2t::lsb32_hw' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:63).
+INFO: [XFORM 203-603] Inlining function 't2t::lsb32_hw' into 't2t::lsb32' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:79).
+INFO: [XFORM 203-603] Inlining function 't2t::lsb32' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:209).
+INFO: [XFORM 203-603] Inlining function 't2t::lsb32' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:208).
+INFO: [XFORM 203-603] Inlining function 't2t::lsb32' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:207).
+INFO: [XFORM 203-603] Inlining function 't2t::lsb32' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:206).
+INFO: [XFORM 203-603] Inlining function 't2t::level_price' into 't2t::ladder_bbo' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:125).
+INFO: [XFORM 203-603] Inlining function 't2t::level_price' into 't2t::ladder_bbo' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:123).
+INFO: [XFORM 203-603] Inlining function 't2t::ladder_bbo' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:238).
+INFO: [XFORM 203-603] Inlining function 't2t::strategy_armed' into 't2t::strategy_step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/strategy.hpp:51).
+INFO: [XFORM 203-603] Inlining function 't2t::strategy_step' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:288).
+INFO: [XFORM 203-603] Inlining function 't2t::risk_check' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:289).
+INFO: [XFORM 203-603] Inlining function 't2t::make_end' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:353).
+INFO: [XFORM 203-603] Inlining function 't2t::make_end' into 't2t::step' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:349).
+INFO: [XFORM 203-603] Inlining function 't2t::step' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144).
+INFO: [XFORM 203-603] Inlining function 'write_rec' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:148).
+INFO: [XFORM 203-603] Inlining function 'write_rec' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:145).
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:02 ; elapsed = 00:00:13 . Memory (MB): peak = 113.125 ; gain = 63.160
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [XFORM 203-602] Inlining function 'dk1::lo_hi' into 'dk1::pack_bbo' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/../../../proto/dk1proto.hpp:150) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::lo_hi' into 'dk1::pack_ord' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/../../../proto/dk1proto.hpp:108) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::lo_hi' into 'dk1::pack_end' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/../../../proto/dk1proto.hpp:130) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::unpack_msg' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:52->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::qm_qty' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/order_table.hpp:36->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:101->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::qm_meta' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/order_table.hpp:37->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:101->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_valid' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:109->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_prod' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:109->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_oow' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:151->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_side' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:153->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_off' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:154->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_make' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:156->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::qm_make' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:156->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::pack_bbo' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:250->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::pack_ord' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:305->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::pack_end' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:41->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:349->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:03 ; elapsed = 00:00:14 . Memory (MB): peak = 122.539 ; gain = 72.574
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:27).
+INFO: [XFORM 203-501] Unrolling loop 'memset_w' in function 't2t_core' completely.
+INFO: [XFORM 203-501] Unrolling loop 'READ_BEATS' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:136) in function 't2t_core' completely.
+INFO: [XFORM 203-501] Unrolling loop 'Loop-3' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:64) in function 't2t_core' completely.
+INFO: [XFORM 203-501] Unrolling loop 'TABLE_READ' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/order_table.hpp:32) in function 't2t_core' completely.
+INFO: [XFORM 203-501] Unrolling loop 'TABLE_MATCH' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:107) in function 't2t_core' completely.
+INFO: [XFORM 203-501] Unrolling loop 'NIB' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:47) in function 't2t_core' completely.
+INFO: [XFORM 203-501] Unrolling loop 'TABLE_STORE' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:177) in function 't2t_core' completely.
+INFO: [XFORM 203-501] Unrolling loop 'NZ' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:31) in function 't2t_core' completely.
+INFO: [XFORM 203-501] Unrolling loop 'NSEL' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/bitops.hpp:42) in function 't2t_core' completely.
+INFO: [XFORM 203-501] Unrolling loop 'WRITE_BEATS' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:14) in function 't2t_core' completely.
+INFO: [XFORM 203-102] Partitioning array 'n.1' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:45) automatically.
+INFO: [XFORM 203-102] Partitioning array 'n.2' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:45) automatically.
+INFO: [XFORM 203-102] Partitioning array 'n' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:45) automatically.
+INFO: [XFORM 203-102] Partitioning array 'sv.oid' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:100) automatically.
+INFO: [XFORM 203-102] Partitioning array 'sv.qty' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:100) automatically.
+INFO: [XFORM 203-102] Partitioning array 'sv.meta' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:100) automatically.
+INFO: [XFORM 203-102] Partitioning array 'sv.qm' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:100) automatically.
+INFO: [XFORM 203-102] Partitioning array 'hit_w' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:103) automatically.
+INFO: [XFORM 203-102] Partitioning array 'free_w' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:103) automatically.
+INFO: [XFORM 203-102] Partitioning array 'w' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:132) automatically.
+INFO: [XFORM 203-102] Partitioning array 'o.ord' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:142) automatically.
+INFO: [XFORM 203-102] Partitioning array 'o.dbg' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:142) automatically.
+INFO: [XFORM 203-101] Partitioning array 'st.t_oid'  in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'st.t_qm'  in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'pos_shadow'  in dimension 1 completely.
+INFO: [XFORM 203-602] Inlining function 'dk1::lo_hi' into 'dk1::pack_bbo' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/../../../proto/dk1proto.hpp:150) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::lo_hi' into 'dk1::pack_ord' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/../../../proto/dk1proto.hpp:108) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::lo_hi' into 'dk1::pack_end' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/../../../proto/dk1proto.hpp:130) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::unpack_msg' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:52->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::qm_qty' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/order_table.hpp:36->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:101->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::qm_meta' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/order_table.hpp:37->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:101->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_valid' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:109->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_prod' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:109->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_oow' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:151->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_side' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:153->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_off' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:154->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::meta_make' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:156->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 't2t::qm_make' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:156->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::pack_bbo' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:250->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::pack_ord' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:305->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-602] Inlining function 'dk1::pack_end' into 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:41->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:349->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) automatically.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock to (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:130:67) in function 't2t_core'... converting 3 basic blocks.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:49:23) to (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:170:5) in function 't2t_core'... converting 42 basic blocks.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:175:69) to (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:186:9) in function 't2t_core'... converting 3 basic blocks.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock to (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:186:9) in function 't2t_core'... converting 3 basic blocks.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock to (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:186:9) in function 't2t_core'... converting 3 basic blocks.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock to (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:186:9) in function 't2t_core'... converting 3 basic blocks.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock to (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:224:5) in function 't2t_core'... converting 7 basic blocks.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/price_ladder.hpp:109:50) to (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:321:5) in function 't2t_core'... converting 35 basic blocks.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:322:5) to (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:327:5) in function 't2t_core'... converting 5 basic blocks.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:344:5) to (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:145:9) in function 't2t_core'... converting 5 basic blocks.
+INFO: [XFORM 203-11] Balancing expressions in function 't2t_core' (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:27)...444 expression(s) balanced.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:07 ; elapsed = 00:00:19 . Memory (MB): peak = 161.422 ; gain = 111.457
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:09 ; elapsed = 00:00:21 . Memory (MB): peak = 173.023 ; gain = 123.059
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 't2t_core' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Implementing module 't2t_core' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining function 't2t_core'.
+INFO: [SCHED 204-61] Pipelining result: Target II: 4, Final II: 4, Depth: 29.
+WARNING: [SCHED 204-21] Estimated clock period (11.1ns) exceeds the target (target clock period: 10ns, clock uncertainty: 1.25ns, effective delay budget: 8.75ns).
+WARNING: [SCHED 204-21] The critical path consists of the following:
+	'xor' operation ('tmp_61_3', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:111->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) (0 ns)
+	'or' operation ('p_tmp_61_3', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:111->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) (0 ns)
+	'and' operation ('tmp65', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:129->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) (0 ns)
+	'and' operation ('a_ins', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:129->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) (2.07 ns)
+	'and' operation ('tmp83', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:180->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) (0 ns)
+	'and' operation ('p_12_i_1_s', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:180->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) (2.07 ns)
+	'select' operation ('qm_add_0_mux_i_1', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:187->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) (0 ns)
+	'select' operation ('qm_add_0_mux_i_1_st_s', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:187->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) (2.07 ns)
+	multiplexor before 'phi' operation ('tmp_283_1', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:187->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) with incoming values : ('qm_add_0_mux_i_1_st_s', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:187->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) (1.59 ns)
+	'phi' operation ('tmp_283_1', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:187->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) with incoming values : ('qm_add_0_mux_i_1_st_s', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:187->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) (0 ns)
+	'store' operation (C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:187->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144) of variable 'tmp_283_1', C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/core/engine.hpp:187->C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/src/t2t_top.cpp:144 on array 'st_t_qm_1' (3.25 ns)
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 21.964 seconds; current allocated memory: 133.485 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.914 seconds; current allocated memory: 140.188 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 't2t_core' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+WARNING: [RTGEN 206-101] Design contains AXI ports. Reset is fixed to synchronous and active low.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/md_in_V_data_V' to 'axis'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/md_in_V_keep_V' to 'axis'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/md_in_V_strb_V' to 'axis'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/md_in_V_user_V' to 'axis'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/md_in_V_last_V' to 'axis'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/md_in_V_id_V' to 'axis'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/md_in_V_dest_V' to 'axis'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/ord_out_V_data_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/ord_out_V_keep_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/ord_out_V_strb_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/ord_out_V_user_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/ord_out_V_last_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/ord_out_V_id_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/ord_out_V_dest_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/dbg_out_V_data_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/dbg_out_V_keep_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/dbg_out_V_strb_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/dbg_out_V_user_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/dbg_out_V_last_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/dbg_out_V_id_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/dbg_out_V_dest_V' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/ctrl' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/clip_qty' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/max_order_qty' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/max_pos' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/collar' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/min_gap_ns' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/max_orders' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/lockout_ms' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/status' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/msgs_in' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/orders_out' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/rejects' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/err_unknown_type' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/err_bad_product' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/err_not_found' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/err_table_full' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/err_dup_id' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/err_oow' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/err_grid' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/err_seq_gap' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/err_qty_over' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/err_anchor' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/err_bad_state' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/last_seq' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/first_t_in' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/last_t_in' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/pos0' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/pos1' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/pos2' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/pos3' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/pos4' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/pos5' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/pos6' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 't2t_core/pos7' to 's_axilite & ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on function 't2t_core' to 's_axilite & ap_ctrl_hs'.
+WARNING: [RTGEN 206-101] Register 'rst_prev' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'clearing' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'clr_i' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_orders_out' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_first_t_in' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_last_t_in' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_last_seq' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_err_seq_gap' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_msgs_in' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_err_unknown_typ' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_err_bad_product' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_err_dup_id' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_err_grid' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_err_table_full' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_err_oow' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_err_not_found' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_err_qty_over' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_err_anchor' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_err_bad_state' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_c_rejects' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'dbg_cnt' is power-on initialization.
+INFO: [SYN 201-210] Renamed object name 't2t_core_st_anchor_res' to 't2t_core_st_anchobkb' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 't2t_core_st_live_count' to 't2t_core_st_live_cud' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 't2t_core_st_fv_valid' to 't2t_core_st_fv_vadEe' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 't2t_core_st_last_buy_px' to 't2t_core_st_last_eOg' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 't2t_core_st_last_buy_ok' to 't2t_core_st_last_fYi' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 't2t_core_st_last_sell_px' to 't2t_core_st_last_g8j' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 't2t_core_st_last_sell_ok' to 't2t_core_st_last_hbi' due to the length limit 20
+WARNING: [RTGEN 206-101] Register 'st_has_ordered' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_last_order_ts' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_next_coid' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'st_have_first' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'pos_shadow_0' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'pos_shadow_1' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'pos_shadow_2' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'pos_shadow_3' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'pos_shadow_4' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'pos_shadow_5' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'pos_shadow_6' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'pos_shadow_7' is power-on initialization.
+INFO: [RTGEN 206-100] Bundling port 'return', 'ctrl', 'clip_qty', 'max_order_qty', 'max_pos', 'collar', 'min_gap_ns', 'max_orders', 'lockout_ms', 'status', 'msgs_in', 'orders_out', 'rejects', 'err_unknown_type', 'err_bad_product', 'err_not_found', 'err_table_full', 'err_dup_id', 'err_oow', 'err_grid', 'err_seq_gap', 'err_qty_over', 'err_anchor', 'err_bad_state', 'last_seq', 'first_t_in', 'last_t_in', 'pos0', 'pos1', 'pos2', 'pos3', 'pos4', 'pos5', 'pos6' and 'pos7' to AXI-Lite port ctrl.
+INFO: [SYN 201-210] Renamed object name 't2t_core_mul_21ns_32ns_52_2' to 't2t_core_mul_21nsibs' due to the length limit 20
+INFO: [SYN 201-210] Renamed object name 't2t_core_mul_mul_15ns_16ns_30_1' to 't2t_core_mul_mul_jbC' due to the length limit 20
+INFO: [RTGEN 206-100] Generating core module 't2t_core_mul_21nsibs': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 't2t_core_mul_mul_jbC': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 't2t_core'.
+INFO: [HLS 200-111]  Elapsed time: 1.855 seconds; current allocated memory: 154.008 MB.
+INFO: [RTMG 210-282] Generating pipelined core: 't2t_core_mul_21nsibs_MulnS_0'
+INFO: [RTMG 210-278] Implementing memory 't2t_core_st_pstate_ram' using distributed RAMs with power-on initialization.
+INFO: [RTMG 210-278] Implementing memory 't2t_core_st_anchor_ram' using distributed RAMs with power-on initialization.
+INFO: [RTMG 210-278] Implementing memory 't2t_core_st_gc_ts_ram' using distributed RAMs with power-on initialization.
+INFO: [RTMG 210-278] Implementing memory 't2t_core_st_t_oid_0_ram' using block RAMs with power-on initialization.
+INFO: [RTMG 210-278] Implementing memory 't2t_core_st_lq_ram' using block RAMs with power-on initialization.
+INFO: [RTMG 210-278] Implementing memory 't2t_core_st_bm_ram' using distributed RAMs with power-on initialization.
+INFO: [RTMG 210-278] Implementing memory 't2t_core_st_sm_ram' using distributed RAMs with power-on initialization.
+INFO: [RTMG 210-278] Implementing memory 't2t_core_st_bm_hi_ram' using distributed RAMs with power-on initialization.
+INFO: [RTMG 210-278] Implementing memory 't2t_core_st_sm_hi_ram' using distributed RAMs with power-on initialization.
+INFO: [RTMG 210-278] Implementing memory 't2t_core_st_fv_vadEe_ram' using distributed RAMs with power-on initialization.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:16 ; elapsed = 00:00:42 . Memory (MB): peak = 251.629 ; gain = 201.664
+INFO: [SYSC 207-301] Generating SystemC RTL for t2t_core.
+INFO: [VHDL 208-304] Generating VHDL RTL for t2t_core.
+INFO: [VLOG 209-307] Generating Verilog RTL for t2t_core.
+INFO: [COSIM 212-47] Using XSIM for RTL simulation.
+INFO: [COSIM 212-14] Instrumenting C test bench ...
+   Build using "C:/Xilinx/Vivado_HLS/2017.2/msys/bin/g++.exe"
+   Compiling apatb_t2t_core.cpp
+   Compiling t2t_top.cpp_pre.cpp.tb.cpp
+   Compiling tb_t2t.cpp_pre.cpp.tb.cpp
+   Generating cosim.tv.exe
+INFO: [COSIM 212-302] Starting C TB testing ... 
+tb_t2t: 12004 msgs, 25 ord records (1 TLAST), 11603 dbg records (1 TLAST)
+tb_t2t: PASS (0 mismatching items)
+INFO: [COSIM 212-333] Generating C post check test bench ...
+INFO: [COSIM 212-12] Generating RTL test bench ...
+WARNING: [COSIM 212-376] This design mixes AXI slave interface and pipeline mode, which could potentially result in simulation dead-lock and/or get mismatching results.
+WARNING: [COSIM 212-376] This design mixes AXI slave interface and pipeline mode, which could potentially result in simulation dead-lock and/or get mismatching results.
+INFO: [COSIM 212-323] Starting verilog simulation. 
+INFO: [COSIM 212-15] Starting XSIM ...
+
+C:\Users\smajv\AppData\Local\dk1-t2t-build\hls\build\t2t_prj\cosim1\sim\verilog>call C:/Xilinx/Vivado/2017.2/bin/xelab xil_defaultlib.apatb_t2t_core_top -prj t2t_core.prj -L axi_protocol_checker_v1_1_12 -L axi_protocol_checker_v1_1_13 -L axis_protocol_checker_v1_1_11 -L axis_protocol_checker_v1_1_12 --initfile "C:/Xilinx/Vivado/2017.2/data/xsim/ip/xsim_ip.ini" --lib "ieee_proposed=./ieee_proposed" -s t2t_core  
+INFO: [XSIM 43-3496] Using init file passed via -initfile option "C:/Xilinx/Vivado/2017.2/data/xsim/ip/xsim_ip.ini".
+Vivado Simulator 2017.2
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2017.2/bin/unwrapped/win64.o/xelab.exe xil_defaultlib.apatb_t2t_core_top -prj t2t_core.prj -L axi_protocol_checker_v1_1_12 -L axi_protocol_checker_v1_1_13 -L axis_protocol_checker_v1_1_11 -L axis_protocol_checker_v1_1_12 --initfile C:/Xilinx/Vivado/2017.2/data/xsim/ip/xsim_ip.ini --lib ieee_proposed=./ieee_proposed -s t2t_core 
+Multi-threading is on. Using 14 slave threads.
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/AESL_axi_slave_ctrl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_axi_slave_ctrl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/AESL_axi_s_dbg_out.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_axi_s_dbg_out
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/AESL_axi_s_md_in.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_axi_s_md_in
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/AESL_axi_s_ord_out.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_axi_s_ord_out
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/AESL_fifo.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fifo
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core.autotb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module apatb_t2t_core_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_ctrl_s_axi.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_ctrl_s_axi
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_mul_21nsibs.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_mul_21nsibs_MulnS_0
+INFO: [VRFC 10-311] analyzing module t2t_core_mul_21nsibs
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_mul_mul_jbC.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_mul_mul_jbC_DSP48_0
+INFO: [VRFC 10-311] analyzing module t2t_core_mul_mul_jbC
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_st_anchor.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_st_anchor_ram
+INFO: [VRFC 10-311] analyzing module t2t_core_st_anchor
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_st_bm.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_st_bm_ram
+INFO: [VRFC 10-311] analyzing module t2t_core_st_bm
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_st_bm_hi.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_st_bm_hi_ram
+INFO: [VRFC 10-311] analyzing module t2t_core_st_bm_hi
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_st_fv_vadEe.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_st_fv_vadEe_ram
+INFO: [VRFC 10-311] analyzing module t2t_core_st_fv_vadEe
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_st_gc_ts.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_st_gc_ts_ram
+INFO: [VRFC 10-311] analyzing module t2t_core_st_gc_ts
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_st_lq.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_st_lq_ram
+INFO: [VRFC 10-311] analyzing module t2t_core_st_lq
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_st_pstate.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_st_pstate_ram
+INFO: [VRFC 10-311] analyzing module t2t_core_st_pstate
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_st_sm.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_st_sm_ram
+INFO: [VRFC 10-311] analyzing module t2t_core_st_sm
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_st_sm_hi.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_st_sm_hi_ram
+INFO: [VRFC 10-311] analyzing module t2t_core_st_sm_hi
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core_st_t_oid_0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module t2t_core_st_t_oid_0_ram
+INFO: [VRFC 10-311] analyzing module t2t_core_st_t_oid_0
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.t2t_core_st_pstate_ram
+Compiling module xil_defaultlib.t2t_core_st_pstate(DataWidth=8,A...
+Compiling module xil_defaultlib.t2t_core_st_anchor_ram
+Compiling module xil_defaultlib.t2t_core_st_anchor(DataWidth=32,...
+Compiling module xil_defaultlib.t2t_core_st_gc_ts_ram
+Compiling module xil_defaultlib.t2t_core_st_gc_ts(DataWidth=64,A...
+Compiling module xil_defaultlib.t2t_core_st_t_oid_0_ram
+Compiling module xil_defaultlib.t2t_core_st_t_oid_0(DataWidth=64...
+Compiling module xil_defaultlib.t2t_core_st_lq_ram
+Compiling module xil_defaultlib.t2t_core_st_lq(DataWidth=32,Addr...
+Compiling module xil_defaultlib.t2t_core_st_bm_ram
+Compiling module xil_defaultlib.t2t_core_st_bm(DataWidth=32,Addr...
+Compiling module xil_defaultlib.t2t_core_st_sm_ram
+Compiling module xil_defaultlib.t2t_core_st_sm(DataWidth=32,Addr...
+Compiling module xil_defaultlib.t2t_core_st_bm_hi_ram
+Compiling module xil_defaultlib.t2t_core_st_bm_hi(DataWidth=5,Ad...
+Compiling module xil_defaultlib.t2t_core_st_sm_hi_ram
+Compiling module xil_defaultlib.t2t_core_st_sm_hi(DataWidth=5,Ad...
+Compiling module xil_defaultlib.t2t_core_st_fv_vadEe_ram
+Compiling module xil_defaultlib.t2t_core_st_fv_vadEe(DataWidth=1...
+Compiling module xil_defaultlib.t2t_core_ctrl_s_axi(C_S_AXI_ADDR...
+Compiling module xil_defaultlib.t2t_core_mul_21nsibs_MulnS_0
+Compiling module xil_defaultlib.t2t_core_mul_21nsibs(ID=1,NUM_ST...
+Compiling module xil_defaultlib.t2t_core_mul_mul_jbC_DSP48_0
+Compiling module xil_defaultlib.t2t_core_mul_mul_jbC(ID=1,NUM_ST...
+Compiling module xil_defaultlib.t2t_core
+Compiling module xil_defaultlib.fifo(DEPTH=4,WIDTH=64)
+Compiling module xil_defaultlib.fifo(DEPTH=4)
+Compiling module xil_defaultlib.fifo(DEPTH=4,WIDTH=32)
+Compiling module xil_defaultlib.fifo(DEPTH=4,WIDTH=1)
+Compiling module xil_defaultlib.AESL_axi_s_md_in
+Compiling module xil_defaultlib.AESL_axi_s_ord_out
+Compiling module xil_defaultlib.AESL_axi_s_dbg_out
+Compiling module xil_defaultlib.AESL_axi_slave_ctrl
+Compiling module xil_defaultlib.apatb_t2t_core_top
+Built simulation snapshot t2t_core
+
+****** Webtalk v2017.2 (64-bit)
+  **** SW Build 1909853 on Thu Jun 15 18:39:09 MDT 2017
+  **** IP Build 1909766 on Thu Jun 15 19:58:00 MDT 2017
+    ** Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
+
+source C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/xsim.dir/t2t_core/webtalk/xsim_webtalk.tcl -notrace
+INFO: [Common 17-206] Exiting Webtalk at Thu Nov  5 13:55:08 2026...
+
+****** xsim v2017.2 (64-bit)
+  **** SW Build 1909853 on Thu Jun 15 18:39:09 MDT 2017
+  **** IP Build 1909766 on Thu Jun 15 19:58:00 MDT 2017
+    ** Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
+
+source xsim.dir/t2t_core/xsim_script.tcl
+# xsim {t2t_core} -autoloadwcfg -tclbatch {t2t_core.tcl}
+Vivado Simulator 2017.2
+Time resolution is 1 ps
+source t2t_core.tcl
+## run all
+////////////////////////////////////////////////////////////////////////////////////
+// Inter-Transaction Progress: Completed Transaction / Total Transaction
+// Intra-Transaction Progress: Measured Latency / Latency Estimation * 100%
+//
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+$finish called at time : 118949875 ns : File "C:/Users/smajv/AppData/Local/dk1-t2t-build/hls/build/t2t_prj/cosim1/sim/verilog/t2t_core.autotb.v" Line 745
+run: Time (s): cpu = 00:00:04 ; elapsed = 00:17:25 . Memory (MB): peak = 218.684 ; gain = 0.000
+## quit
+INFO: [Common 17-206] Exiting xsim at Thu Nov  5 14:12:39 2026...
+INFO: [COSIM 212-316] Starting C post checking ...
+tb_t2t: 12004 msgs, 25 ord records (1 TLAST), 11603 dbg records (1 TLAST)
+tb_t2t: PASS (0 mismatching items)
+INFO: [COSIM 212-1000] *** C/RTL co-simulation finished: PASS ***
+INFO: [HLS 200-112] Total elapsed time: 1139.06 seconds; peak allocated memory: 154.008 MB.

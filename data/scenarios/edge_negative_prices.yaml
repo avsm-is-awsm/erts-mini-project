@@ -1,0 +1,10 @@
+# ~50k messages: negative prices (high-wind day) and products anchored near the +-9,999 EUR limits
+name: edge_negative_prices
+seed: 31
+day: "2026-01-15"
+deliveries: [50, 55]
+window_min: 15
+heartbeat_s: 10
+fundamentals: {source: synthetic, profile: negative, seed: 3}
+da_override: {50: -9990.0, 51: 9990.0, 52: -0.05}
+config: {ctrl: 5}

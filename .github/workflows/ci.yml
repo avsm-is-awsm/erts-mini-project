@@ -1,0 +1,23 @@
+# Offline CI (SPEC 13): Python + generator + golden model, C++ csim and unit tests, random
+# Python<->C++ cross-check, PS host tests, RTL probe tests (Icarus + cocotb), diagrams.
+# Nothing here needs AMD tools or the board.
+name: ci
+on: [push, pull_request]
+jobs:
+  offline:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: System packages
+        run: sudo apt-get update && sudo apt-get install -y g++ iverilog default-jre-headless graphviz
+      - name: PlantUML
+        run: mkdir -p tools/bin && curl -sSL -o tools/bin/plantuml.jar https://github.com/plantuml/plantuml/releases/download/v1.2025.4/plantuml-1.2025.4.jar
+      - name: Setup
+        run: make setup PY_BOOT=python3
+      - name: all-offline
+        env:
+          DK1_XCHECK_N: "6000"
+        run: make all-offline

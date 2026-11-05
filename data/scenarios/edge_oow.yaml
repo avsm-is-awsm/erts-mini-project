@@ -1,0 +1,13 @@
+# ~50k messages: many resting orders priced outside the +-51.2 EUR ladder window
+name: edge_oow
+seed: 32
+day: "2026-01-15"
+deliveries: [20, 25]
+window_min: 15
+heartbeat_s: 10
+params:
+  noise_far_p: 0.35
+  noise_far_eur: [5300.0, 9000.0]
+  noise_rate: 0.4
+  noise_life_s: 120.0
+config: {ctrl: 5}

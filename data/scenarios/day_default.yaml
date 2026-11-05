@@ -1,0 +1,9 @@
+# Main results: one simulated day of DK1 (96 quarter-hour products, 2 h before each gate closure)
+name: day_default
+seed: 42
+day: "2026-01-15"
+deliveries: [0, 96]
+window_min: 120
+heartbeat_s: 5
+fundamentals: {source: synthetic, profile: default, seed: 1}
+config: {ctrl: 5}

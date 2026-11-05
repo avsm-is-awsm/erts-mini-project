@@ -1,0 +1,25 @@
+@startuml D02_context_bdd
+!include _style.iuml
+title D02 Domain / context (BDD)
+class "DK1 Tick-to-Trade Engine" as SYS <<block>> <<system of interest>> {
+  values
+  latency_p99 : cycles <= 64
+  throughput : msg/s >= 25e6
+  products : 8
+}
+class "Market Data Feed\n(simulated SIDC exchange)" as FEED <<external>>
+class "Order Gateway\n(simulated exchange)" as GW <<external>>
+class "Fair-Value Service\n(slow path)" as FV <<external>>
+class "Operator / Trader" as OP <<actor>>
+class "Analyst (PC tools)" as AN <<actor>>
+class "Energi Data Service\n(DK1 prices, forecasts)" as EDS <<external>>
+class "ZYBO (Zynq-7010)" as ZB <<block>>
+FEED --> SYS : A/X/E/M/S/H messages
+FV --> SYS : V (fair value, edge)
+SYS --> GW : IOC orders O
+OP --> SYS : configure, run, kill
+SYS --> AN : orders, BBO trace, counters
+EDS ..> FEED : calibrates (optional)
+EDS ..> FV : fundamentals
+SYS *-- ZB : runs on
+@enduml

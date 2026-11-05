@@ -1,0 +1,17 @@
+# ~10k messages with injected protocol errors (NFR-ROB-1): unknown types, bad products, sequence
+# gaps, duplicate ids, deletes of unknown ids, off-grid prices, over-sized executes
+name: edge_errors
+seed: 34
+day: "2026-01-15"
+deliveries: [80, 83]
+window_min: 4
+heartbeat_s: 5
+faults:
+  unknown_types: 60
+  bad_products: 60
+  seq_gaps: 40
+  dup_ids: 60
+  not_found: 60
+  off_grid: 40
+  over_executes: 60
+config: {ctrl: 5, min_gap_ns: 1000000, max_pos: 100}

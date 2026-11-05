@@ -1,0 +1,36 @@
+@startuml D12_bdd_physical
+!include _style.iuml
+title D12 Physical blocks: ZYBO (XC7Z010-1CLG400C)
+class "ZYBO board" as ZYBO <<block>> {
+  512 MB DDR3, microSD, USB-UART, JTAG
+}
+class "Zynq-7010 SoC" as SOC <<block>>
+class "PS: dual Cortex-A9 @ 667 MHz" as PS <<block>> {
+  L1/L2 caches, GIC, global timer (333 MHz)
+  DDR controller, SD, UART
+  M_AXI_GP0, S_AXI_HP0 (64 bit), IRQ_F2P
+}
+class "PL: Artix-7 fabric (FCLK0 = 100 MHz)" as PL <<block>> {
+  17,600 LUT / 35,200 FF / 60 BRAM36 / 80 DSP
+}
+class "t2t_core (HLS IP)" as CORE <<block>> {
+  II = 4, latency 28 cycles
+  6.6k LUT, 32 BRAM36 (post-route OOC)
+}
+class "axi_dma_0 (MM2S + S2MM)" as DMA0 <<block>>
+class "axi_dma_1 (S2MM, dbg)" as DMA1 <<block>>
+class "axis_ts_in / axis_ts_out" as PROBES <<block>>
+class "ts_counter (64 bit)" as CNT <<block>>
+class "AXI interconnects (GP0, HP0)" as IC <<block>>
+class "proc_sys_reset" as RST <<block>>
+ZYBO *-- SOC
+SOC *-- PS
+SOC *-- PL
+PL *-- CORE
+PL *-- DMA0
+PL *-- DMA1
+PL *-- PROBES
+PL *-- CNT
+PL *-- IC
+PL *-- RST
+@enduml

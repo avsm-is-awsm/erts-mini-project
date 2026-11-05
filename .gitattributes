@@ -1,0 +1,13 @@
+# Keep text files LF in the repository and the working tree (bash/make/Tcl scripts break
+# with CRLF); binary build artefacts are never converted.
+* text=auto eol=lf
+*.bat text eol=crlf
+*.bit binary
+*.bin binary
+*.elf binary
+*.zip binary
+*.png binary
+*.jar binary
+*.parquet binary
+*.hdf binary
+*.sysdef binary

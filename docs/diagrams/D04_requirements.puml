@@ -1,0 +1,34 @@
+@startuml D04_requirements
+!include _style.iuml
+title D04 Requirements (excerpt) with satisfy / verify
+class "FR-03 BBO after every\nproduct message" as FR03 <<requirement>>
+class "FR-04 fair-value taker\n(SPEC 6.5)" as FR04 <<requirement>>
+class "FR-05 pre-trade risk\n(SPEC 6.6)" as FR05 <<requirement>>
+class "FR-06 kill switch" as FR06 <<requirement>>
+class "NFR-LAT-1 p99 <= 64 cycles\n@ 100 MHz" as LAT <<requirement>>
+class "NFR-THR-1 1 msg / 4 cycles" as THR <<requirement>>
+class "NFR-COR-1 bit-exact vs golden" as COR <<requirement>>
+class "NFR-RES-1 <= 70% LUT/BRAM" as RES <<requirement>>
+class "NFR-SAF-1 kill within 10 cycles" as SAF <<requirement>>
+class "PriceLadder + BboTracker" as LAD <<block>>
+class "Strategy" as STR <<block>>
+class "RiskGate" as RISK <<block>>
+class "t2t_core (HLS, II=4)" as CORE <<block>>
+class "test_xcheck.py\n12k random sequences" as T1 <<testCase>>
+class "C/RTL cosim + RTL system sim" as T2 <<testCase>>
+class "Vivado post-route reports" as T3 <<testCase>>
+class "rtl test_system.kill_switch" as T4 <<testCase>>
+LAD ..> FR03 : <<satisfy>>
+STR ..> FR04 : <<satisfy>>
+RISK ..> FR05 : <<satisfy>>
+RISK ..> FR06 : <<satisfy>>
+CORE ..> LAT : <<satisfy>>
+CORE ..> THR : <<satisfy>>
+CORE ..> RES : <<satisfy>>
+T1 ..> COR : <<verify>>
+T2 ..> LAT : <<verify>>
+T2 ..> THR : <<verify>>
+T2 ..> COR : <<verify>>
+T3 ..> RES : <<verify>>
+T4 ..> SAF : <<verify>>
+@enduml

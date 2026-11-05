@@ -1,0 +1,27 @@
+{
+  "msgs_in": 24,
+  "orders_out": 7,
+  "rejects": 2,
+  "err_unknown_type": 1,
+  "err_bad_product": 1,
+  "err_not_found": 1,
+  "err_table_full": 0,
+  "err_dup_id": 1,
+  "err_oow": 1,
+  "err_grid": 1,
+  "err_seq_gap": 1,
+  "err_qty_over": 0,
+  "err_anchor": 0,
+  "err_bad_state": 1,
+  "last_seq": 30,
+  "pos": [
+    200,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}

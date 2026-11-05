@@ -1,0 +1,14 @@
+@startuml D07_stm_product
+!include _style.iuml
+title D07 State machine: product slot lifecycle (SPEC 6.4 'S')
+[*] --> PREOPEN
+PREOPEN --> OPEN : S(OPEN, anchor, gc)\n[live == 0] / anchor := price, gc := oid\n[live > 0] / err_anchor++
+OPEN --> HALT : S(HALT)
+HALT --> OPEN : S(OPEN) / keep anchor
+OPEN --> CLOSED : S(CLOSED) at gate closure
+HALT --> CLOSED : S(CLOSED)
+CLOSED --> PREOPEN : S(PREOPEN) [slot reuse]\n/ fv_valid := 0, pos := 0, last_px := NONE\n[live > 0] / err_anchor++
+OPEN : A/X/E/M update book\nstrategy armed if fv_valid
+CLOSED : exchange purges book (X)\nno orders
+note right of PREOPEN : S with code > 3:\nerr_bad_state, ignored (D-11)
+@enduml

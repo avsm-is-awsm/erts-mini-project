@@ -1,0 +1,14 @@
+# ~1k messages, hand-inspectable: two products, 12-minute windows, 2 market makers
+name: unit_tiny
+seed: 11
+day: "2026-01-15"
+deliveries: [40, 42]
+window_min: 2
+heartbeat_s: 30
+params:
+  n_mm: 2
+  mm_levels_max: 2
+  mm_refresh_s: 8.0
+  noise_rate: 0.05
+  n_ct: 3
+config: {ctrl: 5}

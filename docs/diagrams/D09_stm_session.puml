@@ -1,0 +1,19 @@
+@startuml D09_stm_session
+!include _style.iuml
+title D09 State machine: SessionController (sw/app/session.hpp)
+[*] --> Idle
+Idle --> Loaded : load(dir) [feed ok]
+Idle --> Error : load(dir) [error]
+Loaded --> Configured : configure / cfg set
+Loaded --> Running : run(engine)
+Configured --> Running : run(engine)
+Running --> Draining : engine finished\n('Z' received)
+Running --> Error : timeout / DMA error
+Draining --> Done : results notified\n(ResultWriter, CLI)
+Done --> Running : run(engine)
+Done --> Configured : cfg set
+Done --> Loaded : load(other dir)
+Error --> Idle : reset [no dataset]
+Error --> Loaded : reset [dataset valid]
+Done --> Loaded : reset
+@enduml

@@ -1,0 +1,37 @@
+@startuml D01_packages
+!include _style.iuml
+title D01 Model organization (package diagram)
+package "dk1-t2t model" {
+  package "01 Context & Requirements" as P1 {
+    [D02 context BDD]
+    [D03 use cases]
+    [D04 requirements]
+  }
+  package "02 Behaviour" as P2 {
+    [D05 act tick-to-trade]
+    [D06 act session]
+    [D07 stm product]
+    [D08 stm strategy]
+    [D09 stm session]
+    [D15 seq tick-to-trade]
+    [D16 seq session]
+  }
+  package "03 Logical architecture" as P3 {
+    [D10 BDD logical]
+    [D11 IBD logical]
+    [D17 latency budget]
+  }
+  package "04 Physical architecture & allocation" as P4 {
+    [D12 BDD physical]
+    [D13 IBD physical]
+    [D14 allocation A/B/C]
+  }
+  package "05 Software design" as P5 {
+    [D18 PS classes]
+  }
+}
+P2 ..> P1 : refines
+P3 ..> P1 : satisfies
+P4 ..> P3 : allocates
+P5 ..> P4 : realizes Part 2
+@enduml

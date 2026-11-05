@@ -1,0 +1,8 @@
+# ~10k messages for Vivado HLS C/RTL co-simulation
+name: cosim_10k
+seed: 7
+day: "2026-01-15"
+deliveries: [60, 63]
+window_min: 3.5
+heartbeat_s: 5
+config: {ctrl: 5}

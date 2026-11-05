@@ -1,0 +1,20 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# generated data (never commit downloaded or generated datasets)
+data/out/
+# builds
+build/
+hls/build/
+systemc/out/*.log
+tools/bin/
+# Vivado / HLS scratch inside the repo (builds run in a staging folder)
+*.jou
+*.backup.*
+.Xil/
+hls/ip/vivado*.log
+hls/ip/vivado*.jou
+/vivado_hls.log
+hls/ip/*.log

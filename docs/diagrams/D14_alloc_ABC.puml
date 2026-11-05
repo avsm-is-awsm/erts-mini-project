@@ -1,0 +1,19 @@
+@startuml D14_alloc_ABC
+!include _style.iuml
+title D14 Allocation of logical blocks to PS / PL for architectures A, B, C
+legend top left
+|= Logical block |= A all-SW |= B split |= C all-HW (selected) |
+| FeedParser | PS (ARM) | PL | PL |
+| OrderTable | PS | PL | PL |
+| PriceLadder | PS | PL | PL |
+| BboTracker | PS | PL | PL |
+| Strategy | PS | PS (BBO via DMA + IRQ) | PL |
+| RiskGate | PS | PS | PL |
+| OrderEncoder | PS | PS (AXI-Lite write) | PL |
+| Telemetry | PS | PL + PS | PL (AXI-Lite) + probes |
+| FairValueService (slow path) | PS / PC | PS / PC | PS / PC (in-band V) |
+| Session, Config, Loader, Writer | PS | PS | PS |
+|= Status |= implemented (SwEngine) |= modelled (SystemC) |= implemented (t2t_core) |
+|= SystemC t2t, day_default live |= p50 3.75 us |= p50 2.0 us |= p50 0.40 us |
+endlegend
+@enduml

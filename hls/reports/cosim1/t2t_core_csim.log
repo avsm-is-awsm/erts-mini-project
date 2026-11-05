@@ -1,0 +1,9 @@
+INFO: [SIM 2] *************** CSIM start ***************
+INFO: [SIM 4] CSIM will launch GCC as the compiler.
+   Compiling ../../../../../tb/tb_t2t.cpp in debug mode
+   Compiling ../../../../../src/t2t_top.cpp in debug mode
+   Generating csim.exe
+tb_t2t: 12004 msgs, 25 ord records (1 TLAST), 11603 dbg records (1 TLAST)
+tb_t2t: PASS (0 mismatching items)
+INFO: [SIM 1] CSim done with 0 errors.
+INFO: [SIM 3] *************** CSIM finish ***************

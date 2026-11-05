@@ -1,0 +1,50 @@
+@startuml D05_act_tick_to_trade
+!include _style.iuml
+title D05 Activity: process one message (SPEC 6.4), swimlanes = logical blocks
+|FeedParser|
+start
+:receive 4 beats (32 B);\ncapture t_in (TUSER, beat 0);
+:msgs_in++, seq-gap check;
+if (known type?) then (no)
+  :err_unknown_type++;
+  stop
+endif
+if (type != H and product >= P_MAX?) then (yes)
+  :err_bad_product++;
+  stop
+endif
+if (H?) then (yes)
+  if (END flag?) then (yes)
+    |OrderEncoder|
+    :emit 'Z' (TLAST);
+  endif
+  stop
+endif
+|OrderTable|
+:read set fold(oid) (4 ways in parallel);\nmatch (oid, product) / lowest free way;
+:A: dup? grid? full? -> insert\nX/E/M: hit? -> reduce / remove;
+|PriceLadder|
+:read-modify-write lq[level],\nbitmap word, summary word\n(+ precomputed msb/lsb);
+|BboTracker|
+:best bid = msb(summary) -> msb(word)\nbest ask = lsb(summary) -> lsb(word);
+:emit 'B' if dbg_en;
+|Strategy|
+if (dispatch ok and armed\n(strat_en, !kill, OPEN, fv_valid, before lockout)?) then (yes)
+  if (ask <= fv - edge and ask != last_buy?) then (BUY)
+  elseif (bid >= fv + edge and bid != last_sell?) then (SELL)
+  else (none)
+    stop
+  endif
+  :update last_*_px (dedup);
+  |RiskGate|
+  :collar -> clamp -> position room ->\nrate -> order budget;
+  if (accepted?) then (yes)
+    :pos +/-= qty; orders_out++; coid++;
+    |OrderEncoder|
+    :emit 'O' (IOC); probe stamps t_out;
+  else (no)
+    :rejects++; 'R' if dbg_en;
+  endif
+endif
+stop
+@enduml

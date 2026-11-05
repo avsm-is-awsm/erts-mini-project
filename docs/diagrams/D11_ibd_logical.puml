@@ -1,0 +1,34 @@
+@startuml D11_ibd_logical
+!include _style.iuml
+title D11 Item flows between logical blocks (IBD)
+component DatasetLoader
+component FairValueService
+component FeedParser
+component OrderTable
+component PriceLadder
+component BboTracker
+component Strategy
+component RiskGate
+component OrderEncoder
+component Telemetry
+component ConfigManager
+component SessionController
+component ResultWriter
+DatasetLoader --> FeedParser : msg stream (A/X/E/M/S/V/H)
+FairValueService --> FeedParser : V (fv, edge) in-band
+FeedParser --> OrderTable : add / delete / execute / reduce
+OrderTable --> PriceLadder : (level, side, +/- qty)
+PriceLadder --> BboTracker : bitmaps, level qty
+BboTracker --> Strategy : BBO (px, qty)
+Strategy --> RiskGate : candidate (side, px, qty)
+RiskGate --> OrderEncoder : accepted / reject reason
+OrderEncoder --> ResultWriter : O / R / Z records
+BboTracker --> ResultWriter : B records (debug)
+ConfigManager --> Strategy : strat_en, kill
+ConfigManager --> RiskGate : limits
+FeedParser --> Telemetry : counters
+RiskGate --> Telemetry : positions
+SessionController --> ConfigManager : apply config
+SessionController --> DatasetLoader : load
+Telemetry --> SessionController : counters
+@enduml

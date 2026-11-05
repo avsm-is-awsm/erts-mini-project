@@ -1,0 +1,38 @@
+@startuml D16_seq_session
+!include _style.iuml
+title D16 Sequence: CLI "run hw" session
+actor Operator
+participant Cli
+participant SessionController as SC
+participant HwEngine as HW
+participant ConfigManager as CM
+participant T2tProxy as PX
+participant "DMA (MM2S / S2MM)" as DMA
+participant t2t_core as IP
+participant ResultWriter as RW
+Operator -> Cli : run hw
+Cli -> SC : run(hw)
+SC -> SC : Configured -> Running
+SC -> HW : run(dataset, config)
+HW -> CM : reset_and_apply(cfg)
+CM -> PX : write config, pulse CTRL.soft_reset
+PX -> IP : AXI-Lite writes
+loop until STATUS.busy == 0 (16384 clear steps, ~0.66 ms)
+  CM -> PX : busy()
+end
+HW -> DMA : arm S2MM orders (+ dbg packets)
+loop 4 MB chunks
+  HW -> DMA : MM2S chunk
+  DMA -> IP : AXIS messages (line rate)
+  IP -> DMA : order / BBO records
+end
+IP -> DMA : Z record + TLAST
+HW -> PX : counters()
+HW --> SC : RunResult
+SC -> SC : Running -> Draining
+SC -> RW : on_result (Observer)
+RW -> RW : orders_hw.bin, counters_hw.json, run_info_hw.json
+SC -> Cli : on_result (Observer)
+SC -> SC : Draining -> Done
+Cli --> Operator : messages, wall time, msg/s
+@enduml

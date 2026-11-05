@@ -1,0 +1,16 @@
+@startuml D08_stm_strategy
+!include _style.iuml
+title D08 State machine: per-product strategy (SPEC 6.5)
+[*] --> NoFV
+NoFV --> Armed : V(fv, edge)
+Armed --> FiredDedup : best ask <= fv - edge / BUY @ask\nor best bid >= fv + edge / SELL @bid\n(last_*_px := price, even if risk rejects)
+FiredDedup --> FiredDedup : same best price\n/ no order
+FiredDedup --> Armed : best price moves
+FiredDedup --> Armed : V (new fv) / last_*_px := NONE
+Armed --> LockedOut : ts + LOCKOUT_MS >= gc_ts\nor kill or !strat_en or state != OPEN
+FiredDedup --> LockedOut : idem
+LockedOut --> Armed : kill cleared / HALT -> OPEN
+Armed --> NoFV : S(PREOPEN)
+FiredDedup --> NoFV : S(PREOPEN)
+LockedOut --> NoFV : S(PREOPEN)
+@enduml

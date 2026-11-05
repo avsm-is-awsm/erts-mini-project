@@ -1,0 +1,12 @@
+# ~1M messages at a high, sustained rate (throughput / no-loss test, NFR-THR-1/2)
+name: stress_burst
+seed: 21
+day: "2026-01-15"
+deliveries: [32, 44]
+window_min: 30
+heartbeat_s: 30
+params:
+  mm_refresh_s: 1.5
+  n_mm: 5
+  noise_rate: 0.6
+config: {ctrl: 5}

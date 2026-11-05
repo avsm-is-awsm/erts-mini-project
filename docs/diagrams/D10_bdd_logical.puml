@@ -1,0 +1,48 @@
+@startuml D10_bdd_logical
+!include _style.iuml
+title D10 Logical blocks (technology independent)
+class "TickToTradeSystem" as SYS <<block>>
+class FeedParser <<block>> {
+  parse 32-byte messages
+  sequence check
+}
+class OrderTable <<block>> {
+  SETS x WAYS entries
+  key (order_id, product)
+}
+class PriceLadder <<block>> {
+  W levels x 2 sides x P_MAX
+  2-level bitmap
+}
+class BboTracker <<block>>
+class Strategy <<block>> {
+  fair-value taker
+  dedup last price
+}
+class RiskGate <<block>> {
+  collar, size, position,
+  rate, budget
+}
+class OrderEncoder <<block>>
+class Telemetry <<block>> {
+  counters, positions, t_in/t_out
+}
+class SessionController <<block>>
+class ConfigManager <<block>>
+class DatasetLoader <<block>>
+class ResultWriter <<block>>
+class FairValueService <<block>>
+SYS *-- FeedParser
+SYS *-- OrderTable
+SYS *-- PriceLadder
+SYS *-- BboTracker
+SYS *-- Strategy
+SYS *-- RiskGate
+SYS *-- OrderEncoder
+SYS *-- Telemetry
+SYS *-- SessionController
+SYS *-- ConfigManager
+SYS *-- DatasetLoader
+SYS *-- ResultWriter
+SYS o-- FairValueService
+@enduml

@@ -1,0 +1,27 @@
+@startuml D15_seq_tick_to_trade
+!include _style.iuml
+title D15 Sequence: one triggering message through probes and IP (cycles @ 100 MHz)
+participant "axi_dma_0 MM2S" as DMA
+participant "axis_ts_in" as TIN
+participant "t2t_core" as CORE
+participant "axis_ts_out" as TOUT
+participant "axi_dma_0 S2MM" as S2MM
+participant "ts_counter" as CNT
+DMA -> TIN : beat 0 (type, flags, product, seq)
+TIN -> CNT : read ts
+TIN -> CORE : beat 0 + TUSER = ts = t_in (cycle 0)
+DMA -> CORE : beats 1..3 (ts_ns, order_id, price, qty), cycles 1..3
+note over CORE
+  pipelined at II = 4 (one message per 4 cycles);
+  stages from the HLS schedule: ~5 parse, ~4 order table,
+  ~5 ladder RMW, ~6 BBO search, ~4 strategy + risk, ~4 emit
+end note
+CORE -> TOUT : order record beats 0..2 (cycles 25..27)
+CORE -> TOUT : order record beat 3
+TOUT -> CNT : read ts
+TOUT -> S2MM : beat 3 with TDATA[63:32] = ts = t_out (cycle 28)
+note right of S2MM
+  latency = t_out - t_in = 28 cycles = 280 ns
+  (RTL simulation, every order, no backpressure)
+end note
+@enduml

@@ -1,0 +1,17 @@
+# SystemC architecture-exploration parameters (SPEC 11).
+# Every value is tagged:  [measured: <source>]  or  [assumed: <reason>].
+# After a board run, replace the assumed ARM numbers with the SwEngine measurement
+# (tools/analyze.py -> latency_summary.json) and re-run `make sysc`.
+
+pl_clk_hz: 100000000            # [measured: design clock FCLK0, timing met post-route (hw/reports)]
+pl_ii_cycles: 4                 # [measured: HLS csynth report, II = 4]
+pl_latency_cycles: 28           # [measured: RTL simulation, t_out - t_in of every order (build/rtlsim)]
+pl_bbo_cycles: 16               # [assumed: HLS schedule state of the BBO result (~16 of 28 cycles), Arch B only]
+dma_chunk_bytes: 4194304        # [measured: design, 4 MB MM2S chunks (AXI DMA 23-bit length)]
+dma_chunk_gap_ns: 2000          # [assumed: PS polling + XAxiDma_SimpleTransfer re-arm between chunks]
+dma_s2mm_latency_ns: 400        # [assumed: one 32-byte S2MM burst into DDR via HP0 + completion, Arch B]
+irq_latency_ns: 800             # [assumed: Cortex-A9 GIC interrupt entry incl. handler prologue, bare metal]
+arm_msg_ns: 900                 # [assumed: SwEngine core per message on a 667 MHz Cortex-A9 (-O2); replace with board p50]
+arm_order_extra_ns: 150         # [assumed: building + stamping an order record]
+arm_strategy_ns: 250            # [assumed: strategy + risk only, Arch B (part of arm_msg_ns)]
+axi_lite_write_ns: 150          # [assumed: one GP0 AXI-Lite write from the A9 (order hand-off in Arch B)]

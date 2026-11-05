@@ -1,0 +1,55 @@
+{
+  "csynth": {
+    "target_ns": 10.0,
+    "estimated_ns": 11.05,
+    "uncertainty_ns": 1.25,
+    "latency_min": 28,
+    "latency_max": 28,
+    "ii_min": 4,
+    "ii_max": 4,
+    "est_bram18": 64,
+    "est_dsp": 5,
+    "est_ff": 18466,
+    "est_lut": 15994
+  },
+  "ooc_post_route": {
+    "lut": 6574.0,
+    "lut_avail": 17600,
+    "lut_pct": 37.35,
+    "ff": 9413.0,
+    "ff_avail": 35200,
+    "ff_pct": 26.74,
+    "bram_tiles": 32.0,
+    "bram_tiles_avail": 60,
+    "bram_tiles_pct": 53.33,
+    "dsp": 3.0,
+    "dsp_avail": 80,
+    "dsp_pct": 3.75,
+    "part": "xc7z010clg400-1",
+    "period_ns": 10.0,
+    "wns_ns": 1.427
+  },
+  "cosim": {
+    "verilog_status": "Pass",
+    "msgs": 12004,
+    "ord_records": 25,
+    "dbg_records": 11603,
+    "tb_pass": true
+  },
+  "system_post_route": {
+    "lut": 10759.0,
+    "lut_avail": 17600,
+    "lut_pct": 61.13,
+    "ff": 14993.0,
+    "ff_avail": 35200,
+    "ff_pct": 42.59,
+    "bram_tiles": 36.5,
+    "bram_tiles_avail": 60,
+    "bram_tiles_pct": 60.83,
+    "dsp": 3.0,
+    "dsp_avail": 80,
+    "dsp_pct": 3.75,
+    "wns_ns": 0.584,
+    "whs_ns": 0.007
+  }
+}

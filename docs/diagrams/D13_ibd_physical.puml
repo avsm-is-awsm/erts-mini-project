@@ -1,0 +1,32 @@
+@startuml D13_ibd_physical
+!include _style.iuml
+left to right direction
+title D13 Physical connections (IBD): AXI / AXIS / IRQ
+component "PS7 (Cortex-A9)\nM_AXI_GP0 / S_AXI_HP0 / IRQ_F2P" as PS
+component "axi_ic_gp0" as ICG
+component "axi_ic_hp0" as ICH
+component "axi_dma_0" as D0
+component "axi_dma_1" as D1
+component "axis_ts_in" as TIN
+component "t2t_core" as CORE
+component "axis_ts_out" as TOUT
+component "ts_counter" as CNT
+component "xlconcat" as CC
+PS --> ICG : M_AXI_GP0
+ICG --> D0 : AXI-Lite
+ICG --> D1 : AXI-Lite
+ICG --> CORE : AXI-Lite s_axi_ctrl @ 0x43C0_0000
+D0 --> TIN : AXIS MM2S 64 b
+TIN --> CORE : md_in + TUSER (t_in)
+CORE --> TOUT : ord_out 64 b
+TOUT --> D0 : S2MM (t_out in bytes 28..31)
+CORE --> D1 : dbg_out 64 b (4 MB packets)
+CNT --> TIN : ts[31:0]
+CNT --> TOUT : ts[31:0]
+D0 --> ICH : M_AXI_MM2S, M_AXI_S2MM
+D1 --> ICH : M_AXI_S2MM
+ICH --> PS : S_AXI_HP0 64 b -> DDR
+D0 --> CC : mm2s / s2mm introut
+D1 --> CC : s2mm introut
+CC --> PS : IRQ_F2P[2:0]
+@enduml

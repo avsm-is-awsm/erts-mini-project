@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <core name="" type="" target="">
+    <kernel name="t2t_core" language="c" vlnv="xilinx.com:hls:t2t_core:1.0" attributes="" hash="" preferredWorkGroupSizeMultiple="0" workGroupSize="1" debug="false">
+      <port name="S_AXI_CTRL" mode="slave" range="0x1000" dataWidth="32" portType="addressable" base="0x00000000"/>
+      <arg name="ctrl" addressQualifier="0" id="0" port="S_AXI_CTRL" size="0x4" offset="0x10" hostOffset="0x0" hostSize="0x4" type="unsigned int"/>
+      <arg name="clip_qty" addressQualifier="0" id="1" port="S_AXI_CTRL" size="0x4" offset="0x18" hostOffset="0x0" hostSize="0x4" type="unsigned int"/>
+      <arg name="max_order_qty" addressQualifier="0" id="2" port="S_AXI_CTRL" size="0x4" offset="0x20" hostOffset="0x0" hostSize="0x4" type="unsigned int"/>
+      <arg name="max_pos" addressQualifier="0" id="3" port="S_AXI_CTRL" size="0x4" offset="0x28" hostOffset="0x0" hostSize="0x4" type="int"/>
+      <arg name="collar" addressQualifier="0" id="4" port="S_AXI_CTRL" size="0x4" offset="0x30" hostOffset="0x0" hostSize="0x4" type="unsigned int"/>
+      <arg name="min_gap_ns" addressQualifier="0" id="5" port="S_AXI_CTRL" size="0x4" offset="0x38" hostOffset="0x0" hostSize="0x4" type="unsigned int"/>
+      <arg name="max_orders" addressQualifier="0" id="6" port="S_AXI_CTRL" size="0x4" offset="0x40" hostOffset="0x0" hostSize="0x4" type="unsigned int"/>
+      <arg name="lockout_ms" addressQualifier="0" id="7" port="S_AXI_CTRL" size="0x4" offset="0x48" hostOffset="0x0" hostSize="0x4" type="unsigned int"/>
+      <arg name="status" addressQualifier="0" id="8" port="S_AXI_CTRL" size="0x4" offset="0x50" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="msgs_in" addressQualifier="0" id="9" port="S_AXI_CTRL" size="0x4" offset="0x58" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="orders_out" addressQualifier="0" id="10" port="S_AXI_CTRL" size="0x4" offset="0x60" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="rejects" addressQualifier="0" id="11" port="S_AXI_CTRL" size="0x4" offset="0x68" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="err_unknown_type" addressQualifier="0" id="12" port="S_AXI_CTRL" size="0x4" offset="0x70" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="err_bad_product" addressQualifier="0" id="13" port="S_AXI_CTRL" size="0x4" offset="0x78" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="err_not_found" addressQualifier="0" id="14" port="S_AXI_CTRL" size="0x4" offset="0x80" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="err_table_full" addressQualifier="0" id="15" port="S_AXI_CTRL" size="0x4" offset="0x88" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="err_dup_id" addressQualifier="0" id="16" port="S_AXI_CTRL" size="0x4" offset="0x90" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="err_oow" addressQualifier="0" id="17" port="S_AXI_CTRL" size="0x4" offset="0x98" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="err_grid" addressQualifier="0" id="18" port="S_AXI_CTRL" size="0x4" offset="0xA0" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="err_seq_gap" addressQualifier="0" id="19" port="S_AXI_CTRL" size="0x4" offset="0xA8" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="err_qty_over" addressQualifier="0" id="20" port="S_AXI_CTRL" size="0x4" offset="0xB0" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="err_anchor" addressQualifier="0" id="21" port="S_AXI_CTRL" size="0x4" offset="0xB8" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="err_bad_state" addressQualifier="0" id="22" port="S_AXI_CTRL" size="0x4" offset="0xC0" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="last_seq" addressQualifier="0" id="23" port="S_AXI_CTRL" size="0x4" offset="0xC8" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="first_t_in" addressQualifier="0" id="24" port="S_AXI_CTRL" size="0x4" offset="0xD0" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="last_t_in" addressQualifier="0" id="25" port="S_AXI_CTRL" size="0x4" offset="0xD8" hostOffset="0x0" hostSize="0x4" type="unsigned int*"/>
+      <arg name="pos0" addressQualifier="0" id="26" port="S_AXI_CTRL" size="0x4" offset="0xE0" hostOffset="0x0" hostSize="0x4" type="int*"/>
+      <arg name="pos1" addressQualifier="0" id="27" port="S_AXI_CTRL" size="0x4" offset="0xE8" hostOffset="0x0" hostSize="0x4" type="int*"/>
+      <arg name="pos2" addressQualifier="0" id="28" port="S_AXI_CTRL" size="0x4" offset="0xF0" hostOffset="0x0" hostSize="0x4" type="int*"/>
+      <arg name="pos3" addressQualifier="0" id="29" port="S_AXI_CTRL" size="0x4" offset="0xF8" hostOffset="0x0" hostSize="0x4" type="int*"/>
+      <arg name="pos4" addressQualifier="0" id="30" port="S_AXI_CTRL" size="0x4" offset="0x100" hostOffset="0x0" hostSize="0x4" type="int*"/>
+      <arg name="pos5" addressQualifier="0" id="31" port="S_AXI_CTRL" size="0x4" offset="0x108" hostOffset="0x0" hostSize="0x4" type="int*"/>
+      <arg name="pos6" addressQualifier="0" id="32" port="S_AXI_CTRL" size="0x4" offset="0x110" hostOffset="0x0" hostSize="0x4" type="int*"/>
+      <arg name="pos7" addressQualifier="0" id="33" port="S_AXI_CTRL" size="0x4" offset="0x118" hostOffset="0x0" hostSize="0x4" type="int*"/>
+      <compileWorkGroupSize x="1" y="1" z="1"/>
+    </kernel>
+  </core>
+</project>
