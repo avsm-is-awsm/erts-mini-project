@@ -48,4 +48,5 @@ Board: original ZYBO (confirmed at M0), **not attached** to this PC (`xsct` JTAG
   `hls/scripts/hls.py`, `hw/build.py` and `sw/build.py` (DECISIONS D-17..D-20).
 * AXI DMA 7.1 in 2017.2 is limited to 8 MB per transfer, so the input is chunked (4 MB) and debug
   packets are TLAST-terminated every 131 072 records (D-29/D-30).
-* The repository is not under git yet (`git init` was left to the user).
+* The repository is a local git repo (branch `main`), with no remote yet. The CI workflow will run
+  once it is pushed to GitHub.
