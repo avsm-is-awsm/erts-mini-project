@@ -65,7 +65,7 @@ int main() {
     static SwEngine sw;
     static DatasetLoader loader(fs);
     static SessionController session(loader);
-    static ResultWriter writer(fs, 100000000u);  // FCLK_CLK0 = PL clock of t2t_core + probes
+    static ResultWriter writer(fs, 100000000u, printf);  // FCLK_CLK0 = PL clock of t2t_core + probes
     static RunResult last;
     memset(&last, 0, sizeof(last));
 

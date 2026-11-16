@@ -75,7 +75,7 @@ class VirtualT2t : public IRegBus {
 public:
     hls::stream<axis_in_t> md_in;
     hls::stream<axis_out_t> ord_out, dbg_out;
-    uint32_t reg[0x120 / 4];
+    uint32_t reg[0x130 / 4];
     uint32_t cycle;
     VirtualT2t() : cycle(0) { memset(reg, 0, sizeof(reg)); }
 
@@ -92,7 +92,8 @@ public:
                  &r[T2T_REG_LAST_SEQ / 4], &r[T2T_REG_FIRST_T_IN / 4], &r[T2T_REG_LAST_T_IN / 4],
                  (int32_t*)&r[T2T_REG_POS0 / 4], (int32_t*)&r[T2T_REG_POS1 / 4], (int32_t*)&r[T2T_REG_POS2 / 4],
                  (int32_t*)&r[T2T_REG_POS3 / 4], (int32_t*)&r[T2T_REG_POS4 / 4], (int32_t*)&r[T2T_REG_POS5 / 4],
-                 (int32_t*)&r[T2T_REG_POS6 / 4], (int32_t*)&r[T2T_REG_POS7 / 4]);
+                 (int32_t*)&r[T2T_REG_POS6 / 4], (int32_t*)&r[T2T_REG_POS7 / 4],
+                 &r[T2T_REG_ERR_FRAMING / 4]);
         cycle += 4;
     }
     uint32_t read32(uint32_t off) {
@@ -166,7 +167,170 @@ bool VirtMm2s::start(uint64_t addr, uint32_t len) {
     return true;
 }
 
+static int quiet_printf(const char*, ...) { return 0; }
+
+// DMA channel that reports an error, and one that never finishes
+class BadDma : public IDmaChannel {
+public:
+    explicit BadDma(bool err) : err_(err) {}
+    bool start(uint64_t, uint32_t) { return true; }
+    bool busy() { return !err_; }
+    uint32_t transferred() { return 0; }
+    void reset() {}
+    bool error() { return err_; }
+    bool err_;
+};
+
+static void push_beats(VirtualT2t& v, const uint64_t w[4], int n, bool last_on_final) {
+    for (int k = 0; k < n; ++k) {
+        axis_in_t b;
+        b.data = w[k];
+        b.keep = 0xFF; b.strb = 0xFF; b.id = 0; b.dest = 0;
+        b.user = (k == 0) ? 77u : 0u;
+        b.last = (last_on_final && k == n - 1) ? 1 : 0;
+        v.md_in.write(b);
+    }
+}
+
 // ------------------------------------------------------------------ tests
+static void test_framing_recovery() {
+    // A transfer that ends inside a message (TLAST on beat 0, 1 or 2) is dropped and counted;
+    // the next message is processed normally (D-34).
+    VirtualT2t v;
+    v.reg[T2T_REG_CTRL / 4] = t2t::CTRL_DBG_EN;
+    dk1::Msg m;
+    memset(&m, 0, sizeof(m));
+    m.type = 'S'; m.product = 1; m.seq = 1; m.ts_ns = 5; m.order_id = 1000; m.price = 5000; m.qty = dk1::ST_OPEN;
+    uint64_t w[4];
+    dk1::pack_msg(m, w);
+    for (int cut = 1; cut <= 3; ++cut) {
+        push_beats(v, w, cut, true);   // fragment of `cut` beats
+        v.tick();
+        CHECK(v.reg[T2T_REG_ERR_FRAMING / 4] == (uint32_t)cut);
+        CHECK(v.reg[T2T_REG_MSGS_IN / 4] == 0 && v.md_in.empty() && v.ord_out.empty() && v.dbg_out.empty());
+    }
+    push_beats(v, w, 4, true);         // a complete message, TLAST on beat 3 is normal
+    v.tick();
+    CHECK(v.reg[T2T_REG_MSGS_IN / 4] == 1 && v.reg[T2T_REG_ERR_FRAMING / 4] == 3);
+    CHECK(v.dbg_out.size() == 4);      // its 'B' record
+    // soft reset clears the framing counter
+    T2tProxy p(v);
+    p.pulse_soft_reset(t2t::CTRL_DBG_EN);
+    int guard = 0;
+    while (p.busy() && ++guard < 40000) {}
+    CHECK(guard < 40000 && v.reg[T2T_REG_ERR_FRAMING / 4] == 0 && v.reg[T2T_REG_MSGS_IN / 4] == 0);
+}
+
+static std::vector<uint8_t> tiny_feed(bool end_last, bool end_early) {
+    std::vector<uint8_t> f(3 * 32, 0);
+    for (int i = 0; i < 3; ++i) {
+        f[32 * i] = 'H';
+        f[32 * i + 4] = (uint8_t)(i + 1);
+    }
+    if (end_early) f[1] = 2;
+    if (end_last) f[2 * 32 + 1] = 2;
+    return f;
+}
+
+static void test_dataset_validation() {
+    MemFs fs;
+    DatasetLoader l(fs);
+    Dataset ds;
+    fs.files["a/feed.bin"] = tiny_feed(false, false);
+    CHECK(*l.load("a", ds) != 0 && !ds.loaded);          // no END
+    fs.files["b/feed.bin"] = tiny_feed(true, true);
+    CHECK(*l.load("b", ds) != 0 && !ds.loaded);          // END before the last message
+    fs.files["c/feed.bin"] = tiny_feed(true, false);
+    CHECK(*l.load("c", ds) == 0 && ds.loaded && ds.n_msgs == 3);
+}
+
+static void test_hw_failures() {
+    MemFs fs;
+    fs.files["c/feed.bin"] = tiny_feed(true, false);
+    DatasetLoader l(fs);
+    SessionController s(l);
+    CHECK(s.load("c"));
+    NullCache cache;
+    // 1. DMA error bit -> run fails with a message instead of hanging until the timeout
+    {
+        VirtualT2t core;
+        VirtS2mm s2o(core.ord_out), s2d(core.dbg_out);
+        s2o.t_out = 0; s2d.t_out = 0;
+        BadDma bad(true);
+        T2tProxy proxy(core);
+        ConfigManager cm(proxy);
+        HwEngine hw(cm, bad, s2o, s2d, cache);
+        RunResult r;
+        CHECK(!s.run(hw, r) && s.state() == S_ERROR && strstr(r.error, "DMA") != 0);
+        CHECK(s.reset() && s.state() == S_LOADED);
+    }
+    // 2. IP that never comes out of / never clears on soft reset -> reported
+    {
+        struct DeadBus : public IRegBus {
+            uint32_t read32(uint32_t off) { return off == T2T_REG_MSGS_IN ? 5u : 0u; }
+            void write32(uint32_t, uint32_t) {}
+        } dead;
+        VirtualT2t core;
+        VirtS2mm s2o(core.ord_out), s2d(core.dbg_out);
+        s2o.t_out = 0; s2d.t_out = 0;
+        VirtMm2s mm2s(core, s2o, s2d);
+        T2tProxy proxy(dead);
+        ConfigManager cm(proxy);
+        HwEngine hw(cm, mm2s, s2o, s2d, cache);
+        RunResult r;
+        CHECK(!s.run(hw, r) && strstr(r.error, "soft reset") != 0);
+        CHECK(s.reset());
+    }
+    // 3. result files that cannot be written are counted and logged
+    {
+        struct FullFs : public MemFs {
+            bool write(const char*, const void*, uint32_t) { return false; }
+        } full;
+        full.files["c/feed.bin"] = tiny_feed(true, false);
+        DatasetLoader l2(full);
+        SessionController s2(l2);
+        ResultWriter w(full);
+        s2.attach(&w);
+        CHECK(s2.load("c"));
+        SwEngine sw;
+        RunResult r;
+        CHECK(s2.run(sw, r) && w.failures() == 1);
+    }
+}
+
+static void test_cli_run_errors() {
+    MemFs fs;
+    fs.files["c/feed.bin"] = tiny_feed(true, false);
+    DatasetLoader l(fs);
+    SessionController s(l);
+    SwEngine sw;
+    BadDma bad(true);
+    VirtualT2t core;
+    VirtS2mm s2o(core.ord_out), s2d(core.dbg_out);
+    s2o.t_out = 0; s2d.t_out = 0;
+    NullCache cache;
+    T2tProxy proxy(core);
+    ConfigManager cm(proxy);
+    HwEngine hw(cm, bad, s2o, s2d, cache);
+    RunResult last;
+    memset(&last, 0, sizeof(last));
+    CliContext ctx = {&s, &hw, &sw, &cm, &fs, &last};
+    Cli cli(ctx, quiet_printf);
+    CmdRun run; CmdLoad load; CmdCfg cfg;
+    cli.add(&run); cli.add(&load); cli.add(&cfg);
+    char l0[] = "load c";
+    CHECK(cli.execute_line(l0) && s.state() == S_LOADED);
+    char l1[] = "cfg set collar 12abc";            // not a number: rejected, value unchanged
+    cli.execute_line(l1);
+    CHECK(s.config().collar == 2000);
+    char l2[] = "run both";                        // hw fails (DMA error), sw must still run
+    cli.execute_line(l2);
+    CHECK(s.state() == S_DONE && last.engine && last.engine[0] == 's' && last.ok);
+    char l3[] = "run sideways";
+    cli.execute_line(l3);
+    CHECK(s.state() == S_DONE);
+}
+
 struct Recorder : public ISessionObserver {
     std::vector<std::string> trans;
     int results;
@@ -177,7 +341,6 @@ struct Recorder : public ISessionObserver {
     void on_result(const Dataset&, const RunResult&) { ++results; }
 };
 
-static int quiet_printf(const char*, ...) { return 0; }
 
 static void test_config_kv() {
     t2t::Config c = t2t::default_config();
@@ -312,6 +475,10 @@ int main(int argc, char** argv) {
     test_session_states();
     test_cli();
     test_proxy_offsets();
+    test_framing_recovery();
+    test_dataset_validation();
+    test_hw_failures();
+    test_cli_run_errors();
     for (int i = 1; i < argc; ++i) test_engines(argv[i]);
     printf("test_sw: %d checks passed, %d failed\n", g_pass, g_fail);
     return g_fail ? 1 : 0;

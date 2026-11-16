@@ -34,6 +34,7 @@ public:
     bool busy();
     uint32_t transferred();
     void reset();
+    bool error();
 private:
     XilDma& dma_;
     int dir_;

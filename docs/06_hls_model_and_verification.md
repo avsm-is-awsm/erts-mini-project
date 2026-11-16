@@ -38,7 +38,7 @@ From `hls/reports/impl1/` (`make hls`; summary in `hls/reports/summary.json`):
 | II | **4** (line rate, one 32-byte message per 4 cycles) |
 | Pipeline latency (csynth) | 28 cycles |
 | HLS timing estimate | 11.05 ns (HLS model, pessimistic; post-route below) |
-| Post-route OOC, `t2t_core` alone | **WNS +1.43 ns @ 10 ns** (≈ 117 MHz possible); 6 574 LUT (37.4 %), 9 413 FF (26.7 %), 32 BRAM36 (53.3 %), 3 DSP |
+| Post-route OOC, `t2t_core` alone | **WNS +1.67 ns @ 10 ns** (≈ 120 MHz possible); 6 333 LUT (36.0 %), 9 544 FF (27.1 %), 32 BRAM36 (53.3 %), 3 DSP |
 
 ## Verification evidence
 
@@ -50,7 +50,7 @@ From `hls/reports/impl1/` (`make hls`; summary in `hls/reports/summary.json`):
 | Vivado HLS csim | `cosim_10k` with the HLS 2017.2 toolchain | pass |
 | **C/RTL cosim** (xsim) | `cosim_10k` incl. a full soft-reset sweep | **pass**, bit-exact |
 | RTL probes (cocotb + Icarus, and xsim) | random gaps and backpressure, 6 000 beats per probe, TUSER/t_out exact, TLAST/TKEEP preserved | 3/3 pass |
-| **RTL system simulation** | exported HLS RTL + probes + counter (as in the BD), AXI-Lite config + soft reset, `cosim_10k` and `edge_errors` at line rate, random backpressure, kill switch | bit-exact; **28 cycles** for every order; 4.0 cycles/msg; kill honoured |
+| **RTL system simulation** | exported HLS RTL + probes + counter (as in the BD), AXI-Lite config + soft reset, `cosim_10k` and `edge_errors` at line rate, random backpressure, truncated transfers, kill switch | 4/4 tests; bit-exact; **28 cycles** for every order; 4.0 cycles/msg; fragments dropped and counted; kill honoured |
 
 C/RTL cosim note: Vivado HLS cannot co-simulate an `ap_ctrl_none` design with II > 1, so cosim
 uses the same datapath with `ap_ctrl_hs` (D-17). The cosim "latency" column reflects the

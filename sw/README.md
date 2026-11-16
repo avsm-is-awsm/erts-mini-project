@@ -23,6 +23,10 @@ interrupt-driven variant.
 UART CLI (115 200 8N1): `help`, `ls [dir]`, `load <dir>`, `cfg show`, `cfg set <key> <value>`
 (`ctrl`, `strat_en`, `dbg_en`, `kill`, `clip_qty`, `max_order_qty`, `max_pos`, `collar`,
 `min_gap_ns`, `max_orders`, `lockout_ms`), `run hw|sw|both`, `stats`, `kill [on|off]`, `reset`.
+A failed run prints its reason (`hw run FAILED: ...`) and leaves the dataset loaded.
+
+The SD card must be FAT32; long file names are enabled in the BSP. `feed.bin` must end with
+`H(END_OF_SESSION)` (all generated datasets do).
 
 Outputs written next to the dataset on the SD card: `orders_hw.bin`, `dbg_hw.bin`,
 `counters_hw.json`, `run_info_hw.json`, and the same with `_sw` for the software baseline.

@@ -43,10 +43,11 @@ def main(argv=None) -> int:
     print(f"[vivado] building in {work} (log {log})")
     t0 = time.time()
     rc = run_tool([viv, "-notrace", "-mode", "batch", "-source", (br / "hw" / "build_bd.tcl").as_posix(),
-                   *args], work, log)
+                   *args], work, log, watch_runs=work)
     dt = time.time() - t0
     text = log.read_text(errors="replace")
     ok = ("BUILD_DONE" in text) or (a.bd_only and "BD_ONLY_DONE" in text)
+    timing_failed = "ERROR: timing not met" in text
     print(f"[vivado] exit {rc} after {dt/60:.1f} min: {'OK' if ok else 'FAILED'}")
     for ln in [x for x in text.splitlines() if x.startswith(("ERROR", "CRITICAL WARNING"))][:20]:
         print("  " + ln)
@@ -55,6 +56,8 @@ def main(argv=None) -> int:
     rep.mkdir(exist_ok=True)
     shutil.copy2(log, rep / "vivado_build.log")
     for f in ("dk1_t2t.bit", "dk1_t2t.hdf", "dk1_t2t.sysdef", "address_map.txt", "system_bd_export.tcl"):
+        if timing_failed and f != "address_map.txt":
+            continue  # never publish a bitstream / handoff that violates timing
         if (work / f).exists():
             shutil.copy2(work / f, out / f)
     if (work / "reports").exists():

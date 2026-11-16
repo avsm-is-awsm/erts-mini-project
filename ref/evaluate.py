@@ -52,7 +52,10 @@ def evaluate(ds: Path, orders_file: Path | None = None, latencies=LATENCIES_NS) 
     seq = msgs["seq"].astype(np.int64)
     if not (np.diff(seq) > 0).all():
         raise ValueError("evaluate.py needs strictly increasing feed sequence numbers")
-    trig_idx = np.searchsorted(seq, o["trig_seq"].astype(np.int64))
+    trig = o["trig_seq"].astype(np.int64)
+    trig_idx = np.searchsorted(seq, trig)
+    if (trig_idx >= len(seq)).any() or (seq[np.minimum(trig_idx, len(seq) - 1)] != trig).any():
+        raise ValueError("orders file does not belong to this feed (trig_seq not found in feed.bin)")
     T = msgs["ts_ns"][trig_idx].astype(np.int64)
     import pyarrow.parquet as pq
 

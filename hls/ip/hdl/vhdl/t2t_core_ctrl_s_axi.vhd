@@ -95,7 +95,9 @@ port (
     pos6                  :in   STD_LOGIC_VECTOR(31 downto 0);
     pos6_ap_vld           :in   STD_LOGIC;
     pos7                  :in   STD_LOGIC_VECTOR(31 downto 0);
-    pos7_ap_vld           :in   STD_LOGIC
+    pos7_ap_vld           :in   STD_LOGIC;
+    err_framing           :in   STD_LOGIC_VECTOR(31 downto 0);
+    err_framing_ap_vld    :in   STD_LOGIC
 );
 end entity t2t_core_ctrl_s_axi;
 
@@ -258,6 +260,11 @@ end entity t2t_core_ctrl_s_axi;
 -- 0x11c : Control signal of pos7
 --         bit 0  - pos7_ap_vld (Read/COR)
 --         others - reserved
+-- 0x120 : Data signal of err_framing
+--         bit 31~0 - err_framing[31:0] (Read)
+-- 0x124 : Control signal of err_framing
+--         bit 0  - err_framing_ap_vld (Read/COR)
+--         others - reserved
 -- (SC = Self Clear, COR = Clear on Read, TOW = Toggle on Write, COH = Clear on Handshake)
 
 architecture behave of t2t_core_ctrl_s_axi is
@@ -333,6 +340,8 @@ architecture behave of t2t_core_ctrl_s_axi is
     constant ADDR_POS6_CTRL               : INTEGER := 16#114#;
     constant ADDR_POS7_DATA_0             : INTEGER := 16#118#;
     constant ADDR_POS7_CTRL               : INTEGER := 16#11c#;
+    constant ADDR_ERR_FRAMING_DATA_0      : INTEGER := 16#120#;
+    constant ADDR_ERR_FRAMING_CTRL        : INTEGER := 16#124#;
     constant ADDR_BITS         : INTEGER := 9;
 
     signal waddr               : UNSIGNED(ADDR_BITS-1 downto 0);
@@ -407,6 +416,8 @@ architecture behave of t2t_core_ctrl_s_axi is
     signal int_pos6_ap_vld     : STD_LOGIC;
     signal int_pos7            : UNSIGNED(31 downto 0) := (others => '0');
     signal int_pos7_ap_vld     : STD_LOGIC;
+    signal int_err_framing     : UNSIGNED(31 downto 0) := (others => '0');
+    signal int_err_framing_ap_vld : STD_LOGIC;
 
 
 begin
@@ -640,6 +651,10 @@ begin
                         rdata_data <= RESIZE(int_pos7(31 downto 0), 32);
                     when ADDR_POS7_CTRL =>
                         rdata_data <= (0 => int_pos7_ap_vld, others => '0');
+                    when ADDR_ERR_FRAMING_DATA_0 =>
+                        rdata_data <= RESIZE(int_err_framing(31 downto 0), 32);
+                    when ADDR_ERR_FRAMING_CTRL =>
+                        rdata_data <= (0 => int_err_framing_ap_vld, others => '0');
                     when others =>
                         rdata_data <= (others => '0');
                     end case;
@@ -1469,6 +1484,34 @@ begin
                     int_pos7_ap_vld <= '1';
                 elsif (ar_hs = '1' and raddr = ADDR_POS7_CTRL) then
                     int_pos7_ap_vld <= '0'; -- clear on read
+                end if;
+            end if;
+        end if;
+    end process;
+
+    process (ACLK)
+    begin
+        if (ACLK'event and ACLK = '1') then
+            if (ARESET = '1') then
+                int_err_framing <= (others => '0');
+            elsif (ACLK_EN = '1') then
+                if (err_framing_ap_vld = '1') then
+                    int_err_framing <= UNSIGNED(err_framing); -- clear on read
+                end if;
+            end if;
+        end if;
+    end process;
+
+    process (ACLK)
+    begin
+        if (ACLK'event and ACLK = '1') then
+            if (ARESET = '1') then
+                int_err_framing_ap_vld <= '0';
+            elsif (ACLK_EN = '1') then
+                if (err_framing_ap_vld = '1') then
+                    int_err_framing_ap_vld <= '1';
+                elsif (ar_hs = '1' and raddr = ADDR_ERR_FRAMING_CTRL) then
+                    int_err_framing_ap_vld <= '0'; -- clear on read
                 end if;
             end if;
         end if;

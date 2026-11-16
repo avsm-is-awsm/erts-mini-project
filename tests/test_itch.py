@@ -49,6 +49,7 @@ def build_file(path: Path):
     m.append(hdr("H", 1, 25) + b"AAPL    " + b"H" + b" " + b"    ")
     m.append(hdr("H", 1, 26) + b"AAPL    " + b"T" + b" " + b"    ")
     m.append(hdr("P", 1, 27) + b"\0" * 33)                        # ignored trade message
+    m.append(add(2, 28, 2**64 - 5, b"S", 7, "MSFT", 1000100))      # full 64-bit order reference
     m.append(hdr("S", 0, 30) + b"C")                               # end of messages
     m.append(add(1, 31, 103, b"B", 1, "AAPL", 1500000))            # after end: not converted
     with gzip.open(path, "wb") as f:
@@ -60,12 +61,13 @@ def test_itch_conversion(tmp_path):
     src = tmp_path / "sample.itch.gz"
     build_file(src)
     c = count(str(src), None)
-    assert c["length_mismatches"] == 0 and c["messages"] == 18
+    assert c["length_mismatches"] == 0 and c["messages"] == 19
     meta = convert(src, ["AAPL", "MSFT"], None, tmp_path / "ds", "2019-01-30")
     msgs = P.read_msgs(tmp_path / "ds" / "feed.bin")
     types = "".join(chr(t) for t in msgs["type"])
     # S(open AAPL) A A S(open MSFT) A E E M X A X S(HALT) S(OPEN) H(END)
-    assert types == "SAASAEEMXAXSSH", types
+    assert types == "SAASAEEMXAXSSAH", types
+    assert int(msgs["order_id"][-2]) == 2**64 - 5
     assert (np.diff(msgs["seq"].astype(np.int64)) == 1).all()
     a = msgs[msgs["type"] == P.T_ADD]
     assert list(a["price"][:2]) == [150000, 150010]               # 1 cent = 10 units

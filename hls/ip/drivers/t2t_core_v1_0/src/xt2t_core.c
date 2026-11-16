@@ -677,3 +677,23 @@ u32 XT2t_core_Get_pos7_vld(XT2t_core *InstancePtr) {
     return Data & 0x1;
 }
 
+u32 XT2t_core_Get_err_framing(XT2t_core *InstancePtr) {
+    u32 Data;
+
+    Xil_AssertNonvoid(InstancePtr != NULL);
+    Xil_AssertNonvoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
+
+    Data = XT2t_core_ReadReg(InstancePtr->Ctrl_BaseAddress, XT2T_CORE_CTRL_ADDR_ERR_FRAMING_DATA);
+    return Data;
+}
+
+u32 XT2t_core_Get_err_framing_vld(XT2t_core *InstancePtr) {
+    u32 Data;
+
+    Xil_AssertNonvoid(InstancePtr != NULL);
+    Xil_AssertNonvoid(InstancePtr->IsReady == XIL_COMPONENT_IS_READY);
+
+    Data = XT2t_core_ReadReg(InstancePtr->Ctrl_BaseAddress, XT2T_CORE_CTRL_ADDR_ERR_FRAMING_CTRL);
+    return Data & 0x1;
+}
+

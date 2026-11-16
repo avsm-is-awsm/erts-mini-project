@@ -14,6 +14,9 @@ and `dk1proto.hpp` (C++98 PODs + pack/unpack to 4 × `uint64_t`). The round-trip
 * `ord_out` TLAST is set only on the last beat of `'Z'`. `dbg_out` TLAST is set on the last beat
   of `'Z'` and of every 131 072nd `'B'` record (4 MB DMA packets, DECISIONS D-30).
 
+* If TLAST arrives before the fourth beat of a message, the IP drops the fragment, counts it in
+  the AXI-Lite counter `err_framing`, and starts the next message on the next beat (D-34).
+
 ## Units
 
 | Quantity | Type | Unit |

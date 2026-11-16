@@ -76,6 +76,9 @@ def main(argv=None) -> int:
         # script with a valid revision and re-run it (DECISIONS D-19).
         ipdir = sol / "impl" / "ip"
         pk = ipdir / "run_ippack.tcl"
+        if not pk.exists():
+            print("[hls] FAILED: IP packaging script was not generated (see log)")
+            return 1
         src = pk.read_text()
         rev = time.strftime("%y%m%d")
         src = re.sub(r'set Revision\s+"\d+"', f'set Revision    "{rev}"', src)
@@ -119,6 +122,23 @@ def main(argv=None) -> int:
     if any(ln.startswith("ERROR") for ln in errs) or "Synthesis failed" in text:
         print("[hls] FAILED (see log)")
         rc = rc or 1
+    # design gates: the schedule must keep II = 4 and the OOC run must meet timing
+    crpt = rep / "t2t_core_csynth.rpt"
+    if crpt.exists():
+        m = re.search(r"Latency.*?\|\s*min\s*\|\s*max\s*\|\s*min\s*\|\s*max\s*\|.*?\n.*?\|\s*(\d+)\|\s*(\d+)\|\s*(\d+)\|\s*(\d+)\|",
+                      crpt.read_text(errors="replace"), re.S)
+        if m:
+            ii = int(m.group(4))
+            print(f"[hls] II = {ii}, pipeline latency = {m.group(2)} cycles")
+            if ii > 4 and "T2T_COSIM" not in text:
+                print("[hls] FAILED: II > 4 (line rate lost)")
+                rc = rc or 1
+    osum = rep / "ooc_summary.txt"
+    if "impl" in a.steps and osum.exists():
+        m = re.search(r"wns_ns\s+(-?[\d.]+)", osum.read_text())
+        if m and float(m.group(1)) < 0:
+            print(f"[hls] FAILED: OOC timing not met (WNS {m.group(1)} ns)")
+            rc = rc or 1
     if "cosim" in a.steps:
         ok = "*** C/RTL co-simulation finished: PASS ***" in text
         print(f"[hls] cosim {'PASS' if ok else 'FAIL'}")

@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2017.2 (win64) Build 1909853 Thu Jun 15 18:39:09 MDT 2017
-| Date             : Thu Nov  5 13:50:27 2026
+| Date             : Mon Nov 16 10:32:29 2026
 | Host             : Ajay_Asus_G16 running 64-bit major release  (build 9200)
 | Command          : report_power -file C:/Users/smajv/AppData/Local/dk1-t2t-build/hw/work/reports/power.rpt
 | Design           : system_wrapper
@@ -31,7 +31,7 @@ Table of Contents
 
 +--------------------------+--------+
 | Total On-Chip Power (W)  | 1.749  |
-| Dynamic (W)              | 1.617  |
+| Dynamic (W)              | 1.618  |
 | Device Static (W)        | 0.131  |
 | Effective TJA (C/W)      | 11.5   |
 | Max Ambient (C)          | 64.8   |
@@ -49,17 +49,17 @@ Table of Contents
 +--------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
-| Clocks                   |     0.028 |        3 |       --- |             --- |
-| Slice Logic              |     0.006 |    29695 |       --- |             --- |
-|   LUT as Logic           |     0.005 |     9581 |     17600 |           54.44 |
-|   CARRY4                 |    <0.001 |      719 |      4400 |           16.34 |
-|   Register               |    <0.001 |    14993 |     35200 |           42.59 |
+| Clocks                   |     0.029 |        3 |       --- |             --- |
+| Slice Logic              |     0.006 |    29807 |       --- |             --- |
+|   LUT as Logic           |     0.005 |     9289 |     17600 |           52.78 |
+|   CARRY4                 |    <0.001 |      728 |      4400 |           16.55 |
+|   Register               |    <0.001 |    15123 |     35200 |           42.96 |
+|   F7/F8 Muxes            |    <0.001 |      118 |     17600 |            0.67 |
 |   LUT as Distributed RAM |    <0.001 |      778 |      6000 |           12.97 |
-|   F7/F8 Muxes            |    <0.001 |      105 |     17600 |            0.60 |
-|   LUT as Shift Register  |    <0.001 |      400 |      6000 |            6.67 |
-|   Others                 |     0.000 |      659 |       --- |             --- |
-| Signals                  |     0.012 |    23050 |       --- |             --- |
-| Block RAM                |     0.009 |     36.5 |        60 |           60.83 |
+|   LUT as Shift Register  |    <0.001 |      405 |      6000 |            6.75 |
+|   Others                 |     0.000 |      658 |       --- |             --- |
+| Signals                  |     0.009 |    23085 |       --- |             --- |
+| Block RAM                |     0.011 |     36.5 |        60 |           60.83 |
 | DSPs                     |     0.001 |        3 |        80 |            3.75 |
 | PS7                      |     1.561 |        1 |       --- |             --- |
 | Static Power             |     0.131 |          |           |                 |
@@ -73,7 +73,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.064 |       0.056 |      0.009 |
+| Vccint    |       1.000 |     0.065 |       0.056 |      0.009 |
 | Vccaux    |       1.800 |     0.012 |       0.000 |      0.012 |
 | Vcco33    |       3.300 |     0.000 |       0.000 |      0.000 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
@@ -82,7 +82,7 @@ Table of Contents
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |
 | Vccaux_io |       1.800 |     0.000 |       0.000 |      0.000 |
-| Vccbram   |       1.000 |     0.003 |       0.001 |      0.003 |
+| Vccbram   |       1.000 |     0.004 |       0.001 |      0.003 |
 | MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |
 | MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |
 | MGTVccaux |       1.800 |     0.000 |       0.000 |      0.000 |
@@ -425,10 +425,10 @@ Table of Contents
 |           REG_HRD_RST                                                                                                                                                                                                                            |    <0.001 |
 |           REG_HRD_RST_OUT                                                                                                                                                                                                                        |    <0.001 |
 |     axi_ic_hp0                                                                                                                                                                                                                                   |     0.002 |
-|       m00_couplers                                                                                                                                                                                                                               |    <0.001 |
-|         auto_pc                                                                                                                                                                                                                                  |    <0.001 |
-|           inst                                                                                                                                                                                                                                   |    <0.001 |
-|             gen_axi4_axi3.axi3_conv_inst                                                                                                                                                                                                         |    <0.001 |
+|       m00_couplers                                                                                                                                                                                                                               |     0.001 |
+|         auto_pc                                                                                                                                                                                                                                  |     0.001 |
+|           inst                                                                                                                                                                                                                                   |     0.001 |
+|             gen_axi4_axi3.axi3_conv_inst                                                                                                                                                                                                         |     0.001 |
 |               USE_READ.USE_SPLIT_R.read_addr_inst                                                                                                                                                                                                |    <0.001 |
 |                 USE_R_CHANNEL.cmd_queue                                                                                                                                                                                                          |    <0.001 |
 |                   inst                                                                                                                                                                                                                           |    <0.001 |
@@ -564,7 +564,7 @@ Table of Contents
 |       xbar                                                                                                                                                                                                                                       |     0.001 |
 |         inst                                                                                                                                                                                                                                     |     0.001 |
 |           gen_sasd.crossbar_sasd_0                                                                                                                                                                                                               |     0.001 |
-|             addr_arbiter_inst                                                                                                                                                                                                                    |    <0.001 |
+|             addr_arbiter_inst                                                                                                                                                                                                                    |     0.001 |
 |             gen_decerr.decerr_slave_inst                                                                                                                                                                                                         |    <0.001 |
 |             reg_slice_r                                                                                                                                                                                                                          |    <0.001 |
 |             splitter_ar                                                                                                                                                                                                                          |    <0.001 |
@@ -575,8 +575,8 @@ Table of Contents
 |           ACTIVE_LOW_EXT.ACT_LO_EXT                                                                                                                                                                                                              |    <0.001 |
 |         SEQ                                                                                                                                                                                                                                      |    <0.001 |
 |           SEQ_COUNTER                                                                                                                                                                                                                            |    <0.001 |
-|     t2t_core_0                                                                                                                                                                                                                                   |     0.037 |
-|       inst                                                                                                                                                                                                                                       |     0.037 |
+|     t2t_core_0                                                                                                                                                                                                                                   |     0.036 |
+|       inst                                                                                                                                                                                                                                       |     0.036 |
 |         st_anchor_U                                                                                                                                                                                                                              |    <0.001 |
 |           t2t_core_st_anchor_ram_U                                                                                                                                                                                                               |    <0.001 |
 |             ram_reg_0_7_0_5                                                                                                                                                                                                                      |    <0.001 |
@@ -801,8 +801,8 @@ Table of Contents
 |             ram_reg_0_7_24_29                                                                                                                                                                                                                    |    <0.001 |
 |             ram_reg_0_7_30_31                                                                                                                                                                                                                    |    <0.001 |
 |             ram_reg_0_7_6_11                                                                                                                                                                                                                     |    <0.001 |
-|         st_lq_U                                                                                                                                                                                                                                  |     0.005 |
-|           t2t_core_st_lq_ram_U                                                                                                                                                                                                                   |     0.005 |
+|         st_lq_U                                                                                                                                                                                                                                  |     0.007 |
+|           t2t_core_st_lq_ram_U                                                                                                                                                                                                                   |     0.007 |
 |         st_pos_U                                                                                                                                                                                                                                 |    <0.001 |
 |           t2t_core_st_anchor_ram_U                                                                                                                                                                                                               |    <0.001 |
 |             ram_reg_0_7_0_5                                                                                                                                                                                                                      |    <0.001 |

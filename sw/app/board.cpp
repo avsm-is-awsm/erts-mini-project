@@ -50,6 +50,11 @@ uint32_t XilDmaChannel::transferred() {
     return XAxiDma_ReadReg(dma_.raw()->RegBase, base + XAXIDMA_BUFFLEN_OFFSET);
 }
 
+bool XilDmaChannel::error() {
+    const uint32_t base = (dir_ == XAXIDMA_DEVICE_TO_DMA) ? XAXIDMA_RX_OFFSET : XAXIDMA_TX_OFFSET;
+    return (XAxiDma_ReadReg(dma_.raw()->RegBase, base + XAXIDMA_SR_OFFSET) & XAXIDMA_ERR_ALL_MASK) != 0;
+}
+
 void XilDmaChannel::reset() {
     started_ = false;
     if (owns_) dma_.reset();  // XAxiDma_Reset resets both directions of the engine

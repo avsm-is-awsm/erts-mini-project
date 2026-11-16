@@ -20,8 +20,7 @@ enum : uint32_t {
     MAX_MSGS    = IN_BUF_SIZE / 32u,
     MAX_DBG_MSGS = DBG_BUF_SIZE / 32u - 1u,
     // AXI DMA v7.1 (Vivado 2017.2): 23-bit length register -> < 8 MB per transfer (D-29)
-    DMA_CHUNK   = 0x00400000u,                               // 4 MB per MM2S transfer
-    DBG_PKT_BYTES = 131072u * 32u                            // = t2t::DBG_PKT records (D-30)
+    DMA_CHUNK   = 0x00400000u                                // 4 MB per MM2S transfer (multiple of 32)
 };
 
 // ---------------------------------------------------------------- register access (Hardware Proxy)
@@ -40,6 +39,7 @@ public:
     virtual bool busy() = 0;
     virtual uint32_t transferred() = 0;                   // S2MM: bytes received (until TLAST)
     virtual void reset() = 0;
+    virtual bool error() { return false; }                // DMA status error bits (decode/slave/internal)
 };
 
 // ---------------------------------------------------------------- data cache maintenance

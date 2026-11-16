@@ -42,7 +42,6 @@ inline bool parse_config_kv(const char* text, t2t::Config& c) {
             else if (!strcmp(key, "min_gap_ns")) c.min_gap_ns = (uint32_t)v;
             else if (!strcmp(key, "max_orders")) c.max_orders = (uint32_t)v;
             else if (!strcmp(key, "lockout_ms")) c.lockout_ms = (uint32_t)v;
-            else any = any;  // unknown keys ignored
         }
         p = (*nl) ? nl + 1 : nl;
     }
@@ -65,6 +64,17 @@ public:
         if (n == 0 || (n % 32) != 0) return "feed.bin size is not a positive multiple of 32";
         if ((uint32_t)n >= IN_BUF_SIZE) return "feed.bin larger than the DDR input buffer (6 M msgs)";
         ds.n_msgs = (uint32_t)(n / 32);
+        // The session protocol needs exactly one END_OF_SESSION, as the last message: the 'Z'
+        // record it produces carries the TLAST that completes the order S2MM transfer.  Without
+        // it a hardware run would time out; with an early one the rest of the orders would stall.
+        const uint8_t* last = ds.data + 32u * (ds.n_msgs - 1);
+        if (last[0] != dk1::T_HB || (last[1] & dk1::FLAG_END) == 0)
+            return "feed.bin does not end with H(END_OF_SESSION)";
+        for (uint32_t i = 0; i + 1 < ds.n_msgs; ++i) {
+            const uint8_t* m = ds.data + 32u * i;
+            if (m[0] == dk1::T_HB && (m[1] & dk1::FLAG_END) != 0)
+                return "feed.bin has END_OF_SESSION before its last message";
+        }
         ds.cfg = t2t::default_config();
         char kv[1024];
         snprintf(path, sizeof(path), "%s/config.txt", dir);

@@ -22,20 +22,23 @@ build steps.
 
 | Metric | Value |
 |---|---|
-| Timing @ 100 MHz | **met**: WNS **+0.584 ns**, WHS +0.007 ns (post-route, whole system) |
-| Slice LUTs | 10 759 / 17 600 (**61.1 %**) |
-| Slice registers | 14 993 / 35 200 (42.6 %) |
+| Timing @ 100 MHz | **met**: WNS **+0.969 ns**, WHS +0.017 ns (post-route, whole system) |
+| Slice LUTs | 10 472 / 17 600 (**59.5 %**) |
+| Slice registers | 15 123 / 35 200 (43.0 %) |
 | Block RAM tiles | 36.5 / 60 (**60.8 %**) |
 | DSPs | 3 / 80 |
-| Build time | 6.5 min (synthesis + implementation + bitstream, 6 jobs) |
+| Build time | about 7 min (synthesis + implementation + bitstream, 6 jobs) |
 
 Outputs: `hw/dk1_t2t.bit`, `hw/dk1_t2t.hdf` (SDK 2017.2 hardware handoff; Vitis would use .xsa),
 `hw/address_map.txt`, `hw/system_bd_export.tcl`.
 
+The build fails (and publishes no bitstream) if timing is not met. A sub-run that hangs at
+Vivado start-up is killed by the build driver and launched again (D-40).
+
 ## PS application (`sw/`, `make sw`)
 
 Built with xsct / SDK 2017.2 against the HDF: standalone BSP + `xilffs`, C++ application
-`t2t_app.elf` (text 207 KB, bss 164 KB). UART CLI at 115 200 baud:
+`t2t_app.elf` (text 272 KB, bss 673 KB; FatFs with long file names, 256 KB stack and heap). UART CLI at 115 200 baud:
 
 ```
 t2t> ls

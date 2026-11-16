@@ -37,6 +37,7 @@
 #define T2T_REG_POS5               0x108u
 #define T2T_REG_POS6               0x110u
 #define T2T_REG_POS7               0x118u
+#define T2T_REG_ERR_FRAMING        0x120u
 
 #define T2T_N_POS_REGS 8
 #define T2T_REG_POS(p) (T2T_REG_POS0 + 8u * (unsigned)(p))

@@ -45,7 +45,11 @@ def main() -> int:
     rc = run_tool([xsct, (ws / "build_sdk.tcl").as_posix(), ws.as_posix(), (ws / "dk1_t2t.hdf").as_posix()], ws, log)
     text = log.read_text(errors="replace")
     elf = list((ws / "t2t_app").rglob("t2t_app.elf"))
-    ok = "SDK_BUILD_DONE" in text and bool(elf)
+    ffconf = list((ws / "bsp0").rglob("xparameters.h"))
+    lfn = any("FILE_SYSTEM_USE_LFN" in f.read_text(errors="replace") for f in ffconf)
+    if not lfn:
+        print("[sdk] ERROR: BSP built without FatFs long-file-name support (use_lfn)")
+    ok = "SDK_BUILD_DONE" in text and bool(elf) and lfn
     print(f"[sdk] exit {rc} after {time.time() - t0:.0f} s: {'OK' if ok else 'FAILED'}")
     for ln in [x for x in text.splitlines() if " error" in x.lower() or x.startswith("ERROR")][:20]:
         print("  " + ln)

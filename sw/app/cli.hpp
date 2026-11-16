@@ -138,7 +138,10 @@ inline bool cfg_set(t2t::Config& c, const char* k, long long v) {
 inline void CmdCfg::execute(Cli& cli, int argc, char** argv) {
     t2t::Config& c = cli.ctx().session->config();
     if (argc >= 4 && !strcmp(argv[1], "set")) {
-        if (!cfg_set(c, argv[2], strtoll(argv[3], 0, 0))) { cli.out()("unknown key %s\r\n", argv[2]); return; }
+        char* end = 0;
+        const long long val = strtoll(argv[3], &end, 0);
+        if (end == argv[3] || *end != 0) { cli.out()("'%s' is not a number\r\n", argv[3]); return; }
+        if (!cfg_set(c, argv[2], val)) { cli.out()("unknown key %s\r\n", argv[2]); return; }
         cli.ctx().session->configure();
         return;
     }
@@ -154,11 +157,19 @@ inline void CmdRun::execute(Cli& cli, int argc, char** argv) {
     const char* which = argc > 1 ? argv[1] : "both";
     CliContext& x = cli.ctx();
     if (!x.session->dataset().loaded) { cli.out()("load a dataset first\r\n"); return; }
-    if (!strcmp(which, "hw") || !strcmp(which, "both")) {
+    const bool hw = !strcmp(which, "hw") || !strcmp(which, "both");
+    const bool sw = !strcmp(which, "sw") || !strcmp(which, "both");
+    if (!hw && !sw) { cli.out()("usage: run hw|sw|both\r\n"); return; }
+    if (x.session->state() == S_ERROR) x.session->reset();  // a loaded dataset stays usable
+    if (hw) {
         if (!x.hw) cli.out()("no hardware engine\r\n");
-        else x.session->run(*x.hw, *x.last);
+        else if (!x.session->run(*x.hw, *x.last)) {
+            cli.out()("hw run FAILED: %s\r\n", x.last->error[0] ? x.last->error : "session not ready");
+            x.session->reset();  // so that 'both' still runs the software baseline
+        }
     }
-    if (!strcmp(which, "sw") || !strcmp(which, "both")) x.session->run(*x.sw, *x.last);
+    if (sw && !x.session->run(*x.sw, *x.last))
+        cli.out()("sw run FAILED: %s\r\n", x.last->error[0] ? x.last->error : "session not ready");
 }
 
 inline void CmdStats::execute(Cli& cli, int, char**) {

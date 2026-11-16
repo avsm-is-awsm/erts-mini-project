@@ -1,2 +1,2 @@
-wns_ns 0.584
-whs_ns 0.007
+wns_ns 0.969
+whs_ns 0.017

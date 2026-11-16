@@ -155,14 +155,15 @@ def convert(path: Path, symbols: list[str], max_messages: int | None, out: Path,
     n = len(rows) + 1
     msgs = np.zeros(n, dtype=P.MSG_DTYPE)
     if rows:
-        a = np.array(rows, dtype=np.int64)
-        msgs["type"][:-1] = a[:, 0]
-        msgs["flags"][:-1] = a[:, 1]
-        msgs["product"][:-1] = a[:, 2]
-        msgs["ts_ns"][:-1] = a[:, 3].astype(np.uint64)
-        msgs["order_id"][:-1] = np.array([r[4] for r in rows], dtype=np.uint64)
-        msgs["price"][:-1] = np.clip(a[:, 5], -(2**31), 2**31 - 1)
-        msgs["qty"][:-1] = a[:, 6]
+        # column-wise: order references are full uint64 and do not fit an int64 matrix
+        col = list(zip(*rows))
+        msgs["type"][:-1] = col[0]
+        msgs["flags"][:-1] = col[1]
+        msgs["product"][:-1] = col[2]
+        msgs["ts_ns"][:-1] = np.array(col[3], dtype=np.uint64)
+        msgs["order_id"][:-1] = np.array(col[4], dtype=np.uint64)
+        msgs["price"][:-1] = np.clip(np.array(col[5], dtype=np.int64), -(2**31), 2**31 - 1)
+        msgs["qty"][:-1] = np.array(col[6], dtype=np.uint64) & np.uint64(0xFFFFFFFF)
     msgs["type"][-1] = P.T_HB
     msgs["flags"][-1] = P.FLAG_END
     msgs["ts_ns"][-1] = (msgs["ts_ns"][-2] + 1) if n > 1 else day0

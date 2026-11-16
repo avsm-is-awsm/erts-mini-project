@@ -92,7 +92,9 @@ module t2t_core_ctrl_s_axi
     input  wire [31:0]                   pos6,
     input  wire                          pos6_ap_vld,
     input  wire [31:0]                   pos7,
-    input  wire                          pos7_ap_vld
+    input  wire                          pos7_ap_vld,
+    input  wire [31:0]                   err_framing,
+    input  wire                          err_framing_ap_vld
 );
 //------------------------Address Info-------------------
 // 0x000 : reserved
@@ -253,6 +255,11 @@ module t2t_core_ctrl_s_axi
 // 0x11c : Control signal of pos7
 //         bit 0  - pos7_ap_vld (Read/COR)
 //         others - reserved
+// 0x120 : Data signal of err_framing
+//         bit 31~0 - err_framing[31:0] (Read)
+// 0x124 : Control signal of err_framing
+//         bit 0  - err_framing_ap_vld (Read/COR)
+//         others - reserved
 // (SC = Self Clear, COR = Clear on Read, TOW = Toggle on Write, COH = Clear on Handshake)
 
 //------------------------Parameter----------------------
@@ -325,6 +332,8 @@ localparam
     ADDR_POS6_CTRL               = 9'h114,
     ADDR_POS7_DATA_0             = 9'h118,
     ADDR_POS7_CTRL               = 9'h11c,
+    ADDR_ERR_FRAMING_DATA_0      = 9'h120,
+    ADDR_ERR_FRAMING_CTRL        = 9'h124,
     WRIDLE                       = 2'd0,
     WRDATA                       = 2'd1,
     WRRESP                       = 2'd2,
@@ -407,6 +416,8 @@ localparam
     reg                           int_pos6_ap_vld;
     reg  [31:0]                   int_pos7 = 'b0;
     reg                           int_pos7_ap_vld;
+    reg  [31:0]                   int_err_framing = 'b0;
+    reg                           int_err_framing_ap_vld;
 
 //------------------------Instantiation------------------
 
@@ -677,6 +688,12 @@ always @(posedge ACLK) begin
                 end
                 ADDR_POS7_CTRL: begin
                     rdata[0] <= int_pos7_ap_vld;
+                end
+                ADDR_ERR_FRAMING_DATA_0: begin
+                    rdata <= int_err_framing[31:0];
+                end
+                ADDR_ERR_FRAMING_CTRL: begin
+                    rdata[0] <= int_err_framing_ap_vld;
                 end
             endcase
         end
@@ -1342,6 +1359,28 @@ always @(posedge ACLK) begin
             int_pos7_ap_vld <= 1'b1;
         else if (ar_hs && raddr == ADDR_POS7_CTRL)
             int_pos7_ap_vld <= 1'b0; // clear on read
+    end
+end
+
+// int_err_framing
+always @(posedge ACLK) begin
+    if (ARESET)
+        int_err_framing <= 0;
+    else if (ACLK_EN) begin
+        if (err_framing_ap_vld)
+            int_err_framing <= err_framing;
+    end
+end
+
+// int_err_framing_ap_vld
+always @(posedge ACLK) begin
+    if (ARESET)
+        int_err_framing_ap_vld <= 1'b0;
+    else if (ACLK_EN) begin
+        if (err_framing_ap_vld)
+            int_err_framing_ap_vld <= 1'b1;
+        else if (ar_hs && raddr == ADDR_ERR_FRAMING_CTRL)
+            int_err_framing_ap_vld <= 1'b0; // clear on read
     end
 end
 

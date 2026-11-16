@@ -162,11 +162,34 @@ update_compile_order -fileset sources_1
 
 if {$nobit} { puts "BD_ONLY_DONE"; exit 0 }
 
-launch_runs synth_1 -jobs $jobs
-wait_on_run synth_1
-launch_runs impl_1 -to_step write_bitstream -jobs $jobs
-wait_on_run impl_1
-if {[get_property PROGRESS [get_runs impl_1]] != "100%"} {
+# A launched run can die (Vivado 2017.2 sometimes hangs at start-up of a sub-run; the build
+# driver's watchdog then kills it, DECISIONS D-40).  Failed runs are reset and launched again,
+# at most three times, and each stage is checked before the next one starts.
+proc run_stage {run jobs to_step} {
+    for {set try 1} {$try <= 3} {incr try} {
+        if {$to_step ne ""} {
+            launch_runs $run -to_step $to_step -jobs $jobs
+        } else {
+            launch_runs $run -jobs $jobs
+        }
+        catch {wait_on_run $run}
+        if {[get_property PROGRESS [get_runs $run]] == "100%"} { return 1 }
+        puts "WARNING: run $run incomplete after attempt $try ([get_property STATUS [get_runs $run]])"
+        foreach r [get_runs] {
+            if {$r eq "impl_1" && $run ne "impl_1"} { continue }
+            if {[get_property PROGRESS $r] != "100%"} {
+                puts "WARNING: resetting run $r"
+                catch {reset_run $r}
+            }
+        }
+    }
+    return 0
+}
+if {![run_stage synth_1 $jobs ""]} {
+    puts "ERROR: synthesis did not complete"
+    exit 1
+}
+if {![run_stage impl_1 $jobs write_bitstream]} {
     puts "ERROR: implementation did not complete"
     exit 1
 }
@@ -186,5 +209,9 @@ file copy -force [glob $work/vivado/dk1_t2t.runs/impl_1/system_wrapper.bit] $wor
 # SDK 2017.2 hardware handoff (.hdf; Vitis 2019.2+ uses .xsa, DECISIONS D-29)
 write_hwdef -force -file $work/dk1_t2t.hdf
 write_sysdef -force -hwdef $work/dk1_t2t.hdf -bitfile $work/dk1_t2t.bit -file $work/dk1_t2t.sysdef
+if {$wns < 0 || $whs < 0} {
+    puts "ERROR: timing not met (WNS $wns ns, WHS $whs ns); bitstream kept in $work for inspection only"
+    exit 1
+}
 puts "BUILD_DONE wns=$wns whs=$whs"
 exit 0

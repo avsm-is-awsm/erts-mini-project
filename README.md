@@ -26,9 +26,9 @@ cycle-accurate RTL simulation of the exported IP plus the timestamp probes.
 | Latency jitter (no backpressure) | 0 cycles | RTL system simulation |
 | Sustained input rate | 1 msg / 4 cycles = **25 M msg/s** (II = 4) | HLS schedule + RTL simulation |
 | Software baseline (Cortex-A9) p50 / p99 | NEEDS-USER (board); SystemC assumes ~1.05 µs | `sw/app` SwEngine |
-| Clock / timing | 100 MHz, **met post-route** (WNS +0.584 ns whole system) | Vivado 2017.2 |
-| Resources (whole system, XC7Z010) | **61.1 % LUT, 60.8 % BRAM**, 42.6 % FF, 3 DSP | Vivado post-route |
-| IP alone (OOC post-route) | 6 574 LUT, 32 BRAM36, WNS +1.43 ns | Vivado OOC |
+| Clock / timing | 100 MHz, **met post-route** (WNS +0.969 ns whole system) | Vivado 2017.2 |
+| Resources (whole system, XC7Z010) | **59.5 % LUT, 60.8 % BRAM**, 43.0 % FF, 3 DSP | Vivado post-route |
+| IP alone (OOC post-route) | 6 333 LUT, 32 BRAM36, WNS +1.67 ns | Vivado OOC |
 | Correctness | bit-exact vs golden on all 10 datasets (csim), cosim, RTL system sim; 12 000 random sequences Python ↔ C++ | tests |
 
 ![latency sensitivity](docs/img/pnl_vs_latency_day_default.png)

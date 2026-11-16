@@ -149,6 +149,8 @@ u32 XT2t_core_Get_pos6(XT2t_core *InstancePtr);
 u32 XT2t_core_Get_pos6_vld(XT2t_core *InstancePtr);
 u32 XT2t_core_Get_pos7(XT2t_core *InstancePtr);
 u32 XT2t_core_Get_pos7_vld(XT2t_core *InstancePtr);
+u32 XT2t_core_Get_err_framing(XT2t_core *InstancePtr);
+u32 XT2t_core_Get_err_framing_vld(XT2t_core *InstancePtr);
 
 #ifdef __cplusplus
 }

@@ -24,7 +24,7 @@
 struct Regs {
     uint32_t status, msgs_in, orders_out, rejects, err_unknown_type, err_bad_product,
         err_not_found, err_table_full, err_dup_id, err_oow, err_grid, err_seq_gap, err_qty_over,
-        err_anchor, err_bad_state, last_seq, first_t_in, last_t_in;
+        err_anchor, err_bad_state, last_seq, first_t_in, last_t_in, err_framing;
     int32_t pos[8];
 };
 
@@ -36,7 +36,7 @@ static void call_core(hls::stream<axis_in_t>& in, hls::stream<axis_out_t>& ord,
              &r.err_dup_id, &r.err_oow, &r.err_grid, &r.err_seq_gap, &r.err_qty_over,
              &r.err_anchor, &r.err_bad_state, &r.last_seq, &r.first_t_in, &r.last_t_in,
              &r.pos[0], &r.pos[1], &r.pos[2], &r.pos[3], &r.pos[4], &r.pos[5], &r.pos[6],
-             &r.pos[7]);
+             &r.pos[7], &r.err_framing);
 }
 
 static void drain(hls::stream<axis_out_t>& s, std::vector<uint8_t>& buf, long& lasts) {
@@ -155,6 +155,10 @@ int main(int argc, char** argv) {
     if (!compared) {
         printf("tb_t2t: no golden files found in %s (run make ref first)\n", dir.c_str());
         return 4;
+    }
+    if (r.err_framing != 0) {
+        printf("tb_t2t: unexpected err_framing = %u\n", r.err_framing);
+        bad++;
     }
     printf("tb_t2t: %s (%ld mismatching items)\n", bad ? "FAIL" : "PASS", bad);
     return bad ? 1 : 0;

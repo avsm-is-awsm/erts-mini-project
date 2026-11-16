@@ -12,6 +12,7 @@ namespace app {
 struct HwCounters {
     t2t::Counters c;
     int32_t pos[t2t::P_MAX];
+    uint32_t err_framing;  // truncated messages dropped by the IP top (D-34)
 };
 
 class T2tProxy {
@@ -61,6 +62,7 @@ public:
         c.first_t_in = bus_.read32(T2T_REG_FIRST_T_IN);
         c.last_t_in = bus_.read32(T2T_REG_LAST_T_IN);
         for (int p = 0; p < t2t::P_MAX; ++p) h.pos[p] = (int32_t)bus_.read32(T2T_REG_POS(p));
+        h.err_framing = bus_.read32(T2T_REG_ERR_FRAMING);
         return h;
     }
 

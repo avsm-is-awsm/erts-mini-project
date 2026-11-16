@@ -164,6 +164,11 @@
 // 0x11c : Control signal of pos7
 //         bit 0  - pos7_ap_vld (Read/COR)
 //         others - reserved
+// 0x120 : Data signal of err_framing
+//         bit 31~0 - err_framing[31:0] (Read)
+// 0x124 : Control signal of err_framing
+//         bit 0  - err_framing_ap_vld (Read/COR)
+//         others - reserved
 // (SC = Self Clear, COR = Clear on Read, TOW = Toggle on Write, COH = Clear on Handshake)
 
 #define XT2T_CORE_CTRL_ADDR_CTRL_DATA             0x010
@@ -260,4 +265,7 @@
 #define XT2T_CORE_CTRL_ADDR_POS7_DATA             0x118
 #define XT2T_CORE_CTRL_BITS_POS7_DATA             32
 #define XT2T_CORE_CTRL_ADDR_POS7_CTRL             0x11c
+#define XT2T_CORE_CTRL_ADDR_ERR_FRAMING_DATA      0x120
+#define XT2T_CORE_CTRL_BITS_ERR_FRAMING_DATA      32
+#define XT2T_CORE_CTRL_ADDR_ERR_FRAMING_CTRL      0x124
 

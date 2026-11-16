@@ -26,6 +26,8 @@ void t2t_core(hls::stream<axis_in_t>& md_in, hls::stream<axis_out_t>& ord_out,
               uint32_t* err_anchor, uint32_t* err_bad_state, uint32_t* last_seq,
               uint32_t* first_t_in, uint32_t* last_t_in, int32_t* pos0, int32_t* pos1,
               int32_t* pos2, int32_t* pos3, int32_t* pos4, int32_t* pos5, int32_t* pos6,
-              int32_t* pos7);
+              int32_t* pos7,
+              // transport error: messages cut short by TLAST before beat 3 (dropped, D-34)
+              uint32_t* err_framing);
 
 #endif

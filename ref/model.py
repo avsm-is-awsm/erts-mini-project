@@ -68,18 +68,31 @@ class Config:
     max_orders: int = 1_000_000
     lockout_ms: int = 0
 
+    def validate(self) -> "Config":
+        """Every field must fit its AXI-Lite register (u32, max_pos i32)."""
+        for k, v in asdict(self).items():
+            lo, hi = (-(2**31), 2**31 - 1) if k == "max_pos" else (0, 2**32 - 1)
+            if not isinstance(v, int) or isinstance(v, bool) or not lo <= v <= hi:
+                raise ValueError(f"config {k}={v!r} outside [{lo}, {hi}]")
+        return self
+
     @classmethod
     def load(cls, path: str | Path) -> "Config":
         d = json.loads(Path(path).read_text())
-        return cls(**{k: int(v) for k, v in d.items() if k in cls.__dataclass_fields__})
+        unknown = sorted(set(d) - set(cls.__dataclass_fields__))
+        if unknown:
+            raise ValueError(f"{path}: unknown config keys {unknown}")
+        return cls(**{k: int(v) for k, v in d.items()}).validate()
 
     def save(self, path: str | Path) -> None:
+        self.validate()
         Path(path).write_text(json.dumps(asdict(self), indent=2) + "\n")
         # tiny key=value companion for the bare-metal DatasetLoader (sw/app)
         kv = "".join(f"{k}={v}\n" for k, v in asdict(self).items())
         Path(path).with_suffix(".txt").write_text(kv)
 
     def as_array(self) -> np.ndarray:
+        self.validate()
         return np.array([self.ctrl, self.clip_qty, self.max_order_qty, self.max_pos, self.collar,
                          self.min_gap_ns, self.max_orders, self.lockout_ms], dtype=np.int64)
 

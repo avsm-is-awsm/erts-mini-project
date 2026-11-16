@@ -9,8 +9,11 @@ from __future__ import annotations
 
 import os
 import shutil
+import re
 import subprocess
 import sys
+import threading
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -67,7 +70,50 @@ def stage(rel_paths: list[str], dst_root: Path, patterns=("*",)) -> None:
 _SHELL_VARS = ("PWD", "OLDPWD", "SHELL", "SHLVL", "MSYSTEM", "TERM", "EXEPATH", "_")
 
 
-def run_tool(cmd: list[str], cwd: Path, log: Path, env: dict | None = None) -> int:
+HANG_SECS = float(os.environ.get("T2T_RUN_HANG_SECS", "240"))
+
+
+def kill_hung_runs(watch: Path, done: set, now: float | None = None) -> list[str]:
+    """Kill Vivado sub-runs that started but never produced any log output.
+
+    Vivado 2017.2 on Windows sometimes hangs while a launched run (out-of-context synthesis,
+    synth_1, impl_1) is starting: the child process sits at ~10 MB, runme.log holds only the
+    two-line launcher header, and wait_on_run blocks forever (DECISIONS D-40).  A run counts as
+    hung when its .vivado.begin.rst is older than HANG_SECS, it has no end/error marker and
+    runme.log is still only the header.  Killing the process tree makes the run fail, and
+    build_bd.tcl relaunches it.  Returns the names of the runs killed.
+    """
+    now = time.time() if now is None else now
+    killed = []
+    for begin in Path(watch).glob("**/*.runs/*/.vivado.begin.rst"):
+        d = begin.parent
+        try:
+            if (d / ".vivado.end.rst").exists() or (d / ".vivado.error.rst").exists():
+                continue
+            if now - begin.stat().st_mtime < HANG_SECS:
+                continue
+            rl = d / "runme.log"
+            if rl.exists() and rl.stat().st_size > 400:
+                continue
+            m = re.search(r'Pid="(\d+)"', begin.read_text(errors="replace"))
+        except OSError:
+            continue  # the run directory is being reset
+        if not m or (str(d), m.group(1)) in done:
+            continue
+        done.add((str(d), m.group(1)))
+        if sys.platform == "win32":
+            subprocess.run(["taskkill", "/F", "/T", "/PID", m.group(1)], stdin=subprocess.DEVNULL,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        else:
+            subprocess.run(["pkill", "-KILL", "-P", m.group(1)], stdin=subprocess.DEVNULL)
+            subprocess.run(["kill", "-KILL", m.group(1)], stdin=subprocess.DEVNULL)
+        killed.append(d.name)
+    return killed
+
+
+def run_tool(cmd: list[str], cwd: Path, log: Path, env: dict | None = None,
+             watch_runs: Path | None = None) -> int:
+    """Run a Xilinx tool; with watch_runs, kill sub-runs under that directory that hang."""
     e = dict(os.environ)
     if sys.platform == "win32":
         for k in _SHELL_VARS:
@@ -86,8 +132,29 @@ def run_tool(cmd: list[str], cwd: Path, log: Path, env: dict | None = None) -> i
         p = subprocess.Popen([str(c) for c in cmd], cwd=cwd, stdin=subprocess.DEVNULL,
                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=e)
         assert p.stdout is not None
+        stop = threading.Event()
+        lock = threading.Lock()
+
+        def watchdog() -> None:
+            done: set = set()
+            while not stop.wait(15.0):
+                for name in kill_hung_runs(watch_runs, done):
+                    msg = f"[watchdog] run {name} hung at start-up (> {HANG_SECS:.0f} s without output): killed"
+                    print(msg, flush=True)
+                    with lock:
+                        f.write("WARNING: " + msg + "\n")
+                        f.flush()
+
+        th = None
+        if watch_runs is not None:
+            th = threading.Thread(target=watchdog, daemon=True)
+            th.start()
         for raw in iter(p.stdout.readline, b""):
-            f.write(raw.decode("utf-8", errors="replace"))
-            f.flush()
+            with lock:
+                f.write(raw.decode("utf-8", errors="replace"))
+                f.flush()
         p.wait()
+        stop.set()
+        if th is not None:
+            th.join(timeout=20)
     return p.returncode

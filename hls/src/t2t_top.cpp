@@ -34,7 +34,7 @@ void t2t_core(hls::stream<axis_in_t>& md_in, hls::stream<axis_out_t>& ord_out,
               uint32_t* err_qty_over, uint32_t* err_anchor, uint32_t* err_bad_state,
               uint32_t* last_seq, uint32_t* first_t_in, uint32_t* last_t_in, int32_t* pos0,
               int32_t* pos1, int32_t* pos2, int32_t* pos3, int32_t* pos4, int32_t* pos5,
-              int32_t* pos6, int32_t* pos7) {
+              int32_t* pos6, int32_t* pos7, uint32_t* err_framing) {
 #ifdef T2T_COSIM_CTRL_HS
 #pragma HLS INTERFACE s_axilite port=return bundle=ctrl
 #else
@@ -77,6 +77,7 @@ void t2t_core(hls::stream<axis_in_t>& md_in, hls::stream<axis_out_t>& ord_out,
 #pragma HLS INTERFACE s_axilite port=pos5 bundle=ctrl
 #pragma HLS INTERFACE s_axilite port=pos6 bundle=ctrl
 #pragma HLS INTERFACE s_axilite port=pos7 bundle=ctrl
+#pragma HLS INTERFACE s_axilite port=err_framing bundle=ctrl
 #pragma HLS PIPELINE II=4
 
     static t2t::State st;
@@ -109,6 +110,7 @@ void t2t_core(hls::stream<axis_in_t>& md_in, hls::stream<axis_out_t>& ord_out,
     static int32_t pos_shadow[t2t::P_MAX];
 #pragma HLS ARRAY_PARTITION variable=pos_shadow complete
     static uint32_t dbg_cnt = 0;  // records in the current dbg_out packet (D-30)
+    static uint32_t framing_cnt = 0;  // truncated messages dropped (D-34)
     static bool clearing = false;
     static uint32_t clr_i = 0;
     static bool rst_prev = false;
@@ -129,18 +131,27 @@ void t2t_core(hls::stream<axis_in_t>& md_in, hls::stream<axis_out_t>& ord_out,
     const bool do_clear = clearing;
     const bool have_msg = !do_clear && !rst_edge && !md_in.empty();
 
+    // A message is 4 beats.  TLAST before beat 3 means the upstream packet (DMA transfer)
+    // ended inside a message: drop the fragment, count it, and start the next message on the
+    // next beat.  Every DMA transfer ends with TLAST, so a truncated transfer can neither
+    // leave the IP waiting for beats forever nor leave it misaligned (D-34, NFR-ROB-1).
     uint64_t w[4] = {0, 0, 0, 0};
     uint32_t t_in = 0;
+    bool trunc = false;
     if (have_msg) {
     READ_BEATS:
         for (int k = 0; k < 4; ++k) {
-            axis_in_t b = md_in.read();
-            w[k] = b.data;
-            if (k == 0) t_in = (uint32_t)b.user;
+            if (!trunc) {
+                axis_in_t b = md_in.read();
+                w[k] = b.data;
+                if (k == 0) t_in = (uint32_t)b.user;
+                if (k != 3 && b.last != 0) trunc = true;
+            }
         }
     }
+    const bool msg_ok = have_msg && !trunc;
     t2t::Out o;
-    if (do_clear || have_msg) {
+    if (do_clear || msg_ok) {
         t2t::step(do_clear, clr_i, w, t_in, cfg, st, o);
         if (o.ord_valid) write_rec(ord_out, o.ord, o.ord_last);
         if (o.dbg_valid) {
@@ -154,10 +165,12 @@ void t2t_core(hls::stream<axis_in_t>& md_in, hls::stream<axis_out_t>& ord_out,
         clearing = true;
         clr_i = 0;
         dbg_cnt = 0;
+        framing_cnt = 0;
     } else if (do_clear) {
         clearing = (clr_i != (uint32_t)(t2t::CLR_N - 1));
         clr_i++;
     }
+    if (!rst_edge && have_msg && trunc) framing_cnt++;
     rst_prev = rst;
     const uint32_t busy = (rst_edge || clearing) ? 1u : 0u;
 
@@ -187,4 +200,5 @@ void t2t_core(hls::stream<axis_in_t>& md_in, hls::stream<axis_out_t>& ord_out,
     *pos5 = pos_shadow[5];
     *pos6 = pos_shadow[6];
     *pos7 = pos_shadow[7];
+    *err_framing = framing_cnt;
 }

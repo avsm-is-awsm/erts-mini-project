@@ -43,15 +43,20 @@ def compare_dataset(d: Path, orders: str, bbo: str | None, counters: str | None,
     gold_o = P.read_out(d / "golden_orders.bin")
     if no_dbg:
         gold_o = gold_o[gold_o[:, 0] != P.O_REJECT]
-    out["orders"] = compare_records(P.read_out(d / orders), gold_o)
+    got_o = P.read_out(d / orders)
+    out["orders"] = compare_records(got_o, gold_o)
+    # structural sanity independent of the golden files
+    kinds = set(got_o[:, 0].tolist())
+    out["structure"] = dict(
+        equal=bool(len(got_o) and got_o[-1, 0] == P.O_END and (got_o[:, 0] == P.O_END).sum() == 1
+                   and kinds <= {P.O_ORDER, P.O_REJECT, P.O_END}),
+        note="exactly one 'Z', as the last record; only O/R/Z types")
     if bbo and (d / bbo).exists():
         out["bbo"] = compare_records(P.read_out(d / bbo), P.read_out(d / "golden_bbo.bin"))
     if counters and (d / counters).exists():
         got = json.loads((d / counters).read_text())
         gold = json.loads((d / "golden_counters.json").read_text())
         bad = {k: (got.get(k), gold[k]) for k in COUNTERS if got.get(k) != gold[k]}
-        if no_dbg:
-            bad.pop("rejects", None) if got.get("rejects") == gold["rejects"] else None
         if got.get("pos") is not None and got.get("pos") != gold.get("pos"):
             bad["pos"] = (got.get("pos"), gold.get("pos"))
         out["counters"] = dict(equal=not bad, diff=bad)

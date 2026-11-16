@@ -103,7 +103,7 @@ def main(argv=None) -> int:
                 import shutil
 
                 for f in (fo, fb, fc):
-                    if (rd / f).exists():
+                    if (rd / f).exists() and (rd / f).resolve() != (a.dataset / f).resolve():
                         shutil.copy2(rd / f, a.dataset / f)
                 gold = P.as_ord(P.read_out(a.dataset / "golden_orders.bin"))
                 got = P.as_ord(P.read_out(rd / fo))

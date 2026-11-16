@@ -19,6 +19,13 @@ where the mock DMA channels push data through the real HLS top function.
 
 ## Bare-metal specifics
 
+* **BSP:** FatFs is built with long file names (`use_lfn`; off by default in xilffs), because
+  dataset folders and result files are not 8.3 names. Stack and heap are 256 KB each.
+* **Run self-checks (D-36):** the soft reset is verified by reading the counters back, the
+  order stream must end with `'Z'`, DMA error bits are polled, and the IP's message count must
+  equal the dataset size with `err_framing == 0`. A failed check ends the run with a message.
+* **Dataset check (D-35):** `feed.bin` must end with exactly one `H(END_OF_SESSION)`.
+
 * **Memory map** (`platform.hpp`), original ZYBO with 512 MB DDR: input buffer 192 MB at
   0x0200_0000 (≤ 6 M messages), HW order buffer < 8 MB, HW debug buffer 48 MB (1.5 M BBO
   records), SW output buffers. Code, heap and stack stay below 32 MB.
@@ -32,7 +39,7 @@ where the mock DMA channels push data through the real HLS top function.
 
 ## Host unit tests (`make sw-host-test`)
 
-`sw/host_test/test_sw.cpp`, g++ on the PC: 76 checks over `hand_case`, `unit_tiny`,
+`sw/host_test/test_sw.cpp`, g++ on the PC: 99 checks over `hand_case`, `unit_tiny`,
 `cosim_10k`, `edge_errors` and `edge_table_full`. A separate run on `stress_burst` covers
 1.37 M messages and 9 DMA chunks.
 
@@ -40,6 +47,10 @@ where the mock DMA channels push data through the real HLS top function.
 * session state transitions and observer notifications;
 * CLI parsing (`cfg set`, `kill on/off`, unknown commands);
 * `T2tProxy` register offsets;
+* failure handling: a DMA status error, an IP that does not clear on soft reset, result files
+  that cannot be written, datasets without (or with an early) END_OF_SESSION, non-numeric
+  `cfg set` values, and `run both` continuing with the software engine after a hardware failure;
+* framing recovery of the IP top (messages cut short by TLAST are dropped and counted);
 * **SwEngine output = golden** (orders, BBO trace) on every dataset;
 * **HwEngine on the virtual board = golden**, using the real `t2t_core` HLS function behind
   mock DMA channels. This covers soft-reset polling, multi-chunk MM2S and packetised debug S2MM

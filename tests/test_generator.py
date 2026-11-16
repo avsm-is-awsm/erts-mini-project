@@ -114,6 +114,19 @@ def test_edge_errors_has_errors(datasets):
         assert r.counters[k] > 0, k
 
 
+def test_scenario_validation(tmp_path):
+    base = (ROOT / "data" / "scenarios" / "unit_tiny.yaml").read_text()
+    for bad in ("window_min: 130", "deliveries: [5, 5]"):
+        key = bad.split(":")[0]
+        text = "\n".join(bad if ln.startswith(key + ":") else ln for ln in base.splitlines())
+        (tmp_path / "s.yaml").write_text(text)
+        with pytest.raises(ValueError):
+            load_scenario(tmp_path / "s.yaml")
+    (tmp_path / "e.yaml").write_text("")
+    with pytest.raises(ValueError):
+        load_scenario(tmp_path / "e.yaml")
+
+
 def test_deterministic(tmp_path):
     sc = load_scenario(ROOT / "data" / "scenarios" / "unit_tiny.yaml")
     generate(sc, tmp_path / "a", quiet=True)

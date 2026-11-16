@@ -62,6 +62,8 @@ def _ns(t: datetime) -> int:
 
 def load_scenario(path: Path) -> dict:
     sc = yaml.safe_load(Path(path).read_text())
+    if not isinstance(sc, dict):
+        raise ValueError(f"{path}: scenario file is empty or not a mapping")
     sc.setdefault("name", Path(path).stem)
     sc.setdefault("seed", 1)
     sc.setdefault("day", "2026-01-15")
@@ -78,6 +80,17 @@ def load_scenario(path: Path) -> dict:
             raise KeyError(f"unknown generator param '{k}'")
         prm[k] = tuple(v) if isinstance(v, list) else v
     sc["params"] = prm
+    d0, d1 = sc["deliveries"]
+    if not (isinstance(d0, int) and isinstance(d1, int) and 0 <= d0 < d1):
+        raise ValueError(f"deliveries must be [first, last) with first < last, got {sc['deliveries']}")
+    max_window = CORE_PARAMS["P_MAX"] * 15
+    if not 0 < sc["window_min"] <= max_window:
+        raise ValueError(f"window_min must be in (0, {max_window}] minutes: a longer window would put "
+                         f"more than {CORE_PARAMS['P_MAX']} products on the {CORE_PARAMS['P_MAX']} slots")
+    if prm["tick"] != CORE_PARAMS["LADDER_TICK"]:
+        raise ValueError("generator tick must equal the core LADDER_TICK")
+    if prm["fv_clip"] + 1000 > CORE_PARAMS["W"] // 2 * CORE_PARAMS["LADDER_TICK"] and not sc.get("allow_oow"):
+        raise ValueError("fv_clip leaves < 10 EUR margin to the ladder window (set allow_oow: true to force)")
     return sc
 
 

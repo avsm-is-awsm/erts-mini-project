@@ -20,8 +20,9 @@ Generator version 1.0.0, scenario seeds in `data/scenarios/*.yaml`.
 | Vivado HLS csim | `cosim_10k` | PASS | `make hls` |
 | C/RTL co-simulation (xsim) | `cosim_10k`: 12 004 msgs → 25 ord + 11 603 BBO records, after a 16 384-step soft reset | **PASS** (`*** C/RTL co-simulation finished: PASS ***`) | `make cosim`, `hls/reports/cosim1/` |
 | RTL system simulation, line rate | `cosim_10k` (12 004 msgs), `edge_errors` (12 048), `stress_gc_rush` (968 538) | 0 mismatching records | `make rtl-system` |
+| RTL system simulation, framing recovery (D-34) | 3 fragments cut by TLAST on beat 0/1/2, then the full `cosim_10k` / `edge_errors` stream | `err_framing` = 3, `msgs_in` exact, 0 mismatching records, latency still 28 | idem |
 | RTL system simulation, random backpressure | `cosim_10k`, `edge_errors` | 0 mismatching records | idem |
-| PS software on host (SW engine + virtual-board HW engine) | hand case, unit_tiny, cosim_10k, edge_errors, edge_table_full, stress_burst | 76 + 36 checks pass | `make sw-host-test` |
+| PS software on host (SW engine + virtual-board HW engine, failure injection) | hand case, unit_tiny, cosim_10k, edge_errors, edge_table_full, stress_burst; DMA error, dead IP, unwritable SD, bad datasets, CLI errors | 99 + 59 checks pass | `make sw-host-test` |
 | On board: HW (dbg on) + SW | — | **NEEDS-USER** | §07 procedure, `tools/compare.py` |
 
 ## R2. Datasets and capacity / robustness scenarios
@@ -71,9 +72,9 @@ Generator realism (`python data/validate_stylized.py data/out/day_default`, plot
 
 | Level | LUT | FF | BRAM36 | DSP | Timing @ 10 ns | Source |
 |---|---|---|---|---|---|---|
-| HLS estimate (`t2t_core`) | 15 994 | 18 466 | 32 (64 BRAM18) | 5 | 11.05 ns (HLS model) | `hls/reports/impl1/t2t_core_csynth.rpt` |
-| Post-route, OOC, `t2t_core` only | 6 574 (37.4 %) | 9 413 (26.7 %) | 32 (53.3 %) | 3 | **WNS +1.427 ns** | `hls/reports/impl1/ooc_*.rpt` |
-| **Post-route, whole system** (PS7, 2 DMAs, interconnects, probes, IP) | **10 759 (61.1 %)** | 14 993 (42.6 %) | **36.5 (60.8 %)** | 3 | **WNS +0.584 ns, WHS +0.007 ns** | `hw/reports/utilization.rpt`, `timing_summary.rpt` |
+| HLS estimate (`t2t_core`) | 16 467 | 19 199 | 32 (64 BRAM18) | 5 | 11.05 ns (HLS model) | `hls/reports/impl1/t2t_core_csynth.rpt` |
+| Post-route, OOC, `t2t_core` only | 6 333 (36.0 %) | 9 544 (27.1 %) | 32 (53.3 %) | 3 | **WNS +1.665 ns** | `hls/reports/impl1/ooc_*.rpt` |
+| **Post-route, whole system** (PS7, 2 DMAs, interconnects, probes, IP) | **10 472 (59.5 %)** | 15 123 (43.0 %) | **36.5 (60.8 %)** | 3 | **WNS +0.969 ns, WHS +0.017 ns** | `hw/reports/utilization.rpt`, `timing_summary.rpt` |
 
 `python tools/parse_hls_reports.py` collects these into `hls/reports/summary.json`.
 
@@ -147,7 +148,7 @@ sensitivity, not real profitability.
 | NFR-THR-2 no loss on `stress_burst` | **PASS (csim + virtual board)**, board NEEDS-USER | R1 |
 | NFR-CAP-1 capacity | **PASS** | R2 edge scenarios, `test_core` |
 | NFR-COR-1 bit-exact | **PASS** | R1 |
-| NFR-RES-1 ≤ 70 % LUT/BRAM, timing met | **PASS**: 61.1 % LUT, 60.8 % BRAM, WNS +0.584 ns | R4 |
-| NFR-ROB-1 robustness | **PASS** | `edge_errors` csim + RTL sim (incl. backpressure), xcheck |
+| NFR-RES-1 ≤ 70 % LUT/BRAM, timing met | **PASS**: 59.5 % LUT, 60.8 % BRAM, WNS +0.969 ns | R4 |
+| NFR-ROB-1 robustness | **PASS** | `edge_errors` csim + RTL sim (incl. backpressure), xcheck; truncated transfers recovered (RTL `framing_recovery`) |
 | NFR-SAF-1 kill latency | **PASS (RTL sim)** | R5 |
 | NFR-DET-1 determinism | **PASS** | `test_generator.py::test_deterministic`; integer-only core |

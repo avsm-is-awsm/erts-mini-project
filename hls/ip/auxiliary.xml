@@ -55,6 +55,7 @@
   <xd:arg xd:name="*(pos5)" xd:originalName="pos5" xd:direction="out" xd:interfaceRef="s_axi_ctrl" xd:busTypeRef="axilite" xd:offset="0x108" xd:statusOffset="0x10C" xd:handshakeRef="ap_vld" xd:dataWidth="32"/>
   <xd:arg xd:name="*(pos6)" xd:originalName="pos6" xd:direction="out" xd:interfaceRef="s_axi_ctrl" xd:busTypeRef="axilite" xd:offset="0x110" xd:statusOffset="0x114" xd:handshakeRef="ap_vld" xd:dataWidth="32"/>
   <xd:arg xd:name="*(pos7)" xd:originalName="pos7" xd:direction="out" xd:interfaceRef="s_axi_ctrl" xd:busTypeRef="axilite" xd:offset="0x118" xd:statusOffset="0x11C" xd:handshakeRef="ap_vld" xd:dataWidth="32"/>
+  <xd:arg xd:name="*(err_framing)" xd:originalName="err_framing" xd:direction="out" xd:interfaceRef="s_axi_ctrl" xd:busTypeRef="axilite" xd:offset="0x120" xd:statusOffset="0x124" xd:handshakeRef="ap_vld" xd:dataWidth="32"/>
   <xd:latencyEstimates xd:best-case="28" xd:worst-case="28" xd:average-case="28"/>
-  <xd:resourceEstimates xd:LUT="15994" xd:FF="18466" xd:BRAM="64" xd:DSP="5"/>
+  <xd:resourceEstimates xd:LUT="16467" xd:FF="19199" xd:BRAM="64" xd:DSP="5"/>
 </xd:acceleratorMap>

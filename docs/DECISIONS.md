@@ -69,3 +69,38 @@ core `hls/src/core/*`, HLS IP, ARM SwEngine). Code comments refer to these IDs (
 | D-31 | Energi Data Service filters `start`/`end` on Danish local time. `fetch_eds.py` queries a day wider on each side and keeps the UTC window, and it retries politely on HTTP 429. |
 | D-32 | ITCH conversion: the first add of a symbol opens its slot (`S(OPEN)`, anchor = that price, gate closure far in the future). Prices that are not whole cents become off-grid (counted by the IP as `err_grid`). The `'C'` execution price is used for `'E'`, and `'U'` becomes `X` + `A` on the same side. Conversion stops at system event `'C'`. |
 | D-33 | C/RTL co-simulation bundles the `ap_ctrl_hs` handshake into the AXI-Lite slave, which the cosim requires when s_axilite ports exist. The cosim latency column therefore includes the AXI-Lite start/done polling and is not used as the latency result (see §08 R3). |
+
+## Robustness audit (2026-11-15)
+
+| ID | Decision |
+|---|---|
+| D-34 | **Framing recovery in the IP top.** If TLAST arrives before beat 3 of a message, the upstream transfer ended inside a message. The fragment is dropped, counted in the new AXI-Lite counter `err_framing`, and the next beat starts a new message. Because every DMA transfer ends with TLAST, a truncated transfer can neither stall the IP nor leave it misaligned. The counter lives in the HLS top, not in the shared core: it is a transport error, so the golden model always expects 0. Soft reset clears it. |
+| D-35 | The PS `DatasetLoader` rejects a feed that does not end with exactly one `H(END_OF_SESSION)` as its last message. A missing END would leave the order S2MM transfer waiting for TLAST; an early END would complete it too soon and stall the IP on the remaining orders. |
+| D-36 | `HwEngine` self-checks every run: the soft reset is verified by reading the counters back (not just `STATUS.busy`), the order stream must end with `'Z'`, the DMA status error bits are polled, and the IP's `msgs_in` must equal the dataset size with `err_framing == 0`. Any failure ends the run with a message instead of a 60 s timeout. |
+| D-37 | The BSP is built with FatFs long file names (`use_lfn`), which xilffs disables by default: the dataset folders and result files are not 8.3 names. Stack and heap are raised from 8 KB to 256 KB. `sw/build.py` fails if the BSP lacks LFN. |
+| D-38 | Build gates: `hls/scripts/hls.py` fails if II > 4 or the out-of-context run misses timing; `hw/build_bd.tcl` fails on negative WNS/WHS and `hw/build.py` then does not publish the bitstream; `tools/gen_regs.py` fails if expected registers are missing or `POS0..7` are not contiguous. |
+| D-39 | `config.json` is validated: every field must fit its register (u32, `max_pos` i32) and unknown keys are an error. Scenario files are validated (`window_min` ≤ 120 min so at most 8 products share the 8 slots, non-empty delivery range, FV clip inside the ladder window). |
+
+### D-40 Vivado sub-run hang watchdog and retry
+
+During the rebuild after the audit, two launched runs (`system_t2t_core_0_0_synth_1`,
+`system_irq_concat_0_synth_1`) hung at Vivado start-up: a 10 MB `vivado.exe`, `runme.log` with
+only the launcher header, and `wait_on_run synth_1` blocked for 30 minutes (the build interrupted
+the day before had stopped at the same place). Twelve other runs of the same build started
+normally, so this is a sporadic tool problem, not a design problem.
+
+* `tools/xilinx.py`: `run_tool(..., watch_runs=dir)` starts a watchdog. A run whose
+  `.vivado.begin.rst` is older than 240 s (`T2T_RUN_HANG_SECS`), with no end/error marker and no
+  log output, has its process tree killed.
+* `hw/build_bd.tcl`: `run_stage` checks each stage, resets runs that did not complete and
+  launches them again (at most three attempts). Synthesis is now checked before implementation
+  starts.
+
+A run that is working always writes the Vivado banner within seconds, so the watchdog cannot
+kill a healthy run.
+
+Checked on the next full build: two other runs (`system_auto_pc_0_synth_1`,
+`system_xbar_0_synth_1`) hung in the same way, the watchdog killed both after 240 s, `run_stage`
+reset and relaunched them, and the build finished in 9.8 min with the same utilisation and
+timing as the build before it (`hw/reports/vivado_build.log`). Hang detection itself is unit
+tested without the tools in `tests/test_xilinx_watchdog.py`.

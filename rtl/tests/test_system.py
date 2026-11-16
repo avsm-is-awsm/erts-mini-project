@@ -244,6 +244,43 @@ if cocotb is not None:
         assert bad_o == 0 and bad_d == 0, f"mismatch orders={bad_o} bbo={bad_d}"
 
     @cocotb.test()
+    async def framing_recovery(dut):
+        """D-34: fragments cut short by TLAST are dropped and counted; the following stream is
+        still processed bit-exactly and time-stamped on the right beats."""
+        ds_dir = ROOT / "data" / "out" / DS
+        beats, cfg = load_case(ds_dir)
+        await bring_up(dut, cfg)
+        frag = [int(x) for x in beats[0]]
+        for cut in (1, 2, 3):                      # TLAST on beat 0, 1, 2
+            for k in range(cut):
+                dut.s_tvalid.value = 1
+                dut.s_tdata.value = frag[k]
+                dut.s_tlast.value = 1 if k == cut - 1 else 0
+                while True:
+                    await ReadOnly()
+                    acc = int(dut.s_tready.value)
+                    await RisingEdge(dut.aclk)
+                    if acc:
+                        break
+            dut.s_tvalid.value = 0
+            dut.s_tlast.value = 0
+            for _ in range(int(3 * cut)):
+                await RisingEdge(dut.aclk)
+        orders, dbg, _ = await stream(dut, beats, 1.0, 1.0, random.Random(5))
+        n_frag = await axil_read(dut, 0x120)
+        n_msgs = await axil_read(dut, REG["msgs_in"])
+        bad_o = compare(orders, P.read_out(ds_dir / "golden_orders.bin"), "orders")
+        bad_d = compare(dbg, P.read_out(ds_dir / "golden_bbo.bin"), "bbo")
+        recs = P.as_ord(orders)
+        sel = recs["type"] == P.O_ORDER
+        lat = sorted(set(int(x) for x in ((recs["t_out"][sel].astype(np.int64) - recs["t_in"][sel]) & 0xFFFFFFFF)))
+        res = dict(dataset=DS, fragments_sent=3, err_framing=int(n_frag), msgs_in=int(n_msgs),
+                   orders_mismatch=bad_o, bbo_mismatch=bad_d, order_latencies=lat)
+        (outdir() / "rtl_framing.json").write_text(json.dumps(res, indent=2) + chr(10))
+        dut._log.info(json.dumps(res))
+        assert n_frag == 3 and n_msgs == len(beats) and bad_o == 0 and bad_d == 0
+
+    @cocotb.test()
     async def kill_switch(dut):
         ds_dir = ROOT / "data" / "out" / DS
         beats, cfg = load_case(ds_dir)
@@ -315,4 +352,4 @@ def test_system_rtl():
 
     cases = ET.parse(build / "results.xml").findall(".//testcase")
     failed = [c.get("name") for c in cases if c.find("failure") is not None or c.find("error") is not None]
-    assert len(cases) == (1 if only else 3) and not failed, f"failed: {failed}"
+    assert len(cases) == (1 if only else 4) and not failed, f"failed: {failed}"

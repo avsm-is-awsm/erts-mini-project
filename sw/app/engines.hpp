@@ -28,6 +28,7 @@ struct RunResult {
     uint64_t ticks_per_sec;
     uint32_t n_msgs;
     uint32_t dma_chunks;
+    uint32_t err_framing;              // HW only: truncated messages dropped by the IP
 };
 
 class IEngine {
@@ -46,12 +47,20 @@ public:
         proxy_.write_config(cfg);
         proxy_.pulse_soft_reset(cfg.ctrl);
         // STATUS.busy is written at the end of the IP pipeline: it rises ~30 cycles after the
-        // reset edge (RTL simulation), so wait before polling it.
-        osal::Timer::sleep_us(5);
+        // reset edge (RTL simulation).  Wait (bounded) until it is seen high, then until the
+        // clear sweep is over, and finally verify that the state really was cleared instead of
+        // trusting the busy flag alone.
         const uint64_t t0 = osal::Clock::now();
+        uint64_t rise = osal::Clock::ticks_per_sec() / 10000u;  // 100 us
+        if (rise == 0) rise = 1;
+        while (!proxy_.busy()) {
+            if (osal::Clock::now() - t0 > rise) break;
+        }
         while (proxy_.busy()) {
             if (osal::Clock::now() - t0 > timeout_ticks) return false;
         }
+        const HwCounters h = proxy_.counters();
+        if (h.c.msgs_in != 0 || h.c.last_seq != 0 || h.c.orders_out != 0 || h.err_framing != 0) return false;
         proxy_.write_config(cfg);
         return true;
     }
@@ -79,7 +88,7 @@ public:
         mm2s_.reset();
         s2mm_ord_.reset();
         s2mm_dbg_.reset();
-        if (!cm_.reset_and_apply(cfg, tps)) return fail(r, "soft reset timeout (STATUS.busy)");
+        if (!cm_.reset_and_apply(cfg, tps)) return fail(r, "soft reset failed (busy timeout or state not cleared)");
         r.ord = ddr(ORD_HW_BUF);
         r.dbg = ddr(DBG_HW_BUF);
         cache_.invalidate(r.ord, ORD_BUF_SIZE);
@@ -88,7 +97,8 @@ public:
         // dbg_out arrives as TLAST-terminated packets of DBG_PKT records (D-30): re-arm per packet
         uint32_t dbg_off = 0;
         bool dbg_done = !dbg;
-        if (dbg && !s2mm_dbg_.start(DBG_HW_BUF, DBG_PKT_BYTES)) return fail(r, "S2MM (dbg) start failed");
+        const uint32_t pkt = (uint32_t)t2t::DBG_PKT * 32u;  // bytes per dbg_out packet
+        if (dbg && !s2mm_dbg_.start(DBG_HW_BUF, pkt)) return fail(r, "S2MM (dbg) start failed");
         const uint32_t total = ds.n_msgs * 32u;
         cache_.flush(ds.data, total);
 
@@ -112,11 +122,21 @@ public:
                 const bool z = got >= 32 && r.dbg[dbg_off + got - 32] == dk1::O_END;
                 dbg_off += got;
                 if (z) dbg_done = true;
-                else if (dbg_off + DBG_PKT_BYTES > DBG_BUF_SIZE) return fail(r, "dbg buffer full");
-                else if (!s2mm_dbg_.start(DBG_HW_BUF + dbg_off, DBG_PKT_BYTES))
+                else if (got == 0 || (got % 32u) != 0) return fail(r, "dbg S2MM returned a partial record");
+                else if (dbg_off + pkt > DBG_BUF_SIZE) return fail(r, "dbg buffer full");
+                else if (!s2mm_dbg_.start(DBG_HW_BUF + dbg_off, pkt))
                     return fail(r, "S2MM (dbg) re-arm failed");
             }
-            if (!ord_done && !s2mm_ord_.busy()) ord_done = true;
+            if (!ord_done && !s2mm_ord_.busy()) {
+                // the transfer must have been ended by the TLAST of the 'Z' record
+                const uint32_t got = s2mm_ord_.transferred();
+                cache_.invalidate(r.ord, got);
+                if (got < 32 || (got % 32u) != 0 || r.ord[got - 32] != dk1::O_END)
+                    return fail(r, "order stream ended without 'Z' (order buffer overflow?)");
+                ord_done = true;
+            }
+            if (mm2s_.error() || s2mm_ord_.error() || (dbg && s2mm_dbg_.error()))
+                return fail(r, "AXI DMA reported an error (status register)");
             if (ord_done && dbg_done && q.empty() && !mm2s_.busy()) break;
             if (osal::Clock::now() - t0 > 60 * tps)
                 return fail(r, ord_done ? "dbg S2MM timeout" : "S2MM (orders) timeout: no 'Z' / TLAST");
@@ -127,7 +147,11 @@ public:
         cache_.invalidate(r.ord, r.ord_len);
         const HwCounters h = cm_.read();
         r.counters = h.c;
+        r.err_framing = h.err_framing;
         memcpy(r.pos, h.pos, sizeof(r.pos));
+        // self-check (NFR-THR-2): every message sent was counted by the IP, none was cut short
+        if (h.c.msgs_in != ds.n_msgs || h.err_framing != 0)
+            return fail(r, "IP message count differs from the dataset (loss or framing error)");
         r.ok = true;
         return true;
     }
@@ -143,11 +167,6 @@ private:
         r.ok = false;
         strncpy(r.error, msg, sizeof(r.error) - 1);
         return false;
-    }
-    static bool wait(IDmaChannel& ch, uint64_t t0, uint64_t timeout) {
-        while (ch.busy())
-            if (osal::Clock::now() - t0 > timeout) return false;
-        return true;
     }
     ConfigManager& cm_;
     IDmaChannel& mm2s_;
@@ -187,7 +206,10 @@ public:
                 const uint32_t t_out = (uint32_t)osal::Clock::now();  // record complete
                 memcpy(ord + no + 28, &t_out, 4);
                 no += 32;
-                if (no + 32 > ORD_BUF_SIZE) no -= 32;  // saturate (never expected)
+                if (no + 32 > ORD_BUF_SIZE) {
+                    strncpy(r.error, "order buffer overflow", sizeof(r.error) - 1);
+                    return false;
+                }
             }
             if (o.dbg_valid) {
                 dk1::beats_to_bytes(o.dbg, dbg + nd);
