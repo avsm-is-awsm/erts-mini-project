@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import queue
 import re
 import threading
@@ -135,7 +136,13 @@ def main(argv=None) -> int:
     out = ROOT / "runs" / "rt"
     out.mkdir(parents=True, exist_ok=True)
     hub = Hub(None if a.replay else out / f"telemetry_{stamp}.jsonl")
-    srv = ThreadingHTTPServer(("127.0.0.1", a.http), make_handler(hub))
+    # on Windows SO_REUSEADDR lets a second server bind a busy port silently (the old one keeps
+    # answering), so refuse a busy port instead
+    ThreadingHTTPServer.allow_reuse_address = sys.platform != "win32"
+    try:
+        srv = ThreadingHTTPServer(("127.0.0.1", a.http), make_handler(hub))
+    except OSError as e:
+        raise SystemExit(f"port {a.http} is busy (another dashboard running?): {e}")
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     url = f"http://localhost:{a.http}/"
     print(f"[dashboard] {url}")
