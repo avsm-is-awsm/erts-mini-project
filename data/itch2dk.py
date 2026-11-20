@@ -113,9 +113,12 @@ def convert(path: Path, symbols: list[str], max_messages: int | None, out: Path,
             orders[ref] = [slot, side, price]
             emit("A", slot, side, ts, ref, price, shares)
         elif t in ("E", "C", "X", "D", "U"):
+            if locate not in locate_slot:  # an order of a symbol that is not converted
+                skipped["other_symbol"] += 1
+                continue
             ref = int.from_bytes(m[11:19], "big")
             o = orders.get(ref)
-            if o is None:
+            if o is None:  # a converted symbol, but the add was never seen: a real anomaly
                 skipped["unknown_ref"] += 1
                 continue
             slot, side, price = o

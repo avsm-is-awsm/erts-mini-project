@@ -1,0 +1,76 @@
+{
+  "run_dir": "runs\\board\\itch_sample",
+  "hw": {
+    "source": "board (axis_ts_in/axis_ts_out probes)",
+    "unit": "PL cycles",
+    "clk_hz": 100000000.0,
+    "latency": {},
+    "throughput": {
+      "msgs_in": 1479311,
+      "input_span_cycles": 10136004,
+      "cycles_per_msg": 6.851845792971047,
+      "fabric_msgs_per_s": 14594607.500154894
+    },
+    "wall_msgs_per_s_incl_dma": 14437473.709157152,
+    "wall_s": 0.10246328615384616
+  },
+  "sw": {
+    "source": "board (ARM Cortex-A9 SwEngine, global timer)",
+    "unit": "timer ticks",
+    "timer_hz": 325000000.0,
+    "latency": {},
+    "wall_msgs_per_s": 456621.28743385815
+  },
+  "compare_hw": {
+    "dataset": "itch_sample",
+    "orders": {
+      "n_got": 1,
+      "n_golden": 1,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "structure": {
+      "equal": true,
+      "note": "exactly one 'Z', as the last record; only O/R/Z types"
+    },
+    "bbo": {
+      "n_got": 1479311,
+      "n_golden": 1479311,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "counters": {
+      "equal": true,
+      "diff": {}
+    },
+    "equal": true
+  },
+  "compare_sw": {
+    "dataset": "itch_sample",
+    "orders": {
+      "n_got": 1,
+      "n_golden": 1,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "structure": {
+      "equal": true,
+      "note": "exactly one 'Z', as the last record; only O/R/Z types"
+    },
+    "bbo": {
+      "n_got": 1479311,
+      "n_golden": 1479311,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "counters": {
+      "equal": true,
+      "diff": {}
+    },
+    "equal": true
+  }
+}

@@ -20,6 +20,8 @@ Generator version 1.0.0, scenario seeds in `data/scenarios/*.yaml`.
 | csim (g++ + shim) | all 10 datasets below (orders + BBO trace + counters) | all PASS | `make csim-all` |
 | Vivado HLS csim | `cosim_10k` | PASS | `make hls` |
 | C/RTL co-simulation (xsim) | `cosim_10k`: 12 004 msgs → 25 ord + 11 603 BBO records, after a 16 384-step soft reset | **PASS** (`*** C/RTL co-simulation finished: PASS ***`) | `make cosim`, `hls/reports/cosim1/` |
+| **Nasdaq ITCH 5.0 converter** vs MeatPy (open-source parser) and `itch_counts.py` | 30 Dec 2019 sample, first 100 k msgs (SPEC) and first 20 M msgs | per-type counts identical for all 3 decoders (17 types); 493 865 converted records identical in every field | `python data/itch_xcheck.py <file> --symbols ... --max-messages 20000000`, `runs/itch/` |
+| **`itch_sample` on the board** (real Nasdaq order flow, 1 479 311 msgs, debug trace on) | HW engine and ARM SwEngine | **bit-exact**: 1,479,311 BBO records + counters equal to golden on both engines; FPGA 14.4 M msg/s, ARM 0.46 M msg/s | `tools/board_session.py`, `make analyze RUN=runs/board/itch_sample SCEN=itch_sample` |
 | RTL system simulation, line rate | `cosim_10k` (12 004 msgs), `edge_errors` (12 048), `stress_gc_rush` (968 538) | 0 mismatching records | `make rtl-system` |
 | RTL system simulation, framing recovery (D-34) | 3 fragments cut by TLAST on beat 0/1/2, then the full `cosim_10k` / `edge_errors` stream | `err_framing` = 3, `msgs_in` exact, 0 mismatching records, latency still 28 | idem |
 | RTL system simulation, random backpressure | `cosim_10k`, `edge_errors` | 0 mismatching records | idem |
@@ -42,6 +44,7 @@ Generator version 1.0.0, scenario seeds in `data/scenarios/*.yaml`.
 | `edge_oow` | 62,601 | 5 | synthetic:default | 41 | 2 | oow 1280 |
 | `edge_table_full` | 36,644 | 4 | synthetic:default | 29 | 2 | table_full 2913, not_found 3090 (> 4096 live orders + crafted set collisions) |
 | `edge_errors` | 12,048 | 3 | synthetic:default | 4 | 0 | unknown_type 60, bad_product 60, not_found 60, dup_id 60, grid 40, seq_gap 40, qty_over 60 |
+| `itch_sample` | 1,479,311 | 8 | **real Nasdaq TotalView-ITCH 5.0, 2019-12-30** (VUG NVS PUK DEO SMLL OILU SCO SAP, full day) | 0 | 0 | oow 14106, table_full 9928, not_found 11020, grid 1: capacity / format limits only (D-42); all anomaly counters 0 |
 
 Generator realism (`python data/validate_stylized.py data/out/day_default`, plots `docs/img/data_day_default_*`):
 

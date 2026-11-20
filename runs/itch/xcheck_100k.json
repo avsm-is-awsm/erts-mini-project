@@ -1,0 +1,55 @@
+{
+  "file": "12302019.NASDAQ_ITCH50.gz",
+  "messages": 100000,
+  "symbols": [
+    "VUG",
+    "NVS",
+    "PUK",
+    "DEO",
+    "SMLL",
+    "OILU",
+    "SCO",
+    "SAP"
+  ],
+  "counts": {
+    "meatpy": {
+      "H": 8890,
+      "L": 73313,
+      "R": 8906,
+      "S": 1,
+      "Y": 8890
+    },
+    "itch_counts": {
+      "H": 8890,
+      "L": 73313,
+      "R": 8906,
+      "S": 1,
+      "Y": 8890
+    },
+    "itch2dk": {
+      "H": 8890,
+      "L": 73313,
+      "R": 8906,
+      "S": 1,
+      "Y": 8890
+    },
+    "length_mismatches": 0,
+    "equal": true
+  },
+  "records": {
+    "expected": 0,
+    "itch2dk": 0,
+    "field_diffs": {
+      "type": 0,
+      "flags": 0,
+      "product": 0,
+      "ts_ns": 0,
+      "order_id": 0,
+      "price": 0,
+      "qty": 0
+    },
+    "by_type": {},
+    "equal": true
+  },
+  "equal": true
+}

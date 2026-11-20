@@ -26,6 +26,7 @@ original ZYBO** (2026-11-20, `runs/board/`) unless a simulation source is given.
 | Throughput, full trading day (4.69 M msgs) | **24.98 M msg/s** wall clock incl. DMA (II = 4 limit: 25 M) | board, `day_default` |
 | Software baseline (Cortex-A9 @ 650 MHz) p50 / p99 | **1.94 / 2.13 µs**, 0.53 M msg/s | board SwEngine, `day_default` |
 | FPGA vs ARM | **6.9× lower p50 latency, 47× higher throughput** | board |
+| Real market data | full Nasdaq ITCH 5.0 day (268.7 M msgs) → 8 symbols, 1.48 M msgs: bit-exact on the board, 0 unexpected errors | `data/itch2dk.py`, cross-checked against MeatPy |
 | Correctness on the board | HW and SW engines **bit-exact** vs golden on 4 datasets (orders, 1.39 M BBO records, counters) | `tools/compare.py` |
 | Clock / timing | 100 MHz, **met post-route** (WNS +0.969 ns whole system) | Vivado 2017.2 |
 | Resources (whole system, XC7Z010) | **59.5 % LUT, 60.8 % BRAM**, 43.0 % FF, 3 DSP | Vivado post-route |

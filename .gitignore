@@ -21,3 +21,4 @@ hls/ip/*.log
 
 # board debug traces above a few MB (bit-exact result recorded in latency_summary.json)
 runs/board/stress_burst/dbg_*.bin
+runs/board/itch_sample/dbg_*.bin

@@ -1,0 +1,41 @@
+{
+  "source": "12302019.NASDAQ_ITCH50.gz",
+  "symbols": [
+    "VUG",
+    "NVS",
+    "PUK",
+    "DEO",
+    "SMLL",
+    "OILU",
+    "SCO",
+    "SAP"
+  ],
+  "itch_counts": {
+    "S": 6,
+    "R": 8906,
+    "H": 8966,
+    "Y": 9013,
+    "L": 215161,
+    "A": 117145568,
+    "D": 114360997,
+    "U": 21639067,
+    "X": 2787676,
+    "F": 1485888,
+    "E": 5722824,
+    "P": 1218602,
+    "V": 1,
+    "K": 3,
+    "I": 4024315,
+    "C": 99917,
+    "Q": 17836,
+    "J": 34
+  },
+  "skipped": {
+    "other_symbol": 261854820,
+    "unknown_ref": 0
+  },
+  "n_msgs": 1479311,
+  "date": "2019-12-30",
+  "synthetic_fv": false,
+  "price_scaling": "1 US cent = LADDER_TICK units (price = ITCH/100*10)"
+}

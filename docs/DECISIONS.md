@@ -118,3 +118,32 @@ board run did.
 The board run also showed that the global timer runs at 325 MHz (CPU 650 MHz in the ZYBO preset),
 not the 333.33 MHz assumed in the docs. The application reads the real frequency and writes it
 to `run_info_*.json`, so the analysis was never affected; only the text was corrected.
+
+### D-42 Real Nasdaq ITCH 5.0 test (M12, 2026-11-20)
+
+* **Sample:** `12302019.NASDAQ_ITCH50.gz` from Nasdaq's public sample server (3 524 013 057 bytes,
+  268 744 780 messages). Its `.md5sum` file is not served (404), so integrity was checked with
+  `gzip -t` (CRC32 + length); MD5 `23514ef98821448a3f8f4c5b4095f3f5`. Stored outside the repository
+  (`%LOCALAPPDATA%\dk1-t2t-data\itch`), never committed.
+* **Symbol choice** (`data/itch_stats.py`, one numba pass over the day): the IP has 8 slots, a
+  1024 × 4 order table shared by all products and a ±512-cent window around the first add price.
+  Large names do not fit (AAPL peaks at 27 110 resting orders, AMZN 37 068), and some symbols open
+  with a stub quote so nearly all their orders fall outside the window (XLK, XLV, C, XOM). Chosen:
+  VUG, NVS, PUK, DEO, SMLL, OILU, SCO, SAP: whole-cent prices, ≥ 99.8 % of adds in the window,
+  peak books 83–212 orders, 1 479 311 dk1 messages in total, which fits the board's 1.57 M-record
+  debug buffer so the full BBO trace can be checked on the board.
+* **Cross-check** (`data/itch_xcheck.py`): MeatPy 0.5.0, `itch_counts.py` and `itch2dk.py` give the
+  same per-type counts on the first 100 k messages (SPEC; directory and admin messages only) and on
+  the first 20 M (17 types). On the 20 M, the dk1 records rebuilt from MeatPy's decoded fields are
+  identical in every field to the converter's 493 865 records.
+* **Converter fix:** execute / cancel / delete / replace messages of symbols not being converted were
+  counted as `unknown_ref` (143.8 M). They are now `other_symbol`; `unknown_ref` is 0 for the whole
+  day, i.e. every order event of the 8 symbols matched an add. The feed is byte-identical.
+* **Error counters on real data:** golden = csim = board HW = board SW. Anomaly counters (unknown
+  type, bad product, duplicate id, sequence gap, qty over, anchor, bad state) are 0. The others are
+  documented limits: `err_oow` 14 106 (orders > $5.12 from the anchor, kept in the table, not in the
+  ladder), `err_table_full` 9 928 (set conflicts in the 4-way table), `err_grid` 1 (one sub-cent
+  price). `err_not_found` 11 020 is entirely their consequence: with a 65 536 × 8 table the golden
+  model reports table_full 0 and not_found 1 (the cancel of the sub-cent order).
+* No `V` messages (strategy off, `ctrl = dbg_en`), as in SPEC 7.4: the test covers parsing and book
+  maintenance; the BBO trace is the output compared.

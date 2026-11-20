@@ -7,3 +7,5 @@ requests>=2.31
 pytest>=8
 cocotb>=2.0
 numba>=0.59
+pyserial>=3.5   # tools/board_session.py (board UART)
+meatpy>=0.5     # data/itch_xcheck.py (open-source ITCH 5.0 parser for the M12 cross-check)

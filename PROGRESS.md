@@ -22,15 +22,14 @@ Board: original ZYBO (confirmed at M0). Attached and measured on 2026-11-20 (USB
 | M9 | Analysis + results | DONE (board) | `docs/08_results.md`: board latency 280 ns for all 2 269 orders, 0 jitter, 24.98 M msg/s; ARM p50 1.94 µs, 0.53 M msg/s; RTL sim, implementation, SystemC, P&L; every NFR has a verdict | — |
 | M10 | SysML model + docs + README | DONE | D01–D18 render (`make docs`), docs 01–08, traceability, README | course-paper citation to add |
 | M11 | SystemC A/B/C model | DONE (A calibrated, C validated on the board) | `make sysc`; ARM cost from the board SwEngine; C predicted 280 ns / 0.1878 s, board 280 ns / 0.18786 s | B costs remain assumed (model only) |
-| M12 | ITCH converter + `itch_sample` on board | partial | converter + independent counter, test on a synthetic ITCH 5.0 stream (`tests/test_itch.py`) | **NEEDS-USER**: download a Nasdaq ITCH 5.0 sample (multi-GB), run `data/itch2dk.py`, compare counts with an open-source parser, run on board |
+| M12 | ITCH converter + `itch_sample` on board | DONE (2026-11-20) | Nasdaq sample `12302019.NASDAQ_ITCH50.gz` (268.7 M msgs); counts identical to MeatPy and `itch_counts.py`, 20 M-msg field-level check; `itch_sample` = 8 symbols, 1.48 M msgs; golden = csim = board HW = board SW (bit-exact BBO trace + counters), 0 unexpected errors | — |
 | S1–S4 | stretch | not started | — | — |
 
 ## Board runs (2026-11-20)
 
 Done; procedure in `docs/07_implementation_zybo.md`, logs and results in `runs/board/`. To repeat:
 copy the datasets to a FAT32 card, `python tools/board_session.py --program -- ...`, copy the
-results back, `make analyze RUN=runs/board/<ds> SCEN=<ds>`. Still open on the board: M12 (a real
-Nasdaq ITCH sample).
+results back, `make analyze RUN=runs/board/<ds> SCEN=<ds>`. M12 (real Nasdaq ITCH) was run on the board too.
 
 ## Robustness audit (2026-11-15/16)
 

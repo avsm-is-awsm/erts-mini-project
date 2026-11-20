@@ -1,0 +1,49 @@
+t: DK1 tick-to-trade engine (ZYBO, PL @ 100 MHz)
+timer 325000000 Hz; type 'help'
+t2t> 
+t2t> 
+[session 12:39:27] >>> ls
+ls
+           0  System Volume Information
+           0  cosim_10k
+           0  edge_errors
+           0  stress_burst
+           0  day_default
+           0  itch_sample
+t2t> [session] (0.1 s)
+
+[session 12:39:27] >>> load itch_sample
+load itch_sample
+[session] Idle -> Loaded (dataset loaded)
+loaded 1479311 messages
+t2t> [session] (2.6 s)
+
+[session 12:39:30] >>> cfg show
+cfg show
+ctrl=0x4 (strat_en=0 kill=0 dbg_en=1) clip_qty=50 max_order_qty=100 max_pos=200
+collar=2000 min_gap_ns=0 max_orders=1000000 lockout_ms=0
+t2t> [session] (0.2 s)
+
+[session 12:39:30] >>> cfg set dbg_en 1
+cfg set dbg_en 1
+[session] Loaded -> Configured (configuration accepted)
+t2t> [session] (0.1 s)
+
+[session 12:39:30] >>> run both
+run both
+[session] Configured -> Running (hw)
+[session] Running -> Draining (collecting results)
+[hw] 1479311 msgs, 32 order bytes, 47337952 dbg bytes, wall 102463 us (14437473 msg/s)
+[session] Draining -> Done (run complete)
+[session] Done -> Configured (configuration accepted)
+[session] Configured -> Running (sw)
+[session] Running -> Draining (collecting results)
+[sw] 1479311 msgs, 32 order bytes, 47337952 dbg bytes, wall 3239689 us (456621 msg/s)
+[session] Draining -> Done (run complete)
+t2t> [session] (19.1 s)
+
+[session 12:39:49] >>> stats
+stats
+last run (sw): msgs_in=1479311 orders_out=0 rejects=0 seq_gap=0 not_found=11020 table_full=9928 oow=14106
+IP now: msgs_in=1479311 orders_out=0 last_seq=1479311 first_t_in=480968268 last_t_in=491104272
+t2t> [session] (0.2 s)
