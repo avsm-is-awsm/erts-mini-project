@@ -1,0 +1,26 @@
+{
+  "dataset": "itch_sample",
+  "orders": {
+    "n_got": 1,
+    "n_golden": 1,
+    "equal": true,
+    "first_diff": null,
+    "n_diff": 0
+  },
+  "structure": {
+    "equal": true,
+    "note": "exactly one 'Z', as the last record; only O/R/Z types"
+  },
+  "bbo": {
+    "n_got": 1479311,
+    "n_golden": 1479311,
+    "equal": true,
+    "first_diff": null,
+    "n_diff": 0
+  },
+  "counters": {
+    "equal": true,
+    "diff": {}
+  },
+  "equal": true
+}

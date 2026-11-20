@@ -16,7 +16,8 @@ enum : uint32_t {
     ORD_HW_BUF  = 0x0E000000u, ORD_BUF_SIZE = 0x007FFFE0u,  // < 8 MB (one S2MM transfer)
     DBG_HW_BUF  = 0x0F000000u, DBG_BUF_SIZE = 0x03000000u,  // 48 MB = 1.5 M BBO records
     ORD_SW_BUF  = 0x12000000u,
-    DBG_SW_BUF  = 0x13000000u,                               // ends 0x16000000 < 0x20000000
+    DBG_SW_BUF  = 0x13000000u,                               // ends 0x16000000
+    SCHED_BUF   = 0x16000000u, SCHED_BUF_SIZE = 0x03000000u, // live replay schedule, 8 B/msg (ends 0x19000000)
     MAX_MSGS    = IN_BUF_SIZE / 32u,
     MAX_DBG_MSGS = DBG_BUF_SIZE / 32u - 1u,
     // AXI DMA v7.1 (Vivado 2017.2): 23-bit length register -> < 8 MB per transfer (D-29)

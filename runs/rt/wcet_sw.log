@@ -1,0 +1,1 @@
+@W {"mode":"sw","budget":128,"timer_hz":325000000,"n_msgs":1479311,"complete":1,"tick_isr":{"max_ns":833,"mean_ns":638,"n":2000},"tick_plus_task":{"max_ns":2076,"mean_ns":1925,"n":2000,"probe_jobs":2001},"feed":{"jobs":11560,"cmax_ns":313120,"cmean_ns":301308},"monitor":{"jobs":1156,"cmax_ns":778,"cmean_ns":278},"telemetry":{"jobs":30,"cmax_ns":27081572,"cmean_ns":26898224}}

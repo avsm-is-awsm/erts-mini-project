@@ -2,8 +2,8 @@
 //
 // Adapter pattern: the application only uses this interface.  Implementations:
 //   osal_baremetal.cpp  Zynq standalone BSP (XTime global timer, single-threaded, no locks)
+//   osal_freertos.cpp   Zynq FreeRTOS 9 BSP (same timer; mutex with priority inheritance)
 //   osal_host.cpp       PC host build for unit tests (std::chrono)
-// A course-provided OS package (A4) would be wrapped by a third implementation.
 #ifndef DK1_OSAL_HPP
 #define DK1_OSAL_HPP
 
@@ -23,12 +23,19 @@ struct Timer {
     static void sleep_us(uint32_t us);
 };
 
-// Single-core bare metal: the "mutex" only documents critical sections (interrupts of the
-// DMA driver are handled by polling in this design).
+// Bare metal / host: no-op (one thread of control).  FreeRTOS: a mutex with priority
+// inheritance, so a low-priority holder cannot block a higher task for longer than its own
+// critical section (the blocking term B_i of the response-time analysis, docs/09).
 class Mutex {
 public:
-    void lock() {}
-    void unlock() {}
+    Mutex();
+    ~Mutex();
+    void lock();
+    void unlock();
+private:
+    Mutex(const Mutex&);
+    Mutex& operator=(const Mutex&);
+    void* h_;
 };
 
 class LockGuard {

@@ -31,6 +31,16 @@ Done; procedure in `docs/07_implementation_zybo.md`, logs and results in `runs/b
 copy the datasets to a FAT32 card, `python tools/board_session.py --program -- ...`, copy the
 results back, `make analyze RUN=runs/board/<ds> SCEN=<ds>`. M12 (real Nasdaq ITCH) was run on the board too.
 
+## Real-time analysis (2026-11-20)
+
+FreeRTOS build (`sw/bin/t2t_rtos.elf`, `python sw/build.py --rtos`) with a live replay paced by
+the market timestamps: feed (1 ms), monitor (10 ms), telemetry (100 ms), rate-monotonic
+priorities. WCET measured on the board (`wcet`), analysed with `tools/rma.py` (utilisation,
+Liu & Layland, hyperbolic bound, exact RTA with release jitter), validated with four live runs of
+`itch_sample`: 0 deadline misses in 165 000 jobs, every measured response below its bound,
+outputs bit-exact. Details in docs/09 and DECISIONS D-43. PC dashboard: `tools/live_dashboard.py`
+(also replays a recorded run without the board).
+
 ## Robustness audit (2026-11-15/16)
 
 Code audit after M12; details in DECISIONS D-34..D-39. Found and fixed:

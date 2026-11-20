@@ -35,7 +35,7 @@ SYSTEMC_HOME ?= build/ext/systemc
 PLANTUML ?= tools/bin/plantuml.jar
 
 .PHONY: setup data data-all fetch ref ref-all test-py csim csim-all test-cpp rtl-test rtl-system sysc \
-        hls cosim hls-impl vivado sw sw-host-test analyze evaluate stylized docs all-offline clean help
+        hls cosim hls-impl vivado sw sw-rtos sw-host-test analyze evaluate stylized docs all-offline clean help
 
 help:
 	@sed -n '1,12p' Makefile
@@ -62,7 +62,7 @@ ref-all:
 	for s in $(SCENARIOS); do $(PY) ref/run_ref.py data/out/$$s || exit 1; done
 
 test-py:
-	$(PY) -m pytest -q tests/test_proto.py tests/test_ref.py tests/test_generator.py tests/test_itch.py
+	$(PY) -m pytest -q tests/test_proto.py tests/test_ref.py tests/test_generator.py tests/test_itch.py tests/test_rma.py
 
 evaluate:
 	$(PY) ref/evaluate.py data/out/$(SCEN)
@@ -127,6 +127,9 @@ sw:
 build/test_sw$(EXE): sw/host_test/test_sw.cpp hls/src/t2t_top.cpp sw/osal/osal_host.cpp $(wildcard sw/app/*.hpp sw/app/*.h sw/osal/*.hpp hls/src/core/*.hpp)
 	$(CXX) -std=c++11 $(CXXFLAGS) -DT2T_DBG_PKT=64 $(INC) -Isw/app sw/host_test/test_sw.cpp hls/src/t2t_top.cpp \
 	    sw/osal/osal_host.cpp $(LDEXTRA) -o $@
+
+sw-rtos:
+	$(PY) sw/build.py --rtos
 
 sw-host-test: build/test_sw$(EXE)
 	./build/test_sw$(EXE) tests/hand_case $(foreach s,unit_tiny cosim_10k edge_errors edge_table_full,data/out/$(s))

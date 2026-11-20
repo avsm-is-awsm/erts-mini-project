@@ -147,3 +147,23 @@ to `run_info_*.json`, so the analysis was never affected; only the text was corr
   model reports table_full 0 and not_found 1 (the cancel of the sub-cent order).
 * No `V` messages (strategy off, `ctrl = dbg_en`), as in SPEC 7.4: the test covers parsing and book
   maintenance; the BBO trace is the output compared.
+
+### D-43 Live replay as periodic FreeRTOS tasks, analysed with RMA (2026-11-20)
+
+* **Second build, not a replacement:** `main_rtos.cpp` + `osal_freertos.cpp` on the
+  `freertos901_xilinx` BSP (1 kHz tick, preemptive, 8 priorities). The bare-metal build and all
+  earlier results are unchanged; the OSAL (Adapter pattern) gained a real mutex.
+* **RTOS-independent jobs:** `LiveReplay` (`sw/app/live.hpp`) takes `now` as a parameter, so the
+  same code is unit-tested on the PC with simulated time, scheduled by FreeRTOS on the board, and
+  timed in isolation by `wcet`.
+* **Analysable by construction:** budget-bounded feed job, no waiting on the DMA, schedule table
+  precomputed (no 64-bit division in jobs), UART mutex with priority inheritance and a silent CLI
+  (B = 0), synchronous release at T0.
+* **Stale-data guard:** the monitor sets `CTRL.kill` when released data is older than `guard_ms`
+  and clears it at half that; overload therefore stops trading instead of trading on old prices.
+* **Found by measurement and fixed:** 64-bit division per message (3.5 ms job), 4 MB cache
+  invalidate in the monitor (3.8 ms), ticks lost while Xilinx cache routines run with interrupts
+  off (prepare before choosing T0), `vTaskDelayUntil()` with a future reference does not block
+  (tasks first `vTaskDelay` to T0), telemetry WCET under-measured with a short line, and release
+  jitter up to 134 µs (RTA with J = 150 µs).
+* **Telemetry format** uses compact keys: each character costs 87 µs at 115 200 baud.

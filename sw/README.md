@@ -6,7 +6,7 @@
 | `osal/` | OS abstraction layer: `osal.hpp`, bare-metal (`osal_baremetal.cpp`) and host (`osal_host.cpp`) adapters |
 | `host_test/` | PC unit tests with mocks and a *virtual board* (real HLS top behind mock DMA) |
 | `third_party/osal_course/` | place for the course OS package if it becomes available (not used: A4 = no) |
-| `build_sdk.tcl`, `build.py` | xsct / SDK 2017.2 batch build |
+| `build_sdk.tcl`, `build.py` | xsct / SDK 2017.2 batch build (`--rtos`: FreeRTOS build with the live replay, docs/09) |
 | `run_board.tcl` | program FPGA + run the ELF over JTAG |
 | `bin/` | `t2t_app.elf`, `ps7_init.tcl`, build log |
 

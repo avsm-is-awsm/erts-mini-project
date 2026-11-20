@@ -1,0 +1,119 @@
+{
+  "wcet": {
+    "mode": "hw",
+    "budget": 8192,
+    "timer_hz": 325000000,
+    "n_msgs": 1479311,
+    "complete": 1,
+    "tick_isr": {
+      "max_ns": 680,
+      "mean_ns": 634,
+      "n": 2000
+    },
+    "tick_plus_task": {
+      "max_ns": 2169,
+      "mean_ns": 1920,
+      "n": 2000,
+      "probe_jobs": 2001
+    },
+    "feed": {
+      "jobs": 2450,
+      "cmax_ns": 558249,
+      "cmean_ns": 41487
+    },
+    "monitor": {
+      "jobs": 245,
+      "cmax_ns": 9960,
+      "cmean_ns": 6735
+    },
+    "telemetry": {
+      "jobs": 30,
+      "cmax_ns": 26994760,
+      "cmean_ns": 26750209
+    }
+  },
+  "analysis": {
+    "mode": "hw",
+    "budget": 8192,
+    "n_tasks": 4,
+    "jitter_us": 150.0,
+    "U": 0.83152539,
+    "ll_bound": 0.7568284600108841,
+    "ll_ok": false,
+    "hyperbolic": 1.9844250742462106,
+    "hyperbolic_ok": true,
+    "rta_ok": true,
+    "tasks": [
+      {
+        "name": "tick ISR",
+        "prio": 99,
+        "T_ms": 1.0,
+        "C_us": 0.68,
+        "wcet_us": 0.68,
+        "overhead_us": 0.0,
+        "U": 0.00068,
+        "R_us": 0.68,
+        "schedulable": true,
+        "measured_R_us": null,
+        "measured_jobs": null,
+        "measured_misses": null,
+        "measured_U": null
+      },
+      {
+        "name": "feed",
+        "prio": 4,
+        "T_ms": 1.0,
+        "C_us": 559.738,
+        "wcet_us": 558.249,
+        "overhead_us": 1.489,
+        "U": 0.5597380000000001,
+        "R_us": 710.418,
+        "schedulable": true,
+        "measured_R_us": 183.70769230769233,
+        "measured_jobs": 57735,
+        "measured_misses": 0,
+        "measured_U": 0.004134173245131936
+      },
+      {
+        "name": "monitor",
+        "prio": 3,
+        "T_ms": 10.0,
+        "C_us": 11.449000000000002,
+        "wcet_us": 9.96,
+        "overhead_us": 1.489,
+        "U": 0.0011449000000000001,
+        "R_us": 721.867,
+        "schedulable": true,
+        "measured_R_us": 193.1846153846154,
+        "measured_jobs": 5773,
+        "measured_misses": 0,
+        "measured_U": 0.0006680336313608443
+      },
+      {
+        "name": "telemetry",
+        "prio": 2,
+        "T_ms": 100.0,
+        "C_us": 26996.249000000003,
+        "wcet_us": 26994.760000000002,
+        "overhead_us": 1.489,
+        "U": 0.26996249,
+        "R_us": 61972.308000000005,
+        "schedulable": true,
+        "measured_R_us": 15349.944615384615,
+        "measured_jobs": 577,
+        "measured_misses": 0,
+        "measured_U": 0.1472658724970004
+      }
+    ],
+    "feed_per_msg_us": 0.0681456298828125,
+    "max_budget_rta": 10642,
+    "max_rate_msgs_per_s": 8192000.0,
+    "live": {
+      "speed": 1000,
+      "budget": 8192,
+      "released": 1479311,
+      "n_msgs": 1479311,
+      "error": ""
+    }
+  }
+}

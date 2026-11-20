@@ -10,7 +10,7 @@ where the mock DMA channels push data through the real HLS top function.
 | Pattern (Douglass) | Where | Why |
 |---|---|---|
 | **Hardware Proxy** | `T2tProxy` (only class that knows register offsets, generated `t2t_regs.h`), `XilDmaChannel` | Isolates register/driver details. The host tests replace the bus with `VirtualT2t`, which maps register writes to the HLS function arguments. |
-| **Adapter** | `osal::Clock/Timer/Mutex/Queue/Thread` with `osal_baremetal.cpp` (XTime, usleep) and `osal_host.cpp` (std::chrono) | Portability: a course OS package or FreeRTOS would be a third adapter. |
+| **Adapter** | `osal::Clock/Timer/Mutex/Queue/Thread` with `osal_baremetal.cpp` (XTime, usleep), `osal_freertos.cpp` (FreeRTOS 9: blocking sleep, mutex with priority inheritance) and `osal_host.cpp` (std::chrono) | Portability: the same application runs bare metal and on FreeRTOS (docs/09). |
 | **State** | `SessionController` (Idle → Loaded → Configured → Running → Draining → Done / Error, D09); product state machine in the core (D07) | Explicit, testable lifecycles that match the SysML state machines. `test_session_states` checks the transition sequence. |
 | **Strategy** | `IEngine` with `HwEngine` (Arch C) and `SwEngine` (Arch A) | The same session code runs either architecture, so the comparison is fair. Within the core, the trading strategy is a separate function (`strategy_step`). |
 | **Observer** | `ISessionObserver`: `ResultWriter` (files to SD), `Cli` (UART progress) | Reporting is decoupled from control flow. Adding a new sink needs no session change. |

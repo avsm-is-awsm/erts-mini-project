@@ -1,0 +1,12 @@
+{
+  "engine": "sw_live_x1000",
+  "n_msgs": 1479311,
+  "wall_ticks": 18720090333,
+  "timer_hz": 325000000,
+  "pl_clk_hz": 100000000,
+  "dma_chunks": 0,
+  "ord_bytes": 32,
+  "dbg_bytes": 47337952,
+  "err_framing": 0,
+  "t_units": "global timer ticks (CPU/2)"
+}

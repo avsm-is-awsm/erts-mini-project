@@ -17,6 +17,7 @@
 #include "../../hls/tb/tb_util.hpp"
 #include "../app/cli.hpp"
 #include "../app/engines.hpp"
+#include "../app/live.hpp"
 #include "../app/result_writer.hpp"
 #include "../app/session.hpp"
 
@@ -32,7 +33,7 @@ static int g_fail = 0, g_pass = 0;
 // ------------------------------------------------------------------ DDR arena
 static uint8_t* g_arena = 0;
 uint8_t* app::ddr(uint32_t addr) {
-    if (!g_arena) g_arena = (uint8_t*)calloc(0x16000000u - IN_BUF, 1);
+    if (!g_arena) g_arena = (uint8_t*)calloc(SCHED_BUF + SCHED_BUF_SIZE - IN_BUF, 1);
     return g_arena + (addr - IN_BUF);
 }
 
@@ -469,6 +470,127 @@ static void test_engines(const std::string& dir) {
            (unsigned long)rh.ord_len, (unsigned long)rh.dbg_len);
 }
 
+
+// ------------------------------------------------------------------ live replay (D-43)
+static uint64_t g_sim = 0;
+static uint64_t sim_clock() { return g_sim += 50; }  // 50 ns per clock read (host: 1 tick = 1 ns)
+
+// Drive the periodic jobs with simulated time: feed every 1 ms, monitor every 10 ms.
+static bool drive_live(LiveReplay& lr, uint64_t t0, uint64_t limit_ms) {
+    const uint64_t ms = 1000000ull;
+    for (uint64_t k = 1; k <= limit_ms; ++k) {
+        const uint64_t now = t0 + k * ms;
+        g_sim = now;
+        lr.feed_job(now);
+        if (k % 10 == 0) {
+            g_sim = now;
+            lr.monitor_job(now);
+            if (lr.finished()) return true;
+        }
+    }
+    return false;
+}
+
+static void test_live(const std::string& dir) {
+    MemFs fs;
+    std::vector<uint8_t> gold_o, gold_b;
+    if (!fs.add_host_file(dir + "/feed.bin", "ds/feed.bin") || !fs.add_host_file(dir + "/config.txt", "ds/config.txt") ||
+        !tbu::read_file(dir + "/golden_orders.bin", gold_o) || !tbu::read_file(dir + "/golden_bbo.bin", gold_b)) {
+        printf("  skip live %s (missing files)\n", dir.c_str());
+        return;
+    }
+    DatasetLoader l(fs);
+    SessionController s(l);
+    CHECK(s.load("ds"));
+    const Dataset& ds = s.dataset();
+    const uint64_t span = dk1::load_le64(ds.data + 32u * (ds.n_msgs - 1) + 8) - dk1::load_le64(ds.data + 8);
+    const uint32_t speed = (uint32_t)(span / 3000000000ull + 1);  // ~3 s of replay
+    const uint64_t t0 = 5000000000ull;
+
+    for (int hw = 0; hw <= 1; ++hw) {
+        VirtualT2t core;
+        VirtS2mm s2o(core.ord_out), s2d(core.dbg_out);
+        s2o.t_out = 1000; s2d.t_out = 1000;
+        VirtMm2s mm2s(core, s2o, s2d);
+        T2tProxy proxy(core);
+        ConfigManager cm(proxy);
+        NullCache cache;
+        LiveReplay lr(&cm, &mm2s, &s2o, &s2d, &cache, sim_clock);
+
+        // 1) paced replay, generous budget: bit-exact, lateness within one feed period (+ processing)
+        LiveParams p = {hw != 0, speed, 1u << 20, 0, 0};
+        CHECK(lr.start(ds, ds.cfg, p, t0, 1000000000ull));
+        CHECK(lr.sched(0) == t0 && lr.sched(ds.n_msgs - 1) >= t0 + span / speed - 1);
+        CHECK(drive_live(lr, t0, 4000 + span / speed / 1000000ull));
+        RunResult r;
+        lr.result(r);
+        CHECK(r.ok);
+        if (!r.ok) printf("  live %s error: %s\n", hw ? "hw" : "sw", r.error);
+        CHECK(compare_masked(r.ord, r.ord_len, gold_o, hw ? "hw_live orders" : "sw_live orders", dir.c_str()) == 0);
+        CHECK(compare_masked(r.dbg, r.dbg_len, gold_b, hw ? "hw_live bbo" : "sw_live bbo", dir.c_str()) == 0);
+        CHECK(lr.lateness().n == ds.n_msgs);
+        CHECK(lr.lateness().max <= 1000000ull + (hw ? 0 : ds.n_msgs * 100ull));
+        CHECK(lr.budget_hits() == 0 && lr.kill_events() == 0);
+        printf("  live %s x%lu: %lu msgs, lateness max %llu us, p99 <= %llu us\n", hw ? "hw" : "sw",
+               (unsigned long)speed, (unsigned long)lr.released(),
+               (unsigned long long)(lr.lateness().max / 1000), (unsigned long long)(lr.lateness().quantile_ub(990) / 1000));
+
+        // 2) as fast as possible with a small budget: still bit-exact, the budget bounds every job
+        LiveParams q = {hw != 0, 0, 64, 0, 0};
+        CHECK(lr.start(ds, ds.cfg, q, t0, 1000000000ull));
+        CHECK(drive_live(lr, t0, ds.n_msgs / 64 + 100));
+        lr.result(r);
+        CHECK(r.ok);
+        CHECK(compare_masked(r.ord, r.ord_len, gold_o, "asap orders", dir.c_str()) == 0);
+        CHECK(compare_masked(r.dbg, r.dbg_len, gold_b, "asap bbo", dir.c_str()) == 0);
+        CHECK(lr.budget_hits() >= ds.n_msgs / 64 - 1);
+        CHECK(lr.lateness().max >= (uint64_t)(ds.n_msgs / 64 - 1) * 1000000ull);  // backlog drains 64/ms
+
+        // 3) stale-data guard: data falls behind by > 2 ms -> kill (no orders), released again
+        LiveParams g = {hw != 0, 0, 64, 2, 0};
+        CHECK(lr.start(ds, ds.cfg, g, t0, 1000000000ull));
+        CHECK(drive_live(lr, t0, ds.n_msgs / 64 + 100));
+        lr.result(r);
+        CHECK(lr.kill_events() >= 1);
+        CHECK(r.counters.orders_out < gold_o.size() / 32 || gold_o.size() <= 32);  // stale -> fewer orders
+        CHECK(r.counters.msgs_in == ds.n_msgs);
+
+        // 4) max_s cuts the run short and it still terminates
+        LiveParams m = {hw != 0, speed, 1u << 20, 0, 1};
+        CHECK(lr.start(ds, ds.cfg, m, t0, 1000000000ull));
+        CHECK(drive_live(lr, t0, 3000));
+        lr.result(r);
+        CHECK(!r.ok && lr.released() < ds.n_msgs);
+    }
+
+    // rejected inputs
+    {
+        LiveReplay lr(0, 0, 0, 0, 0, sim_clock);
+        LiveParams p = {true, 1, 64, 0, 0};
+        CHECK(!lr.start(ds, ds.cfg, p, t0, 1000000000ull));  // hw without hardware
+        LiveParams z = {false, 1, 0, 0, 0};
+        CHECK(!lr.start(ds, ds.cfg, z, t0, 1000000000ull));  // zero budget
+        std::vector<uint8_t> bad(ds.data, ds.data + 32u * ds.n_msgs);
+        Dataset d2 = ds;
+        d2.data = &bad[0];
+        dk1::store_le64(&bad[32 * 5 + 8], 0);  // timestamp goes backwards
+        LiveParams ok = {false, 1, 64, 0, 0};
+        CHECK(!lr.start(d2, ds.cfg, ok, t0, 1000000000ull) && strstr(lr.error(), "monotonic"));
+    }
+
+    // TaskStats / LatHist arithmetic
+    TaskStats t;
+    t.reset("x", 1, 100);
+    t.job(0, 10, 50);
+    t.job(100, 150, 230);  // response 130 > period 100
+    CHECK(t.jobs == 2 && t.misses == 1 && t.rmax == 130 && t.cmax == 80 && t.csum == 120);
+    LatHist h;
+    h.clear();
+    for (int i = 0; i < 99; ++i) h.add(3);
+    h.add(1000);
+    CHECK(h.quantile_ub(500) == 4 && h.quantile_ub(990) == 4 && h.quantile_ub(1000) == 1024 && h.max == 1000);
+}
+
 int main(int argc, char** argv) {
     test_config_kv();
     test_loader_errors();
@@ -480,6 +602,7 @@ int main(int argc, char** argv) {
     test_hw_failures();
     test_cli_run_errors();
     for (int i = 1; i < argc; ++i) test_engines(argv[i]);
+    for (int i = 2; i < argc && i <= 3; ++i) test_live(argv[i]);
     printf("test_sw: %d checks passed, %d failed\n", g_pass, g_fail);
     return g_fail ? 1 : 0;
 }

@@ -1,0 +1,23 @@
+{
+  "mode": "sw",
+  "speed": 1000,
+  "budget": 128,
+  "guard_ms": 0,
+  "max_s": 0,
+  "timer_hz": 325000000,
+  "n_msgs": 1479311,
+  "released": 1479311,
+  "truncated": 0,
+  "wall_ticks": 18720090333,
+  "transfers": 0,
+  "budget_hits": 3682,
+  "dma_busy": 0,
+  "kill_events": 0,
+  "error": "",
+  "lateness_ticks": {"n": 1479311, "max": 21907392, "sum": 1488662794725, "log2_buckets": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 22, 162, 1076, 5585, 24624, 82602, 216945, 482570, 411964, 93129, 49876, 49644, 8114, 23606, 29389, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+  "tasks": [
+    {"name": "feed", "prio": 4, "period_ticks": 325000, "jobs": 57736, "misses": 0, "rmin_ticks": 761, "rmax_ticks": 144421, "cmax_ticks": 101069, "csum_ticks": 1157210898},
+    {"name": "monitor", "prio": 3, "period_ticks": 3250000, "jobs": 5773, "misses": 0, "rmin_ticks": 1868, "rmax_ticks": 143900, "cmax_ticks": 176, "csum_ticks": 345552},
+    {"name": "telemetry", "prio": 2, "period_ticks": 32500000, "jobs": 577, "misses": 0, "rmin_ticks": 3955976, "rmax_ticks": 5328923, "cmax_ticks": 5201134, "csum_ticks": 2848147517}
+  ]
+}

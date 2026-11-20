@@ -16,4 +16,9 @@ uint64_t Clock::ticks_per_sec() { return (uint64_t)COUNTS_PER_SECOND; }
 
 void Timer::sleep_us(uint32_t us) { usleep(us); }
 
+Mutex::Mutex() : h_(0) {}
+Mutex::~Mutex() {}
+void Mutex::lock() {}
+void Mutex::unlock() {}
+
 }  // namespace osal
