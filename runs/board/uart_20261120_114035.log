@@ -1,0 +1,49 @@
+
+dk1-t2t: DK1 tick-to-trade engine (ZYBO, PL @ 100 MHz)
+timer 325000000 Hz; type 'help'
+t2t> 
+t2t> 
+[session 11:40:43] >>> ls
+ls
+           0  System Volume Information
+           0  cosim_10k
+           0  edge_errors
+           0  stress_burst
+           0  day_default
+t2t> [session] (0.1 s)
+
+[session 11:40:43] >>> load cosim_10k
+load cosim_10k
+[session] Idle -> Loaded (dataset loaded)
+loaded 12004 messages
+t2t> [session] (0.2 s)
+
+[session 11:40:43] >>> cfg show
+cfg show
+ctrl=0x5 (strat_en=1 kill=0 dbg_en=1) clip_qty=50 max_order_qty=100 max_pos=200
+collar=2000 min_gap_ns=0 max_orders=1000000 lockout_ms=0
+t2t> [session] (0.2 s)
+
+[session 11:40:43] >>> cfg set dbg_en 1
+cfg set dbg_en 1
+[session] Loaded -> Configured (configuration accepted)
+t2t> [session] (0.2 s)
+
+[session 11:40:44] >>> run both
+run both
+[session] Configured -> Running (hw)
+[session] Running -> Draining (collecting results)
+[hw] 12004 msgs, 800 order bytes, 371296 dbg bytes, wall 828 us (14489400 msg/s)
+[session] Draining -> Done (run complete)
+[session] Done -> Configured (configuration accepted)
+[session] Configured -> Running (sw)
+[session] Running -> Draining (collecting results)
+[sw] 12004 msgs, 800 order bytes, 371296 dbg bytes, wall 25752 us (466129 msg/s)
+[session] Draining -> Done (run complete)
+t2t> [session] (0.6 s)
+
+[session 11:40:44] >>> stats
+stats
+last run (sw): msgs_in=12004 orders_out=14 rejects=10 seq_gap=0 not_found=0 table_full=0 oow=0
+IP now: msgs_in=12004 orders_out=14 last_seq=12004 first_t_in=208024180 last_t_in=208072192
+t2t> [session] (0.2 s)

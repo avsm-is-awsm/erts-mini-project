@@ -1,0 +1,20 @@
+{
+  "msgs_in": 4692944,
+  "orders_out": 2069,
+  "rejects": 294,
+  "err_unknown_type": 0,
+  "err_bad_product": 0,
+  "err_not_found": 0,
+  "err_table_full": 0,
+  "err_dup_id": 0,
+  "err_oow": 0,
+  "err_grid": 0,
+  "err_seq_gap": 0,
+  "err_qty_over": 0,
+  "err_anchor": 0,
+  "err_bad_state": 0,
+  "last_seq": 4692944,
+  "first_t_in": 404414943,
+  "last_t_in": 3276812290,
+  "pos": [200, 52, -156, 176, -174, -200, 126, 4]
+}

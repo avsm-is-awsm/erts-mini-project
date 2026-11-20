@@ -48,20 +48,30 @@ t2t> run both
 t2t> stats
 ```
 
-## On-board measurement procedure (NEEDS-USER, SPEC 10.5)
+## On-board measurement procedure (SPEC 10.5)
 
-1. Copy `data/out/<name>/{feed.bin,config.txt}` for the wanted datasets onto the microSD
-   (FAT32, folder per dataset). Use `day_default` (4.69 M msgs, 150 MB) and a ≤ 1.5 M-message
-   set for debug runs.
-2. Program the FPGA with `hw/dk1_t2t.bit` and run `sw/bin/t2t_app.elf` (SDK: *Run As → Launch
-   on Hardware*, or `xsct sw/run_board.tcl`). Open the UART at 115 200 8N1.
-3. `load day_default`, `cfg set dbg_en 0`, `run hw`: throughput and latency (orders only).
-4. `load cosim_10k` (or `stress_burst`), `cfg set dbg_en 1`, `run hw`: full BBO-trace verification.
-5. `run sw` on the same datasets: Architecture A baseline.
-6. Copy the SD outputs back to `runs/<board-date>/<dataset>/` and run
-   `make analyze RUN=runs/<board-date>/<dataset> SCEN=<dataset>`. This writes `compare.py`
-   verdicts, latency histograms and throughput into `latency_summary.json`, and updates the plots.
+Done on 2026-11-20 with the original ZYBO powered from USB (JP7 = USB, JP5 = JTAG). Results in
+§08 and `runs/board/`.
 
-The board was not connected to this PC (an `xsct` JTAG scan found no targets), so no on-board
-numbers exist yet. All results in §08 are from simulation and implementation reports, and are
-labelled as such.
+1. Format the microSD as **FAT32** (the 2017.2 FatFs has no exFAT; `format E: /FS:FAT32 /Q` also
+   works above 32 GB on current Windows 11). Copy `data/out/<name>/{feed.bin,config.txt}` into one
+   folder per dataset (`cosim_10k`, `edge_errors`, `stress_burst`, `day_default`).
+2. Insert the card, power the board, connect PROG/UART. Windows shows two FTDI ports (here
+   COM4 = channel A, which also carries JTAG; COM5 = the UART).
+3. Program and drive the console from the PC; everything is logged to `runs/board/uart_*.log`:
+   ```
+   python tools/board_session.py --program -- ls "load cosim_10k" "cfg set dbg_en 1" "run both"
+   python tools/board_session.py -- "load day_default" "cfg set dbg_en 0" "run both" stats
+   ```
+   `--program` runs `xsct sw/run_board.tcl` with no serial port open (holding COM4 hides the board
+   from `hw_server`). A terminal at 115 200 8N1 on the UART port works as well.
+4. Debug-trace runs need ≤ 1.5 M messages (48 MB debug buffer), so `day_default` runs with
+   `dbg_en 0`.
+5. Copy `<ds>/*_hw.*` and `*_sw.*` from the card into `runs/board/<ds>/` and run
+   `make analyze RUN=runs/board/<ds> SCEN=<ds>` (bit-exact comparison + latency/throughput into
+   `latency_summary.json` and `docs/img/latency_hist_<ds>.png`).
+6. Put the measured ARM cost into `systemc/params.yaml` and run `make sysc`.
+
+Observed on the board: the global timer runs at 325 MHz (CPU 650 MHz in the ZYBO preset); FatFs
+stamps files 2010-01-01 because the board has no real-time clock. The first `ls` hung the board
+(D-41, fixed before the measurement runs).

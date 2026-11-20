@@ -1,0 +1,10 @@
+
+dk1-t2t: DK1 tick-to-trade engine (ZYBO, PL @ 100 MHz)
+timer 325000000 Hz; type 'help'
+t2t> 
+t2t> 
+[session 11:33:51] >>> ls
+[session] (0.0 s)
+
+[session 11:33:51] >>> load cosim_10k
+ls

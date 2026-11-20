@@ -1,0 +1,118 @@
+{
+  "run_dir": "runs\\board\\stress_burst",
+  "hw": {
+    "source": "board (axis_ts_in/axis_ts_out probes)",
+    "unit": "PL cycles",
+    "clk_hz": 100000000.0,
+    "latency": {
+      "n": 182,
+      "min": 28.0,
+      "max": 28.0,
+      "mean": 28.0,
+      "p50": 28.0,
+      "p90": 28.0,
+      "p99": 28.0,
+      "p99.9": 28.0,
+      "jitter_max_minus_min": 0.0,
+      "ns": {
+        "min": 280.0,
+        "max": 280.0,
+        "mean": 280.0,
+        "p50": 280.0,
+        "p90": 280.0,
+        "p99": 280.0,
+        "p99.9": 280.0,
+        "jitter_max_minus_min": 0.0
+      }
+    },
+    "throughput": {
+      "msgs_in": 1371029,
+      "input_span_cycles": 9320048,
+      "cycles_per_msg": 6.797853873152117,
+      "fabric_msgs_per_s": 14710525.096008088
+    },
+    "wall_msgs_per_s_incl_dma": 14436933.279532062,
+    "wall_s": 0.09496677538461538
+  },
+  "sw": {
+    "source": "board (ARM Cortex-A9 SwEngine, global timer)",
+    "unit": "timer ticks",
+    "timer_hz": 325000000.0,
+    "latency": {
+      "n": 182,
+      "min": 609.0,
+      "max": 997.0,
+      "mean": 668.1098901098901,
+      "p50": 664.5,
+      "p90": 697.0,
+      "p99": 775.8499999999999,
+      "p99.9": 959.1710000000035,
+      "jitter_max_minus_min": 388.0,
+      "ns": {
+        "min": 1873.846153846154,
+        "max": 3067.692307692308,
+        "mean": 2055.722738799662,
+        "p50": 2044.6153846153848,
+        "p90": 2144.6153846153848,
+        "p99": 2387.230769230769,
+        "p99.9": 2951.2953846153955,
+        "jitter_max_minus_min": 1193.8461538461538
+      }
+    },
+    "wall_msgs_per_s": 463358.0102525224
+  },
+  "speedup_p50": 7.302197802197803,
+  "speedup_p99": 8.525824175824175,
+  "compare_hw": {
+    "dataset": "stress_burst",
+    "orders": {
+      "n_got": 246,
+      "n_golden": 246,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "structure": {
+      "equal": true,
+      "note": "exactly one 'Z', as the last record; only O/R/Z types"
+    },
+    "bbo": {
+      "n_got": 1370640,
+      "n_golden": 1370640,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "counters": {
+      "equal": true,
+      "diff": {}
+    },
+    "equal": true
+  },
+  "compare_sw": {
+    "dataset": "stress_burst",
+    "orders": {
+      "n_got": 246,
+      "n_golden": 246,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "structure": {
+      "equal": true,
+      "note": "exactly one 'Z', as the last record; only O/R/Z types"
+    },
+    "bbo": {
+      "n_got": 1370640,
+      "n_golden": 1370640,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "counters": {
+      "equal": true,
+      "diff": {}
+    },
+    "equal": true
+  }
+}

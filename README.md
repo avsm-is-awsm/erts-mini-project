@@ -16,16 +16,17 @@ bit-exact against each other. The same C++ core also runs on the ARM as the soft
 
 ## Headline numbers
 
-All from runs in this repository ([docs/08_results.md](docs/08_results.md)). **No on-board
-measurements yet**: the board was not attached to the build PC, so the latency figures come from
-cycle-accurate RTL simulation of the exported IP plus the timestamp probes.
+All from runs in this repository ([docs/08_results.md](docs/08_results.md)), **measured on the
+original ZYBO** (2026-11-20, `runs/board/`) unless a simulation source is given.
 
 | Metric | Value | Source |
 |---|---|---|
-| Fabric tick-to-trade latency p50 / p99 / max | **28 / 28 / 28 cycles = 280 ns** @ 100 MHz | RTL system simulation (IP + probes), every one of 351 orders on `cosim_10k` + `stress_gc_rush` (0.98 M msgs) |
-| Latency jitter (no backpressure) | 0 cycles | RTL system simulation |
-| Sustained input rate | 1 msg / 4 cycles = **25 M msg/s** (II = 4) | HLS schedule + RTL simulation |
-| Software baseline (Cortex-A9) p50 / p99 | NEEDS-USER (board); SystemC assumes ~1.05 µs | `sw/app` SwEngine |
+| Fabric tick-to-trade latency p50 / p99 / max | **28 / 28 / 28 cycles = 280 ns** @ 100 MHz | **board** probes, every one of 2 269 orders on 4 datasets (also RTL simulation) |
+| Latency jitter | **0 cycles** | board |
+| Throughput, full trading day (4.69 M msgs) | **24.98 M msg/s** wall clock incl. DMA (II = 4 limit: 25 M) | board, `day_default` |
+| Software baseline (Cortex-A9 @ 650 MHz) p50 / p99 | **1.94 / 2.13 µs**, 0.53 M msg/s | board SwEngine, `day_default` |
+| FPGA vs ARM | **6.9× lower p50 latency, 47× higher throughput** | board |
+| Correctness on the board | HW and SW engines **bit-exact** vs golden on 4 datasets (orders, 1.39 M BBO records, counters) | `tools/compare.py` |
 | Clock / timing | 100 MHz, **met post-route** (WNS +0.969 ns whole system) | Vivado 2017.2 |
 | Resources (whole system, XC7Z010) | **59.5 % LUT, 60.8 % BRAM**, 43.0 % FF, 3 DSP | Vivado post-route |
 | IP alone (OOC post-route) | 6 333 LUT, 32 BRAM36, WNS +1.67 ns | Vivado OOC |

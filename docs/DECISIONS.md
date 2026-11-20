@@ -104,3 +104,17 @@ Checked on the next full build: two other runs (`system_auto_pc_0_synth_1`,
 reset and relaunched them, and the build finished in 9.8 min with the same utilisation and
 timing as the build before it (`hw/reports/vivado_build.log`). Hang detection itself is unit
 tested without the tools in `tests/test_xilinx_watchdog.py`.
+
+### D-41 `ls` hang on the board with long file names (found on first board run, 2026-11-20)
+
+Enabling long file names (D-37) changed FatFs R0.10b's `FILINFO`: `f_readdir` writes the long
+name through `fi.lfname`, which the caller must point to a buffer. `FatFsFileSystem::list` left
+it uninitialised, so the first `ls` on the ZYBO wrote to a random address and the CPU hung (no
+output, no prompt). `load` and the result writes do not use `FILINFO` and were not affected.
+Fix: `list` zeroes `FILINFO`, gives it a static `_MAX_LFN + 1` buffer and prints the long name
+when there is one. The host tests use a mock file system, so they could not catch this; only the
+board run did.
+
+The board run also showed that the global timer runs at 325 MHz (CPU 650 MHz in the ZYBO preset),
+not the 333.33 MHz assumed in the docs. The application reads the real frequency and writes it
+to `run_info_*.json`, so the analysis was never affected; only the text was corrected.

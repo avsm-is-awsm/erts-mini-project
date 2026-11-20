@@ -1,0 +1,20 @@
+{
+  "msgs_in": 12048,
+  "orders_out": 4,
+  "rejects": 0,
+  "err_unknown_type": 60,
+  "err_bad_product": 60,
+  "err_not_found": 60,
+  "err_table_full": 0,
+  "err_dup_id": 60,
+  "err_oow": 0,
+  "err_grid": 40,
+  "err_seq_gap": 40,
+  "err_qty_over": 60,
+  "err_anchor": 0,
+  "err_bad_state": 0,
+  "last_seq": 12145,
+  "first_t_in": 1212416168,
+  "last_t_in": 1212464356,
+  "pos": [-18, 0, 1, 0, 0, 0, 0, 0]
+}

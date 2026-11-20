@@ -1,0 +1,12 @@
+{
+  "engine": "sw",
+  "n_msgs": 1371029,
+  "wall_ticks": 961641787,
+  "timer_hz": 325000000,
+  "pl_clk_hz": 100000000,
+  "dma_chunks": 0,
+  "ord_bytes": 7872,
+  "dbg_bytes": 43860480,
+  "err_framing": 0,
+  "t_units": "global timer ticks (CPU/2)"
+}

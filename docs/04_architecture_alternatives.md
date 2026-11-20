@@ -27,17 +27,19 @@ Two arrival modes are simulated:
 * **live:** each message arrives at its exchange timestamp, so bursts queue in the slower resources.
 
 Parameters (`systemc/params.yaml`) are tagged *measured* or *assumed*. The PL numbers (II = 4,
-latency 28 cycles, 100 MHz) are measured. The ARM costs and the DMA/IRQ latencies are
-**assumed** until the board run replaces them.
+latency 28 cycles, 100 MHz) are measured. The ARM cost per message (1 883 ns) and per order
+(55 ns) are **measured on the board** (SwEngine, `day_default`, 2026-11-20); the DMA/IRQ latencies
+and B's split costs remain assumed. The board confirmed the C prediction (280 ns, 0.1878 s run)
+to within 0.1 %; see §08 R6.
 
 Predicted tick-to-trade (`make sysc`, `systemc/out/summary.json`):
 
 | dataset | mode | A all-SW | B split | C all-HW |
 |---|---|---|---|---|
-| cosim_10k | replay | 1 050 ns (all) | p50 144 µs (ARM saturated) | 280 ns (all) |
-| cosim_10k | live | p50 2 850, p99 7 350 ns | p50 1 840, p99 2 510 ns | p50 360, p99 560 ns |
-| day_default | replay | 1 050 ns | p50 4.6 ms (saturated) | 280 ns |
-| day_default | live | p50 3 750, p99 7 350 ns | p50 2 010, p99 2 550 ns | p50 400, p99 560 ns |
+| cosim_10k | replay | 1 938 ns (all) | p50 144 µs (ARM saturated) | 280 ns (all) |
+| cosim_10k | live | p50 5 704, p99 15 119 ns | p50 1 840, p99 2 510 ns | p50 360, p99 560 ns |
+| day_default | replay | 1 938 ns | p50 4.6 ms (saturated) | 280 ns |
+| day_default | live | p50 7 587, p99 15 119 ns | p50 2 010, p99 2 550 ns | p50 400, p99 560 ns |
 
 ![SystemC](img/sysc_arch_day_default.png)
 

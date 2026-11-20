@@ -1,0 +1,104 @@
+{
+  "run_dir": "runs\\board\\day_default",
+  "hw": {
+    "source": "board (axis_ts_in/axis_ts_out probes)",
+    "unit": "PL cycles",
+    "clk_hz": 100000000.0,
+    "latency": {
+      "n": 2069,
+      "min": 28.0,
+      "max": 28.0,
+      "mean": 28.0,
+      "p50": 28.0,
+      "p90": 28.0,
+      "p99": 28.0,
+      "p99.9": 28.0,
+      "jitter_max_minus_min": 0.0,
+      "ns": {
+        "min": 280.0,
+        "max": 280.0,
+        "mean": 280.0,
+        "p50": 280.0,
+        "p90": 280.0,
+        "p99": 280.0,
+        "p99.9": 280.0,
+        "jitter_max_minus_min": 0.0
+      }
+    },
+    "throughput": {
+      "msgs_in": 4692944,
+      "input_span_cycles": 18779688,
+      "cycles_per_msg": 4.001686788013407,
+      "fabric_msgs_per_s": 24989462.018751323
+    },
+    "wall_msgs_per_s_incl_dma": 24980806.695638727,
+    "wall_s": 0.1878619876923077
+  },
+  "sw": {
+    "source": "board (ARM Cortex-A9 SwEngine, global timer)",
+    "unit": "timer ticks",
+    "timer_hz": 325000000.0,
+    "latency": {
+      "n": 2069,
+      "min": 586.0,
+      "max": 957.0,
+      "mean": 633.1686805219913,
+      "p50": 630.0,
+      "p90": 659.0,
+      "p99": 691.3199999999999,
+      "p99.9": 738.5920000000015,
+      "jitter_max_minus_min": 371.0,
+      "ns": {
+        "min": 1803.076923076923,
+        "max": 2944.6153846153848,
+        "mean": 1948.2113246830502,
+        "p50": 1938.4615384615386,
+        "p90": 2027.6923076923078,
+        "p99": 2127.1384615384613,
+        "p99.9": 2272.5907692307737,
+        "jitter_max_minus_min": 1141.5384615384617
+      }
+    },
+    "wall_msgs_per_s": 530987.2252695329
+  },
+  "speedup_p50": 6.923076923076923,
+  "speedup_p99": 7.596923076923076,
+  "compare_hw": {
+    "dataset": "day_default",
+    "orders": {
+      "n_got": 2070,
+      "n_golden": 2070,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "structure": {
+      "equal": true,
+      "note": "exactly one 'Z', as the last record; only O/R/Z types"
+    },
+    "counters": {
+      "equal": true,
+      "diff": {}
+    },
+    "equal": true
+  },
+  "compare_sw": {
+    "dataset": "day_default",
+    "orders": {
+      "n_got": 2070,
+      "n_golden": 2070,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "structure": {
+      "equal": true,
+      "note": "exactly one 'Z', as the last record; only O/R/Z types"
+    },
+    "counters": {
+      "equal": true,
+      "diff": {}
+    },
+    "equal": true
+  }
+}

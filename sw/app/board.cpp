@@ -102,8 +102,27 @@ bool FatFsFileSystem::write(const char* path, const void* src, uint32_t len) {
 bool FatFsFileSystem::list(const char* dir, void (*cb)(const char*, uint32_t, void*), void* ctx) {
     DIR d;
     FILINFO fi;
+    memset(&fi, 0, sizeof fi);
+#if _USE_LFN
+    // FatFs R0.10b writes the long name through fi.lfname: it must point to a caller buffer,
+    // or f_readdir writes to a random address (the board hung on `ls`, DECISIONS D-41).
+    static TCHAR lfn[_MAX_LFN + 1];
+    fi.lfname = lfn;
+    fi.lfsize = sizeof lfn / sizeof lfn[0];
+#endif
     if (f_opendir(&d, dir) != FR_OK) return false;
-    while (f_readdir(&d, &fi) == FR_OK && fi.fname[0]) cb(fi.fname, (uint32_t)fi.fsize, ctx);
+    for (;;) {
+#if _USE_LFN
+        lfn[0] = 0;
+#endif
+        if (f_readdir(&d, &fi) != FR_OK || !fi.fname[0]) break;
+#if _USE_LFN
+        const char* name = lfn[0] ? lfn : fi.fname;
+#else
+        const char* name = fi.fname;
+#endif
+        cb(name, (uint32_t)fi.fsize, ctx);
+    }
     f_closedir(&d);
     return true;
 }

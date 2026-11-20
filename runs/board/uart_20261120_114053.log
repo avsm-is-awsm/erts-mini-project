@@ -1,0 +1,85 @@
+
+t2t> 
+[session 11:40:53] >>> load edge_errors
+load edge_errors
+[session] Done -> Loaded (dataset loaded)
+loaded 12048 messages
+t2t> [session] (0.1 s)
+
+[session 11:40:54] >>> cfg set dbg_en 1
+cfg set dbg_en 1
+[session] Loaded -> Configured (configuration accepted)
+t2t> [session] (0.2 s)
+
+[session 11:40:54] >>> run both
+run both
+[session] Configured -> Running (hw)
+[session] Running -> Draining (collecting results)
+[hw] 12048 msgs, 160 order bytes, 368672 dbg bytes, wall 825 us (14593893 msg/s)
+[session] Draining -> Done (run complete)
+[session] Done -> Configured (configuration accepted)
+[session] Configured -> Running (sw)
+[session] Running -> Draining (collecting results)
+[sw] 12048 msgs, 160 order bytes, 368672 dbg bytes, wall 26133 us (461021 msg/s)
+[session] Draining -> Done (run complete)
+t2t> [session] (0.6 s)
+
+[session 11:40:54] >>> load stress_burst
+load stress_burst
+[session] Done -> Loaded (dataset loaded)
+loaded 1371029 messages
+t2t> [session] (2.4 s)
+
+[session 11:40:57] >>> cfg set dbg_en 1
+cfg set dbg_en 1
+[session] Loaded -> Configured (configuration accepted)
+t2t> [session] (0.1 s)
+
+[session 11:40:57] >>> run both
+run both
+[session] Configured -> Running (hw)
+[session] Running -> Draining (collecting results)
+[hw] 1371029 msgs, 7872 order bytes, 43860480 dbg bytes, wall 94966 us (14436933 msg/s)
+[session] Draining -> Done (run complete)
+[session] Done -> Configured (configuration accepted)
+[session] Configured -> Running (sw)
+[session] Running -> Draining (collecting results)
+[sw] 1371029 msgs, 7872 order bytes, 43860480 dbg bytes, wall 2958897 us (463358 msg/s)
+[session] Draining -> Done (run complete)
+t2t> [session] (17.3 s)
+
+[session 11:41:14] >>> stats
+stats
+last run (sw): msgs_in=1371029 orders_out=182 rejects=63 seq_gap=0 not_found=0 table_full=0 oow=0
+IP now: msgs_in=1371029 orders_out=182 last_seq=1371029 first_t_in=1546696692 last_t_in=1556016740
+t2t> [session] (0.2 s)
+
+[session 11:41:15] >>> load day_default
+load day_default
+[session] Done -> Loaded (dataset loaded)
+loaded 4692944 messages
+t2t> [session] (7.8 s)
+
+[session 11:41:22] >>> cfg set dbg_en 0
+cfg set dbg_en 0
+[session] Loaded -> Configured (configuration accepted)
+t2t> [session] (0.2 s)
+
+[session 11:41:23] >>> run both
+run both
+[session] Configured -> Running (hw)
+[session] Running -> Draining (collecting results)
+[hw] 4692944 msgs, 66240 order bytes, 0 dbg bytes, wall 187861 us (24980806 msg/s)
+[session] Draining -> Done (run complete)
+[session] Done -> Configured (configuration accepted)
+[session] Configured -> Running (sw)
+[session] Running -> Draining (collecting results)
+[sw] 4692944 msgs, 66240 order bytes, 0 dbg bytes, wall 8838148 us (530987 msg/s)
+[session] Draining -> Done (run complete)
+t2t> [session] (9.5 s)
+
+[session 11:41:32] >>> stats
+stats
+last run (sw): msgs_in=4692944 orders_out=2069 rejects=294 seq_gap=0 not_found=0 table_full=0 oow=0
+IP now: msgs_in=4692944 orders_out=2069 last_seq=4692944 first_t_in=4115723220 last_t_in=4134502908
+t2t> [session] (0.2 s)

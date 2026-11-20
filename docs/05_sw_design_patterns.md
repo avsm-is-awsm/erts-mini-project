@@ -34,8 +34,9 @@ where the mock DMA channels push data through the real HLS top function.
 * **Soft reset:** the IP clears its memories in 16 384 steps (~0.66 ms). `STATUS.busy` rises
   about 30 cycles after the reset edge (it is written at the end of the IP pipeline, observed
   in RTL simulation), so `ConfigManager` waits 5 µs before polling.
-* **SwEngine timestamps:** `t_in`/`t_out` are the low 32 bits of the global timer (CPU/2 =
-  333.33 MHz), taken before `process()` and when the record is complete.
+* **SwEngine timestamps:** `t_in`/`t_out` are the low 32 bits of the global timer (CPU/2: 325 MHz on
+  the ZYBO preset, CPU 650 MHz, measured on the board), taken before `process()` and when the
+  record is complete. The frequency is written to `run_info_*.json` (`timer_hz`) and used by the analysis.
 
 ## Host unit tests (`make sw-host-test`)
 

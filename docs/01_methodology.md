@@ -14,7 +14,7 @@ evidence files that later phases are checked against.
 | 4 | Logical structure | D10 BDD, D11 IBD, D17 latency budget | — |
 | 5 | Architecture exploration & allocation | D12/D13 physical, D14 allocation A/B/C, SystemC model | `systemc/out/` |
 | 6 | Executable model & HLS verification | golden model, C++ core, csim, cosim, RTL sim | `hls/reports`, `build/rtlsim` |
-| 7 | Implementation & on-target verification | Vivado design, PS application | `hw/reports`, board runs (NEEDS-USER) |
+| 7 | Implementation & on-target verification | Vivado design, PS application | `hw/reports`, board runs (`runs/board/`) |
 | 8 | Evaluation | [08_results](08_results.md), requirement verdicts | this repository |
 
 ## From models to code
@@ -58,7 +58,7 @@ Python golden model ──(12k random sequences, all scenarios)──► C++ cor
         └──────────(cosim_10k, xsim)──────────────────────► HLS RTL (C/RTL cosim)
                                                                    │ exported IP
         golden ──(RTL system sim: IP + probes, Icarus)───────────► │
-        golden ──(board: orders_hw.bin, compare.py)──────────────► ZYBO (NEEDS-USER)
+        golden ──(board: orders_hw.bin, compare.py)──────────────► ZYBO (bit-exact)
 ```
 
 ## References

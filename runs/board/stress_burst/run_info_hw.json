@@ -1,0 +1,12 @@
+{
+  "engine": "hw",
+  "n_msgs": 1371029,
+  "wall_ticks": 30864202,
+  "timer_hz": 325000000,
+  "pl_clk_hz": 100000000,
+  "dma_chunks": 11,
+  "ord_bytes": 7872,
+  "dbg_bytes": 43860480,
+  "err_framing": 0,
+  "t_units": "PL cycles (FCLK0)"
+}

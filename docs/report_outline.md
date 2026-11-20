@@ -7,7 +7,7 @@
 | 3. Architecture alternatives and allocation | Architecture exploration | [04](04_architecture_alternatives.md) | D12–D14 | `systemc/out/summary.json`, `docs/img/sysc_arch_*.png` |
 | 4. Design patterns | Software design | [05](05_sw_design_patterns.md) | D18 | `sw/app`, `sw/host_test` (99 checks) |
 | 5. HLS model + testbench | HLS design and verification | [06](06_hls_model_and_verification.md), [DECISIONS](DECISIONS.md) | D17 | `hls/reports/*`, `tests/test_xcheck.py`, `hls/tb/*`, `rtl/tests/*` |
-| 6. Implementation on the ZYBO with an HLS IP core | Implementation and results | [07](07_implementation_zybo.md), [08](08_results.md) | D13, D16 | `hw/reports/*`, `sw/bin/*`, board runs (NEEDS-USER) |
+| 6. Implementation on the ZYBO with an HLS IP core | Implementation and results | [07](07_implementation_zybo.md), [08](08_results.md) | D13, D16 | `hw/reports/*`, `sw/bin/*`, board runs (`runs/board/`) |
 
 Data and evaluation (supporting all steps): generator realism plots `docs/img/data_*`, the latency
 sweep `docs/img/pnl_vs_latency_*`, and the honesty statements in the README.

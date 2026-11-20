@@ -1,0 +1,118 @@
+{
+  "run_dir": "runs\\board\\cosim_10k",
+  "hw": {
+    "source": "board (axis_ts_in/axis_ts_out probes)",
+    "unit": "PL cycles",
+    "clk_hz": 100000000.0,
+    "latency": {
+      "n": 14,
+      "min": 28.0,
+      "max": 28.0,
+      "mean": 28.0,
+      "p50": 28.0,
+      "p90": 28.0,
+      "p99": 28.0,
+      "p99.9": 28.0,
+      "jitter_max_minus_min": 0.0,
+      "ns": {
+        "min": 280.0,
+        "max": 280.0,
+        "mean": 280.0,
+        "p50": 280.0,
+        "p90": 280.0,
+        "p99": 280.0,
+        "p99.9": 280.0,
+        "jitter_max_minus_min": 0.0
+      }
+    },
+    "throughput": {
+      "msgs_in": 12004,
+      "input_span_cycles": 48012,
+      "cycles_per_msg": 4.0,
+      "fabric_msgs_per_s": 25000000.0
+    },
+    "wall_msgs_per_s_incl_dma": 14489400.26443629,
+    "wall_s": 0.0008284676923076923
+  },
+  "sw": {
+    "source": "board (ARM Cortex-A9 SwEngine, global timer)",
+    "unit": "timer ticks",
+    "timer_hz": 325000000.0,
+    "latency": {
+      "n": 14,
+      "min": 630.0,
+      "max": 971.0,
+      "mean": 700.2142857142857,
+      "p50": 683.0,
+      "p90": 735.1,
+      "p99": 941.2299999999998,
+      "p99.9": 968.0230000000005,
+      "jitter_max_minus_min": 341.0,
+      "ns": {
+        "min": 1938.4615384615386,
+        "max": 2987.692307692308,
+        "mean": 2154.5054945054944,
+        "p50": 2101.5384615384614,
+        "p90": 2261.8461538461543,
+        "p99": 2896.0923076923073,
+        "p99.9": 2978.532307692309,
+        "jitter_max_minus_min": 1049.2307692307693
+      }
+    },
+    "wall_msgs_per_s": 466129.8639975645
+  },
+  "speedup_p50": 7.5054945054945055,
+  "speedup_p99": 10.343186813186811,
+  "compare_hw": {
+    "dataset": "cosim_10k",
+    "orders": {
+      "n_got": 25,
+      "n_golden": 25,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "structure": {
+      "equal": true,
+      "note": "exactly one 'Z', as the last record; only O/R/Z types"
+    },
+    "bbo": {
+      "n_got": 11603,
+      "n_golden": 11603,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "counters": {
+      "equal": true,
+      "diff": {}
+    },
+    "equal": true
+  },
+  "compare_sw": {
+    "dataset": "cosim_10k",
+    "orders": {
+      "n_got": 25,
+      "n_golden": 25,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "structure": {
+      "equal": true,
+      "note": "exactly one 'Z', as the last record; only O/R/Z types"
+    },
+    "bbo": {
+      "n_got": 11603,
+      "n_golden": 11603,
+      "equal": true,
+      "first_diff": null,
+      "n_diff": 0
+    },
+    "counters": {
+      "equal": true,
+      "diff": {}
+    },
+    "equal": true
+  }
+}

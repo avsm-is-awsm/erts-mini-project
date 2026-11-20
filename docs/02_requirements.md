@@ -37,14 +37,14 @@ Diagrams: ![use cases](img/D03_use_cases.svg) ![requirements](img/D04_requiremen
 | FR-07 | Expose configuration and counters over AXI-Lite | `t2t_top.cpp`, `t2t_regs.h` | RTL system sim (config + STATUS over AXI-Lite), host tests (`T2tProxy`) |
 | FR-08 | Emit orders in the §5.3 format with trigger seq and timestamps | `make_end`, `pack_ord`, probes | csim / RTL sim, `test_proto` |
 | FR-09 | Optional debug BBO trace for full verification | `dbg_out` | all bit-exact comparisons use it |
-| FR-10 | Run the identical core in SW on the ARM (baseline) | `SwEngine` | host tests (bit-exact), ELF build; board NEEDS-USER |
+| FR-10 | Run the identical core in SW on the ARM (baseline) | `SwEngine` | host tests (bit-exact); board run (bit-exact on 4 datasets) |
 | FR-11 | Product lifecycle (PREOPEN/OPEN/CLOSED/HALT) and slot reuse | `S` handling | generator invariants, `test_core`, `day_default` (96 products on 8 slots) |
 
 ## Non-functional requirements
 
 | ID | Requirement | Target | Verified by |
 |---|---|---|---|
-| NFR-LAT-1 | In-fabric tick-to-trade latency | p99 ≤ 64 cycles @ ≥ 100 MHz (≤ 640 ns); stretch ≤ 32 | RTL system sim (IP + probes), cosim; board probes (NEEDS-USER) |
+| NFR-LAT-1 | In-fabric tick-to-trade latency | p99 ≤ 64 cycles @ ≥ 100 MHz (≤ 640 ns); stretch ≤ 32 | RTL system sim (IP + probes), cosim; board probes |
 | NFR-LAT-2 | Latency jitter (no backpressure) | max − min ≤ 8 cycles | RTL system sim; board |
 | NFR-THR-1 | Sustained input rate | 1 msg / 4 cycles (25 M msg/s @ 100 MHz); minimum 10 M msg/s | HLS II, RTL sim `'Z'` record |
 | NFR-THR-2 | No message loss | 0 drops on `stress_burst` | csim + host virtual board; RTL backpressure test; board |
@@ -64,9 +64,9 @@ The verdict for each requirement, with evidence links, is in [08_results.md](08_
 | FR-01..05, FR-08/09/11 | `hls/src/core/*` | `tests/test_xcheck.py`, `hls/tb/test_core.cpp`, `tests/hand_case.py` | pass (§08 R1–R3) |
 | FR-06, NFR-SAF-1 | strategy gate, AXI-Lite CTRL | `rtl/tests/test_system.py::kill_switch` | pass (§08 R6) |
 | FR-07 | `t2t_top.cpp` s_axilite bundle | RTL system sim, `sw/host_test` | pass |
-| FR-10 | `sw/app/engines.hpp::SwEngine` | `sw/host_test/test_sw.cpp`, ELF build | pass on host; board NEEDS-USER |
+| FR-10 | `sw/app/engines.hpp::SwEngine` | `sw/host_test/test_sw.cpp`, board run | pass on host and on the board (bit-exact) |
 | NFR-LAT-1/2, NFR-THR-1 | II = 4 pipeline, probes | RTL system sim, HLS report | pass (§08 R4) |
-| NFR-THR-2 | backpressure-safe AXIS | RTL `backpressure`, csim `stress_burst` | pass at RTL/csim; board NEEDS-USER |
+| NFR-THR-2 | backpressure-safe AXIS | RTL `backpressure`, csim `stress_burst`, board `stress_burst` | pass (RTL, csim, board) |
 | NFR-CAP-1 | config.hpp parameters | edge scenarios | pass (§08 R2) |
 | NFR-COR-1 | whole chain | csim all, cosim, RTL sim | pass (§08 R1) |
 | NFR-RES-1 | HLS micro-architecture (DECISIONS H-1..H-6) | Vivado reports | pass (§08 R5) |

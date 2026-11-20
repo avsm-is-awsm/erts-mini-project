@@ -6,7 +6,7 @@ board or the user's action).
 
 Environment: Windows 11, Vivado / Vivado HLS / SDK 2017.2 (local), CLion MinGW g++ 15.2,
 Python 3.14, Icarus Verilog 12, SystemC 2.3.4 (built locally with Windows fibers), PlantUML 1.2025.4.
-Board: original ZYBO (confirmed at M0), **not attached** to this PC (`xsct` JTAG scan: no targets).
+Board: original ZYBO (confirmed at M0). Attached and measured on 2026-11-20 (USB power, `runs/board/`).
 
 | # | Milestone | Status | Verified | Open |
 |---|---|---|---|---|
@@ -18,28 +18,19 @@ Board: original ZYBO (confirmed at M0), **not attached** to this PC (`xsct` JTAG
 | M5 | Vivado HLS synth + cosim | DONE | II = 4, latency 28 cycles, timing met post-route (OOC WNS +1.67 ns); HLS csim pass; C/RTL cosim pass on `cosim_10k`; reports parsed (`hls/reports/summary.json`) | — |
 | M6 | RTL probes | DONE | cocotb + Icarus 3/3 (random backpressure); same TB on xsim; RTL system simulation of IP + probes (4 tests) | — |
 | M7 | Vivado BD + bitstream | DONE | `hw/dk1_t2t.bit`, `.hdf`; timing met (WNS +0.969 ns); 59.5 % LUT, 60.8 % BRAM | — |
-| M8 | PS app + SW baseline | DONE (host) / **NEEDS-USER** (board) | host tests (99 checks + 59 on stress_burst); ELF built with SDK 2017.2 (`sw/bin/t2t_app.elf`) | on board: `run both` on `day_default`, bit-exact vs golden (HW dbg on a ≤ 1.5 M subset, SW full) |
-| M9 | Analysis + results | DONE (sim) / **NEEDS-USER** | `docs/08_results.md` from real runs: RTL sim latency, implementation, SystemC, P&L; every NFR has a verdict | board latency/throughput rows |
+| M8 | PS app + SW baseline | DONE (board 2026-11-20) | host tests (99 checks + 59 on stress_burst); on the board `run both` on `cosim_10k`, `edge_errors`, `stress_burst` (debug trace) and `day_default`: HW and SW bit-exact vs golden | — |
+| M9 | Analysis + results | DONE (board) | `docs/08_results.md`: board latency 280 ns for all 2 269 orders, 0 jitter, 24.98 M msg/s; ARM p50 1.94 µs, 0.53 M msg/s; RTL sim, implementation, SystemC, P&L; every NFR has a verdict | — |
 | M10 | SysML model + docs + README | DONE | D01–D18 render (`make docs`), docs 01–08, traceability, README | course-paper citation to add |
-| M11 | SystemC A/B/C model | DONE (model) / NEEDS-USER (A validation) | `make sysc`; predictions for A/B/C, replay and live; C prediction = RTL measurement | replace assumed ARM costs with the board SwEngine measurement, then compare A |
+| M11 | SystemC A/B/C model | DONE (A calibrated, C validated on the board) | `make sysc`; ARM cost from the board SwEngine; C predicted 280 ns / 0.1878 s, board 280 ns / 0.18786 s | B costs remain assumed (model only) |
 | M12 | ITCH converter + `itch_sample` on board | partial | converter + independent counter, test on a synthetic ITCH 5.0 stream (`tests/test_itch.py`) | **NEEDS-USER**: download a Nasdaq ITCH 5.0 sample (multi-GB), run `data/itch2dk.py`, compare counts with an open-source parser, run on board |
 | S1–S4 | stretch | not started | — | — |
 
-## What the user needs to run (board)
+## Board runs (2026-11-20)
 
-1. Copy `data/out/<dataset>/{feed.bin,config.txt}` folders (at least `day_default`,
-   `cosim_10k`, `stress_burst`) to a FAT32 microSD card and insert it in the ZYBO. Set the boot
-   jumper to JTAG and connect USB (PROG/UART).
-2. `xsct sw/run_board.tcl` (programs `hw/dk1_t2t.bit` and runs `sw/bin/t2t_app.elf`). Open the
-   UART at 115 200 8N1.
-3. On the UART:
-   * `load cosim_10k`, `cfg set dbg_en 1`, `run both`;
-   * `load stress_burst`, `cfg set dbg_en 1`, `run both`;
-   * `load day_default`, `cfg set dbg_en 0`, `run both`.
-4. Copy each dataset folder back from the SD card into `runs/board/<dataset>/`, then for each one run
-   `make analyze RUN=runs/board/<dataset> SCEN=<dataset>`.
-5. Put the measured SW p50 into `systemc/params.yaml` (`arm_msg_ns`), run `make sysc`, and fill the
-   board rows of `docs/08_results.md` and the README table.
+Done; procedure in `docs/07_implementation_zybo.md`, logs and results in `runs/board/`. To repeat:
+copy the datasets to a FAT32 card, `python tools/board_session.py --program -- ...`, copy the
+results back, `make analyze RUN=runs/board/<ds> SCEN=<ds>`. Still open on the board: M12 (a real
+Nasdaq ITCH sample).
 
 ## Robustness audit (2026-11-15/16)
 
