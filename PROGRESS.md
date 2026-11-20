@@ -10,7 +10,7 @@ Board: original ZYBO (confirmed at M0). Attached and measured on 2026-11-20 (USB
 
 | # | Milestone | Status | Verified | Open |
 |---|---|---|---|---|
-| M0 | Scaffold, §1.1 confirmed, CI skeleton | DONE | layout, venv, Makefile, `.github/workflows/ci.yml`, DECISIONS, this file. A1 original ZYBO, A2 2017.2 local, A3 PlantUML, A4 bare-metal OSAL, A5 English | CI workflow written but not run (repo is not on GitHub yet) |
+| M0 | Scaffold, §1.1 confirmed, CI skeleton | DONE | layout, venv, Makefile, `.github/workflows/ci.yml`, DECISIONS, this file. A1 original ZYBO, A2 2017.2 local, A3 PlantUML, A4 bare-metal OSAL, A5 English | — (CI passes on GitHub Actions, first run 2026-11-20) |
 | M1 | Protocol | DONE | `proto/*`, `pytest tests/test_proto.py` (9 tests; Python ↔ C++ round trip on 20 k random records of every kind) | — |
 | M2 | Generator + fundamentals + scenarios | DONE | 10 datasets generated (`make data-all`, plus `day_eds` from real EDS data); invariants (`tests/test_generator.py`, plus a replay of 5.9 M messages: no crossed book, no unknown ids, lifecycle ok); stylised-facts plots; `day_default` = 4.69 M msgs | — |
 | M3 | Reference model + evaluate | DONE | golden outputs for all scenarios; hand-checked case `tests/hand_case/` committed (24 msgs, expected outputs derived by hand); P&L / latency sweep plot | — |
@@ -60,5 +60,5 @@ random sequences, 99 + 59 host checks, HLS csim + C/RTL cosim, RTL system simula
   `hls/scripts/hls.py`, `hw/build.py` and `sw/build.py` (DECISIONS D-17..D-20).
 * AXI DMA 7.1 in 2017.2 is limited to 8 MB per transfer, so the input is chunked (4 MB) and debug
   packets are TLAST-terminated every 131 072 records (D-29/D-30).
-* The repository is a local git repo (branch `main`), with no remote yet. The CI workflow will run
-  once it is pushed to GitHub.
+* The repository is on GitHub: https://github.com/avsm-is-awsm/erts-mini-project (branch `main`). The
+  offline CI (`.github/workflows/ci.yml`) runs on every push and passed on the first run.
