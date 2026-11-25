@@ -26,3 +26,6 @@ runs/board/itch_sample/dbg_*.bin
 # personal exam notes (not published)
 notes/
 runs/rt/itch_sample/dbg_*.bin
+
+# final exam report (kept private, not published)
+report/

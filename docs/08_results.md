@@ -152,6 +152,38 @@ baseline (~1 µs, assumed) does too. The difference that matters is to network-a
 millisecond-class systems. Synthetic data, simplified exchange: this illustrates latency
 sensitivity, not real profitability.
 
+## R8. Power, energy and cost (estimates)
+
+The course asks for a comparison on performance, cost, power and area. Performance (R3, §09) and
+area (R4) are measured. **Power is not measured**: the ZYBO has no current sensor and no inline
+USB meter was available. The numbers below are the Vivado 2017.2 post-route *vectorless* power
+estimate (`hw/reports/power.rpt`, default switching activity, confidence "Medium"), and the energy
+figures combine that estimate with the measured run times. They are estimates and are labelled as
+such wherever they are used.
+
+| Block (Vivado estimate) | Power |
+|---|---|
+| Total on-chip | **1.749 W** (dynamic 1.618 W, device static 0.131 W) |
+| Processing system PS7 (2 × Cortex-A9, DDR controller, peripherals) | 1.562 W (89 %) |
+| `t2t_core` (the HLS IP) | **0.036 W** (2 %) |
+| 2 AXI DMAs + interconnects + probes | ≈ 0.02 W |
+
+Energy per message on `day_default` (4 692 944 messages), assuming the same chip power in both runs:
+
+| | Run time (board) | Energy per message (estimate) |
+|---|---|---|
+| Architecture C, FPGA path | 0.188 s | 1.749 W × 0.188 s / 4.69 M ≈ **70 nJ** (IP alone: 0.036 W / 24.98 M msg/s ≈ 1.4 nJ) |
+| Architecture A, ARM software | 8.838 s | 1.749 W × 8.838 s / 4.69 M ≈ **3.3 µJ** |
+
+The FPGA path is ≈ 47 × more energy-efficient per message under this assumption, the same ratio
+as the throughput, because the chip power is dominated by the processing system, which is on in
+both architectures. The IP itself adds about 2 % to the chip power.
+
+**Cost:** the whole design fits the smallest Zynq-7000 device (XC7Z010, 59.5 % LUT, 60.8 % BRAM),
+so no larger and more expensive part is needed; the ARM cores that run the baseline are on the
+same chip at no extra cost. Development cost was dominated by verification (bit-exact golden
+model, five verification levels), not by the HLS code itself.
+
 ## Requirement verdicts
 
 | Req | Verdict | Evidence |
@@ -177,4 +209,5 @@ sensitivity, not real profitability.
 | NFR-ROB-1 robustness | **PASS** | `edge_errors` csim + RTL sim (incl. backpressure), xcheck; truncated transfers recovered (RTL `framing_recovery`) |
 | NFR-SAF-1 kill latency | **PASS (RTL sim)** | R5 |
 | Real-time schedulability of the PS tasks (course: RMA) | **PASS (board)**: RTA with measured WCET and release jitter, every measured response below its bound, 0 misses | docs/09 |
+| Power / energy (course objective) | **Estimate only**: 1.75 W on-chip, IP 0.036 W; ≈ 70 nJ vs 3.3 µJ per message | R8 |
 | NFR-DET-1 determinism | **PASS** | `test_generator.py::test_deterministic`; integer-only core |

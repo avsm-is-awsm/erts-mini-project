@@ -5,9 +5,11 @@ package "OSAL (Adapter)" {
   class "osal::Clock, Timer, Mutex, Queue<T,N>, Thread" as OSAL
   class "osal_baremetal.cpp" as OBM
   class "osal_host.cpp" as OH
+  class "osal_freertos.cpp" as OFR
 }
 OBM ..|> OSAL
 OH ..|> OSAL
+OFR ..|> OSAL
 interface IRegBus
 interface IDmaChannel
 interface ICache

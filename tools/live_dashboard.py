@@ -198,7 +198,7 @@ pre{margin:0;max-height:220px;overflow:auto;font:12px/1.35 ui-monospace,Consolas
 <div class="tiles">
  <div class="tile"><div class="k">run</div><div class="v" id="t-run">–</div></div>
  <div class="tile"><div class="k">released / total</div><div class="v" id="t-rel">–</div></div>
- <div class="tile"><div class="k">lateness p99 / max</div><div class="v" id="t-lat">–</div></div>
+ <div class="tile"><div class="k">lateness p99 (bucket bound) / max</div><div class="v" id="t-lat">–</div></div>
  <div class="tile"><div class="k">orders out</div><div class="v" id="t-ord">–</div></div>
  <div class="tile"><div class="k">stale-data guard</div><div class="v" id="t-kill">–</div></div>
  <div class="tile"><div class="k">deadline misses</div><div class="v" id="t-miss">–</div></div>
@@ -206,7 +206,7 @@ pre{margin:0;max-height:220px;overflow:auto;font:12px/1.35 ui-monospace,Consolas
 <div class="card"><h2>Messages: due (market clock) vs released</h2><canvas id="c-prog"></canvas></div>
 <div class="card"><h2>Lateness of released data (µs, log)</h2><canvas id="c-lat"></canvas></div>
 <div class="card"><h2>Task response time vs deadline</h2><table id="tasks"><thead><tr><th>task</th><th>jobs</th>
-<th>R max µs</th><th>deadline µs</th><th>C max µs</th><th>CPU %</th><th>misses</th></tr></thead><tbody></tbody></table></div>
+<th>R max µs</th><th>deadline µs</th><th>C max µs</th><th>CPU % (avg)</th><th>misses</th></tr></thead><tbody></tbody></table></div>
 <div class="card"><h2>Console</h2><pre id="log"></pre></div>
 </main>
 <script>
@@ -244,7 +244,7 @@ function onT(d,redraw){
   document.getElementById('status').textContent=`${d.mode.toUpperCase()} engine · speed ×${d.speed||'max'} · t = ${(d.t_ms/1000).toFixed(1)} s · ${d.run?'running':'finished'}`;
   document.getElementById('t-run').textContent=`${d.mode.toUpperCase()} ×${d.speed||'max'}`;
   document.getElementById('t-rel').textContent=`${fmt(d.rel)} / ${fmt(d.n)}`;
-  document.getElementById('t-lat').textContent=`${us(d.lat_p99_us)} / ${us(d.lat_max_us)}`;
+  document.getElementById('t-lat').textContent=`≤ ${us(Math.min(d.lat_p99_us,Math.max(d.lat_max_us,1)))} / ${us(d.lat_max_us)}`;
   document.getElementById('t-ord').textContent=fmt(d.ord);
   const k=document.getElementById('t-kill');k.textContent=(d.kill?'KILL ':'ok ')+`(${d.kills})`;k.className='v '+(d.kill?'bad':'ok');
   const miss=d.tasks.reduce((a,t)=>a+t.miss,0),m=document.getElementById('t-miss');m.textContent=miss;m.className='v '+(miss?'bad':'ok');
@@ -256,7 +256,7 @@ function onT(d,redraw){
                 {pts:P.map(p=>[p.t_ms,Math.max(p.stale_us,1)]),color:css('--muted'),label:'stale',dash:[3,3],w:1}],{log:true});
   const prev=run.prev,tb=document.querySelector('#tasks tbody');tb.innerHTML='';
   for(const t of d.tasks){const p=prev&&prev.tasks.find(x=>x.name===t.name),dt=prev?d.t_ms-prev.t_ms:0;
-    const cpu=p&&dt>0?(100*(t.csum_us-p.csum_us)/(dt*1000)):0,dl=period[t.name]||0;
+    const cpu=d.t_ms>0?(100*t.csum_us/(d.t_ms*1000)):0,dl=period[t.name]||0;  // average share since T0
     tb.insertAdjacentHTML('beforeend',`<tr><td>${t.name}</td><td>${fmt(t.jobs)}</td><td class="${t.rmax_us>dl?'bad':''}">${t.rmax_us}</td>`+
       `<td>${dl}</td><td>${t.cmax_us}</td><td>${cpu.toFixed(1)}</td><td class="${t.miss?'bad':'ok'}">${t.miss}</td></tr>`);}
   run.prev=d;

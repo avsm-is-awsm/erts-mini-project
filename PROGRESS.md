@@ -20,7 +20,7 @@ Board: original ZYBO (confirmed at M0). Attached and measured on 2026-11-20 (USB
 | M7 | Vivado BD + bitstream | DONE | `hw/dk1_t2t.bit`, `.hdf`; timing met (WNS +0.969 ns); 59.5 % LUT, 60.8 % BRAM | — |
 | M8 | PS app + SW baseline | DONE (board 2026-11-20) | host tests (99 checks + 59 on stress_burst); on the board `run both` on `cosim_10k`, `edge_errors`, `stress_burst` (debug trace) and `day_default`: HW and SW bit-exact vs golden | — |
 | M9 | Analysis + results | DONE (board) | `docs/08_results.md`: board latency 280 ns for all 2 269 orders, 0 jitter, 24.98 M msg/s; ARM p50 1.94 µs, 0.53 M msg/s; RTL sim, implementation, SystemC, P&L; every NFR has a verdict | — |
-| M10 | SysML model + docs + README | DONE | D01–D18 render (`make docs`), docs 01–08, traceability, README | course-paper citation to add |
+| M10 | SysML model + docs + README | DONE | D01–D18 render (`make docs`), docs 01–08, traceability, README | — |
 | M11 | SystemC A/B/C model | DONE (A calibrated, C validated on the board) | `make sysc`; ARM cost from the board SwEngine; C predicted 280 ns / 0.1878 s, board 280 ns / 0.18786 s | B costs remain assumed (model only) |
 | M12 | ITCH converter + `itch_sample` on board | DONE (2026-11-20) | Nasdaq sample `12302019.NASDAQ_ITCH50.gz` (268.7 M msgs); counts identical to MeatPy and `itch_counts.py`, 20 M-msg field-level check; `itch_sample` = 8 symbols, 1.48 M msgs; golden = csim = board HW = board SW (bit-exact BBO trace + counters), 0 unexpected errors | — |
 | S1–S4 | stretch | not started | — | — |
